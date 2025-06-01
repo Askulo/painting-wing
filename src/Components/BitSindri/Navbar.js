@@ -153,7 +153,7 @@ export default function Navbar() {
 
           <Button
             onClick={handleBack}
-            className="bg-orange-600 hidden md:block hover:bg-orange-700 text-white tracking-widest"
+            className="bg-[#d25c25]   hidden md:block hover:bg-orange-700 text-white tracking-widest"
           >
             Back
           </Button>

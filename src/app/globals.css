@@ -34,13 +34,27 @@
 }
 
 
+.kursor {
+  /* pointer-events: none !important; */
+  mix-blend-mode: multiply;
+  opacity: 0.9;
+}
+
+.kursor {
+  transition: transform 0.2s ease;
+}
+
+.kursor--hovered {
+  transform: scale(5); /* Or scale(1.5) */
+}
+
 
 
 
 
 body,
 html {
-  font-family:  sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
   padding: 0;
   box-sizing: border-box;
   z-index: 5;

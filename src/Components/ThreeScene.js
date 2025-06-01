@@ -1,18 +1,18 @@
 // components/Scene.js
 "use client";
-import { Canvas, useThree } from "@react-three/fiber";
+import { Canvas, useThree, useFrame } from "@react-three/fiber";
 import {
   OrbitControls,
   Environment,
   Stats,
   RoundedBox,
+  useGLTF,
 } from "@react-three/drei";
 import { Suspense, useState, useEffect, useRef } from "react";
-import { useControls } from "leva";
-import { Leva } from "leva";
+
 import GridComponent from "./GridComponent";
 import { startCubeAnimation } from "./CubeAnimation";
-// import { Environment, Stats } from "@react-three/drei";
+
 import {
   NavAboutUs,
   NavAlumni,
@@ -31,6 +31,9 @@ const HollowCube = () => {
   const hollowCubeThickness = 0.27;
   const targetScale = hollowCubeSize - hollowCubeThickness * 1.8;
 
+
+  
+
   return (
     <group>
       {/* Outer cube */}
@@ -39,12 +42,15 @@ const HollowCube = () => {
         radius={0.1}
         smoothness={10}
         position={[0, 0, 0]}
+          castShadow
+  receiveShadow
       >
-        <meshBasicMaterial color="#b0c4de" side={2} /> {/* BackSide is 2 */}
+        <meshStandardMaterial color="#b0c4de" side={2} /> {/* BackSide is 2 */}
       </RoundedBox>
 
       {/* Inner cube */}
-      <mesh position={[0, 0.05, 0]}>
+      <mesh position={[0, 0.05, 0]}    castShadow
+  receiveShadow >
         <boxGeometry
           args={[
             targetScale - 0.015,
@@ -74,9 +80,9 @@ const Cube = ({ onAnimationComplete }) => {
   }, [camera, cubeRef]);
 
   return (
-    <mesh ref={cubeRef} position={[0, 8, 0]} scale={[1, 1, 1]}>
+    <mesh ref={cubeRef} position={[0, 8, 0]} scale={[1, 1, 1]} castShadow receiveShadow>
       <boxGeometry args={[cubeSize, cubeSize, cubeSize]} />
-      <meshBasicMaterial color="#d25c25" transparent opacity={opacity} />
+      <meshStandardMaterial color="#d25c25" transparent opacity={opacity} />
     </mesh>
   );
 };
@@ -85,21 +91,136 @@ const CameraController = ({ cameraX, cameraY, cameraZ }) => {
   const { camera } = useThree();
 
   useEffect(() => {
+
+  //  if (Scene) {
+  //   // Scene.scale.set(1.3, 0.7, 1.3);
+  //   Scene.traverse((child) => {
+  //     if (child.isMesh) {
+  //       child.castShadow = true;
+  //       child.receiveShadow = true;
+  //     }
+  //   });
+  // }
+
+
     // Initial camera position
+
     camera.position.set(cameraX, cameraY, cameraZ);
     camera.lookAt(0, 1.3, 0);
-  }, [camera, cameraX, cameraY, cameraZ]);
+  }, [camera, cameraX, cameraY, cameraZ, ]);
+
+  
 
   return null;
 };
 
+const CenterModel = () => {
+  const { scene } = useGLTF("/art_studio.glb");
+  const [isScaled, setIsScaled] = useState(false);
+  const modelRef = useRef();
+  const targetScale = useRef([1.3, 0.7, 1.3]);
+  const currentScale = useRef([1.3, 0.7, 1.3]);
+
+  useEffect(() => {
+    if (scene) {
+      // Initial scale
+      scene.scale.set(1.3, 0.7, 1.3);
+      scene.traverse((child) => {
+        if (child.isMesh) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+        }
+      });
+    }
+  }, [scene]);
+
+  // Smooth animation using useFrame
+  useFrame(() => {
+    if (modelRef.current) {
+      // Lerp (linear interpolation) for smooth scaling
+      const lerpFactor = 0.5; // Adjust for animation speed (0.01 = slow, 0.1 = fast)
+      
+      currentScale.current[0] += (targetScale.current[0] - currentScale.current[0]) * lerpFactor;
+      currentScale.current[1] += (targetScale.current[1] - currentScale.current[1]) * lerpFactor;
+      currentScale.current[2] += (targetScale.current[2] - currentScale.current[2]) * lerpFactor;
+      
+      modelRef.current.scale.set(...currentScale.current);
+    }
+  });
+
+  const handleDoubleClick = () => {
+    targetScale.current = isScaled ? [1.3, 0.7, 1.3] : [2.2, 1.2, 2.2];
+    setIsScaled(!isScaled);
+  };
+
+  const handlePointerEnter = (event) => {
+    // Dispatch custom event to parent component
+    window.dispatchEvent(new CustomEvent('showModelTooltip', {
+      detail: { show: true, x: event.clientX, y: event.clientY }
+    }));
+    document.body.style.cursor = 'pointer';
+  };
+
+  const handlePointerLeave = () => {
+    // Dispatch custom event to parent component
+    window.dispatchEvent(new CustomEvent('showModelTooltip', {
+      detail: { show: false }
+    }));
+    document.body.style.cursor = 'default';
+  };
+
+  const handlePointerMove = (event) => {
+    // Update tooltip position
+    window.dispatchEvent(new CustomEvent('updateTooltipPosition', {
+      detail: { x: event.clientX, y: event.clientY }
+    }));
+  };
+
+  return (
+    <primitive
+      ref={modelRef}
+      object={scene}
+      position={[1.2, 1, 0.6]}
+      rotation={[0, 0, 0]} 
+      onDoubleClick={handleDoubleClick}
+      onPointerEnter={handlePointerEnter}
+      onPointerLeave={handlePointerLeave}
+      onPointerMove={handlePointerMove}
+    />
+  );
+};
+
 const Scene = () => {
   const [showNavTitles, setShowNavTitles] = useState(false);
+  const [showInstruction, setShowInstruction] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleShowTooltip = (event) => {
+      setShowInstruction(event.detail.show);
+      if (event.detail.x && event.detail.y) {
+        setMousePosition({ x: event.detail.x, y: event.detail.y });
+      }
+    };
+
+    const handleUpdatePosition = (event) => {
+      setMousePosition({ x: event.detail.x, y: event.detail.y });
+    };
+
+    window.addEventListener('showModelTooltip', handleShowTooltip);
+    window.addEventListener('updateTooltipPosition', handleUpdatePosition);
+
+    return () => {
+      window.removeEventListener('showModelTooltip', handleShowTooltip);
+      window.removeEventListener('updateTooltipPosition', handleUpdatePosition);
+    };
+  }, []);
 
   return (
     <>
       {/* <Leva hidden /> */}
       <Canvas
+        
         orthographic
         camera={{
           zoom: 45,
@@ -113,9 +234,33 @@ const Scene = () => {
         {/* <MouseRotatingGroup> */}
         <CameraController cameraX={8.3} cameraY={7.9} cameraZ={7.4} />
         {/* Lights */}
-        <ambientLight intensity={0.3} />
+        <ambientLight intensity={1.2} color={0xffffff} />
+   
         <Suspense>
+          <ambientLight intensity={0.8} />
+          {/* Bright point light above the model - exactly like your code */}
+      <pointLight
+        position={[2, 8, 0]}
+        intensity={2}
+        distance={100}
+        castShadow
+        color={0xffffff}
+      />
+          <directionalLight
+            position={[10, 10, 5]}
+            intensity={0.7}
+            castShadow
+            shadow-mapSize-width={1024}
+            shadow-mapSize-height={1024}
+            shadow-camera-near={0.5}
+            shadow-camera-far={50}
+            shadow-camera-left={-10}
+            shadow-camera-right={10}
+            shadow-camera-top={10}
+            shadow-camera-bottom={-10}
+          />
           <GridComponent />
+          <CenterModel  castShadow receiveShadow />
           <Cube onAnimationComplete={() => setShowNavTitles(true)} />
           <HollowCube />
           {/* NavTitles with opacity controlled by showNavTitles */}
@@ -146,6 +291,31 @@ const Scene = () => {
         </Suspense>
         {/* </MouseRotatingGroup> */}
       </Canvas>
+      
+      {/* Tooltip outside Canvas */}
+      {showInstruction && (
+        <div
+          style={{
+            position: 'fixed',
+            left: mousePosition.x,
+            top: mousePosition.y,
+            padding: '8px 16px',
+            background: 'rgba(0, 0, 0, 0.75)',
+            color: 'white',
+            borderRadius: '8px',
+            fontSize: '14px',
+            pointerEvents: 'none',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 1000,
+            fontFamily: 'sans-serif',
+            textAlign: 'center',
+            transition: 'opacity 0.3s',
+            opacity: 1
+          }}
+        >
+          Double-tap to  resize Art Room
+        </div>
+      )}
     </>
   );
 };
