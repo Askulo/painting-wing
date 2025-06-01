@@ -1,4 +1,4 @@
-import Merchandise from '@/components/Merchandise'
+import Merchandise from '@/Components/Merchandise'
 import React from 'react'
 import Navbar from '@/Components/BitSindri/Navbar'
 

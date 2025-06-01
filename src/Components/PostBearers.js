@@ -50,7 +50,7 @@ const alumniData = {
       cover: '/Bearers/covers/1-cover.jpg',
     },
     {
-      name: 'Samriddhi Kumari',
+      name: 'Samriddhi Singh',
       position: 'Chemical',
       image: '/Bearers/12.png',
       // quote: 'Secretary',

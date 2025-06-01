@@ -1,7 +1,7 @@
 import React from 'react'
-import Alumni from '@/components/Alumni'
-import Footer from '@/components/BitSindri/Footer'
-import Navbar from '@/components/BitSindri/Navbar'
+import Alumni from '@/Components/Alumni'
+import Footer from '@/Components/BitSindri/Footer'
+import Navbar from '@/Components/BitSindri/Navbar'
 
 const page = () => {
   return (

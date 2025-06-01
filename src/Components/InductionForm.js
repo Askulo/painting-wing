@@ -156,7 +156,7 @@ export default function InductionForm() {
                     <input
                       id="name"
                       type="text"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
+                      className="mt-1 block w-full rounded-md border-gray-300 py-2 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
                       {...register("name", { required: "Name is required" })}
                     />
                     {errors.name && (
@@ -183,7 +183,7 @@ export default function InductionForm() {
                     <input
                       id="whatsappNumber"
                       type="text"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
+                      className="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
                       {...register("whatsappNumber", {
                         required: "WhatsApp number is required",
                         pattern: {
@@ -216,7 +216,7 @@ export default function InductionForm() {
                     <input
                       id="email"
                       type="email"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
+                      className="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
                       {...register("email", {
                         required: "Email is required",
                         pattern: {
@@ -249,7 +249,7 @@ export default function InductionForm() {
                     <input
                       id="branch"
                       type="text"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
+                      className="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
                       {...register("branch", {
                         required: "Branch is required",
                       })}
@@ -278,7 +278,7 @@ export default function InductionForm() {
                     <input
                       id="rollNumber"
                       type="text"
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
+                      className="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
                       {...register("rollNumber", {
                         required: "Roll number is required",
                       })}
@@ -411,7 +411,7 @@ export default function InductionForm() {
                     {...register("preferredTeam", {
                       required: "Please select a team",
                     })}
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
+                    className="block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
                   >
                     <option value="">Select a team</option>
                     <option value="Artist">Artist</option>
@@ -512,7 +512,7 @@ export default function InductionForm() {
                       {...register("weakness", {
                         required: "Please mention your weakness",
                       })}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
+                      className="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
                     />
                     {errors.weakness && (
                       <motion.p
@@ -566,7 +566,7 @@ export default function InductionForm() {
                     </label>
                     <textarea
                       id="queries"
-                      rows={2}
+                      rows={4}
                       {...register("queries")}
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
                     ></textarea>

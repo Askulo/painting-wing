@@ -6,7 +6,7 @@ import * as THREE from "three";
 import { useRouter } from "next/navigation";
 
 // Corner component - reusable for all nav items
-function Corner({ size, color, position, rotation }) {
+function Corner({ size, color, position, rotation, opacity = 1 }) {
   const points = useMemo(
     () => [
       // Horizontal line points
@@ -31,7 +31,12 @@ function Corner({ size, color, position, rotation }) {
               itemSize={3}
             />
           </bufferGeometry>
-          <lineBasicMaterial color={color} linewidth={5} />
+          <lineBasicMaterial
+            color={color}
+            transparent
+            opacity={opacity}
+            linewidth={5}
+          />
         </line>
       ))}
     </group>
@@ -39,7 +44,14 @@ function Corner({ size, color, position, rotation }) {
 }
 
 // Text component - reusable for all nav items
-function NavText({ text, font, position, rotation, color = "#000000" }) {
+function NavText({
+  text,
+  font,
+  position,
+  rotation,
+  color = "#000000",
+  opacity = 1,
+}) {
   const textMeshes = useMemo(() => {
     if (!font) return [];
 
@@ -73,7 +85,7 @@ function NavText({ text, font, position, rotation, color = "#000000" }) {
           position={mesh.position}
           userData={{ isNavTitleText: true }}
         >
-          <meshBasicMaterial color={color} />
+          <meshBasicMaterial color={color} transparent opacity={opacity} />
         </mesh>
       ))}
     </group>
@@ -81,7 +93,11 @@ function NavText({ text, font, position, rotation, color = "#000000" }) {
 }
 
 // About Us Component
-export function NavAboutUs({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
+export function NavAboutUs({
+  cornerSize = 0.2,
+  lineColor = 0xa44c24,
+  opacity = 1,
+}) {
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const router = useRouter();
@@ -113,7 +129,7 @@ export function NavAboutUs({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
     <group>
       {/* Hover detection area */}
       <mesh
-        position={[0, 0, 0.03]}
+        position={[0, 0, 0.01]}
         onPointerEnter={() => setIsHovered(true)}
         onPointerLeave={() => setIsHovered(false)}
         onClick={() => {
@@ -137,6 +153,7 @@ export function NavAboutUs({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
           color={lineColor}
           position={corner.position}
           rotation={corner.rotation}
+          opacity={opacity}
         />
       ))}
 
@@ -146,13 +163,14 @@ export function NavAboutUs({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
           setIsClicked(true);
           router.push("/about-us");
         }}
-        style={{ cursor: "pointer" }}
+        // style={{ cursor: "pointer" }}
       >
         <NavText
           text="ABOUT US"
           font={font}
           position={[-2.7, -2.1, -1]}
           rotation={[0, 0, 4.71]}
+          opacity={opacity}
         />
       </group>
     </group>
@@ -160,7 +178,11 @@ export function NavAboutUs({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
 }
 
 // Events Component
-export function NavEvents({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
+export function NavEvents({
+  cornerSize = 0.2,
+  lineColor = 0xa44c24,
+  opacity = 1,
+}) {
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const router = useRouter();
@@ -192,7 +214,7 @@ export function NavEvents({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
     <group>
       {/* Hover detection area */}
       <mesh
-        position={[0, 0, 0.03]}
+        position={[0, 0, 0.01]}
         onPointerEnter={() => setIsHovered(true)}
         onPointerLeave={() => setIsHovered(false)}
         onClick={() => {
@@ -216,6 +238,7 @@ export function NavEvents({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
           color={lineColor}
           position={corner.position}
           rotation={corner.rotation}
+          opacity={opacity}
         />
       ))}
 
@@ -225,13 +248,14 @@ export function NavEvents({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
           setIsClicked(true);
           router.push("/events");
         }}
-        style={{ cursor: "pointer" }}
+        // style={{ cursor: "pointer" }}
       >
         <NavText
           text="EVENTS"
           font={font}
           position={[-2.7, -1.5, -1]}
           rotation={[0, 0, 4.71]}
+          opacity={opacity}
         />
       </group>
     </group>
@@ -239,7 +263,11 @@ export function NavEvents({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
 }
 
 // Members (Bearers) Component
-export function NavMembers({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
+export function NavMembers({
+  cornerSize = 0.2,
+  lineColor = 0xa44c24,
+  opacity = 1,
+}) {
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const router = useRouter();
@@ -271,7 +299,7 @@ export function NavMembers({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
     <group>
       {/* Hover detection area */}
       <mesh
-        position={[0, 0, 0.03]}
+        position={[0, 0, 0.01]}
         onPointerEnter={() => setIsHovered(true)}
         onPointerLeave={() => setIsHovered(false)}
         onClick={() => {
@@ -295,6 +323,7 @@ export function NavMembers({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
           color={lineColor}
           position={corner.position}
           rotation={corner.rotation}
+          opacity={opacity}
         />
       ))}
 
@@ -304,13 +333,14 @@ export function NavMembers({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
           setIsClicked(true);
           router.push("/members");
         }}
-        style={{ cursor: "pointer" }}
+        // style={{ cursor: "pointer" }}
       >
         <NavText
           text="POST BEARERS"
           font={font}
           position={[-2.7, -3, -1]}
           rotation={[0, 0, 4.71]}
+          opacity={opacity}
         />
       </group>
     </group>
@@ -318,7 +348,11 @@ export function NavMembers({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
 }
 
 // Alumni Component
-export function NavAlumni({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
+export function NavAlumni({
+  cornerSize = 0.2,
+  lineColor = 0xa44c24,
+  opacity = 1,
+}) {
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const router = useRouter();
@@ -374,6 +408,7 @@ export function NavAlumni({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
           color={lineColor}
           position={corner.position}
           rotation={corner.rotation}
+          opacity={opacity}
         />
       ))}
 
@@ -383,13 +418,14 @@ export function NavAlumni({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
           setIsClicked(true);
           router.push("/alumni");
         }}
-        style={{ cursor: "pointer" }}
+        // style={{ cursor: "pointer" }}
       >
         <NavText
           text="ALUMNI"
           font={font}
           position={[-2.7, -1.8, -1]}
           rotation={[0, 0, 4.71]}
+          opacity={opacity}
         />
       </group>
     </group>
@@ -397,7 +433,11 @@ export function NavAlumni({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
 }
 
 // Merchandise Component
-export function NavMerchandise({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
+export function NavMerchandise({
+  cornerSize = 0.2,
+  lineColor = 0xa44c24,
+  opacity = 1,
+}) {
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const router = useRouter();
@@ -429,7 +469,7 @@ export function NavMerchandise({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
     <group>
       {/* Hover detection area */}
       <mesh
-        position={[0, 0, 0.03]}
+        position={[0, 0, 0.01]}
         onPointerEnter={() => setIsHovered(true)}
         onPointerLeave={() => setIsHovered(false)}
         onClick={() => {
@@ -453,6 +493,7 @@ export function NavMerchandise({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
           color={lineColor}
           position={corner.position}
           rotation={corner.rotation}
+          opacity={opacity}
         />
       ))}
 
@@ -462,13 +503,14 @@ export function NavMerchandise({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
           setIsClicked(true);
           router.push("/merchandise");
         }}
-        style={{ cursor: "pointer" }}
+        // style={{ cursor: "pointer" }}
       >
         <NavText
           text="MERCHANDISE"
           font={font}
-          position={[5.3, -0.5, -1]}
-          rotation={[0, 3.14, 4.71]}
+          position={[2.8, -2.6, 1]}
+          rotation={[0, 3.14, 4.7124]}
+          opacity={opacity}
         />
       </group>
     </group>
@@ -476,7 +518,11 @@ export function NavMerchandise({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
 }
 
 // BIT Sindri Component
-export function NavBIT({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
+export function NavBIT({
+  cornerSize = 0.2,
+  lineColor = 0xa44c24,
+  opacity = 1,
+}) {
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const router = useRouter();
@@ -508,7 +554,7 @@ export function NavBIT({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
     <group>
       {/* Hover detection area */}
       <mesh
-        position={[0, 0, 0.3]}
+        position={[0, 0, 0.03]}
         onPointerEnter={() => setIsHovered(true)}
         onPointerLeave={() => setIsHovered(false)}
         onClick={() => {
@@ -532,6 +578,7 @@ export function NavBIT({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
           color={lineColor}
           position={corner.position}
           rotation={corner.rotation}
+          opacity={opacity}
         />
       ))}
 
@@ -541,13 +588,14 @@ export function NavBIT({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
           setIsClicked(true);
           router.push("/bit-sindri");
         }}
-        style={{ cursor: "pointer" }}
+        // style={{ cursor: "pointer" }}
       >
         <NavText
           text="BIT SINDRI"
           font={font}
-          position={[5.3, -0.2, -1]}
+          position={[2.8, -2.3, 1]}
           rotation={[3.14, 0, 1.57]}
+          opacity={opacity}
         />
       </group>
     </group>
@@ -555,7 +603,11 @@ export function NavBIT({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
 }
 
 // Gallery (formerly Collab) Component
-export function NavGallery({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
+export function NavGallery({
+  cornerSize = 0.2,
+  lineColor = 0xa44c24,
+  opacity = 1,
+}) {
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const router = useRouter();
@@ -611,6 +663,7 @@ export function NavGallery({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
           color={lineColor}
           position={corner.position}
           rotation={corner.rotation}
+          opacity={opacity}
         />
       ))}
 
@@ -620,13 +673,14 @@ export function NavGallery({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
           setIsClicked(true);
           router.push("/gallery");
         }}
-        style={{ cursor: "pointer" }}
+        // style={{ cursor: "pointer" }}
       >
         <NavText
           text="GALLERY"
           font={font}
           position={[2.7, 1.8, -1]}
           rotation={[0, 0, 1.57]}
+          opacity={opacity}
         />
       </group>
     </group>
@@ -634,7 +688,11 @@ export function NavGallery({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
 }
 
 // Induction Component
-export function NavInduction({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
+export function NavInduction({
+  cornerSize = 0.2,
+  lineColor = 0xa44c24,
+  opacity = 1,
+}) {
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const router = useRouter();
@@ -666,7 +724,7 @@ export function NavInduction({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
     <group>
       {/* Hover detection area */}{" "}
       <mesh
-        position={[0, 0, 0.03]}
+        position={[0, 0, -0.01]}
         onPointerEnter={() => setIsHovered(true)}
         onPointerLeave={() => setIsHovered(false)}
         onClick={() => {
@@ -689,6 +747,7 @@ export function NavInduction({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
           color={lineColor}
           position={corner.position}
           rotation={corner.rotation}
+          opacity={opacity}
         />
       ))}
       {/* Text */}
@@ -697,13 +756,14 @@ export function NavInduction({ cornerSize = 0.2, lineColor = 0xa44c24 }) {
           setIsClicked(true);
           router.push("/modelviewer");
         }}
-        style={{ cursor: "pointer" }}
+        // style={{ cursor: "pointer" }}
       >
         <NavText
           text="INDUCTION"
           font={font}
           position={[2.7, 2.0, -1]}
           rotation={[0, 0, 1.57]}
+          opacity={opacity}
         />
       </group>
     </group>

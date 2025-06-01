@@ -12,6 +12,7 @@ import { useControls } from "leva";
 import { Leva } from "leva";
 import GridComponent from "./GridComponent";
 import { startCubeAnimation } from "./CubeAnimation";
+// import { Environment, Stats } from "@react-three/drei";
 import {
   NavAboutUs,
   NavAlumni,
@@ -22,6 +23,8 @@ import {
   NavMerchandise,
   NavMembers,
 } from "./CreateNavTitle";
+
+import MouseRotatingGroup from "./MouseRotatingGroup";
 
 const HollowCube = () => {
   const hollowCubeSize = 1.2;
@@ -55,7 +58,7 @@ const HollowCube = () => {
   );
 };
 
-const Cube = () => {
+const Cube = ({ onAnimationComplete }) => {
   const [opacity, setOpacity] = useState(0.8);
   const cubeRef = useRef();
   const cubeSize = 1;
@@ -63,7 +66,7 @@ const Cube = () => {
 
   useEffect(() => {
     if (!cubeRef.current) return;
-    startCubeAnimation(cubeRef, camera);
+    startCubeAnimation(cubeRef, camera, onAnimationComplete);
 
     const hasNavigatedFrom3DScene =
       localStorage.getItem("from3DScene") === "true";
@@ -91,37 +94,7 @@ const CameraController = ({ cameraX, cameraY, cameraZ }) => {
 };
 
 const Scene = () => {
-  // const { cameraX, cameraY, cameraZ } = useControls("Camera Position", {
-  //   cameraX: {
-  //     value: 8.3,
-  //     min: -10,
-  //     max: 10,
-  //     step: 0.1,
-  //   },
-  //   cameraY: {
-  //     value: 7.9,
-  //     min: -10,
-  //     max: 20,
-  //     step: 0.1,
-  //   },
-  //   cameraZ: {
-  //     value: 7.4,
-  //     min: -10,
-  //     max: 10,
-  //     step: 0.1,
-  //   },
-
-  // });
-
-  // Leva controls for NavAboutUs position and rotation
-  // const { navX, navY, navZ, navRotX, navRotY, navRotZ } = useControls("NavAboutUs", {
-  //   navX: { value: -3.14, min: -10, max: 10, step: 0.01 },
-  //   navY: { value: 2, min: -10, max: 10, step: 0.01 },
-  //   navZ: { value: 1.57, min: -10, max: 10, step: 0.01 },
-  //   navRotX: { value: 0, min: -Math.PI, max: Math.PI, step: 0.01 },
-  //   navRotY: { value: 0, min: -Math.PI, max: Math.PI, step: 0.01 },
-  //   navRotZ: { value: 0, min: -Math.PI, max: Math.PI, step: 0.01 },
-  // });
+  const [showNavTitles, setShowNavTitles] = useState(false);
 
   return (
     <>
@@ -136,44 +109,42 @@ const Scene = () => {
         shadows
         style={{ height: "100vh", width: "100vw", background: "#ffffff" }}
       >
+        {/* <Stats /> */}
+        {/* <MouseRotatingGroup> */}
         <CameraController cameraX={8.3} cameraY={7.9} cameraZ={7.4} />
         {/* Lights */}
         <ambientLight intensity={0.3} />
         <Suspense>
           <GridComponent />
-          <Cube />
+          <Cube onAnimationComplete={() => setShowNavTitles(true)} />
           <HollowCube />
-          {/* Leva controls for NavAboutUs position and rotation */}
+          {/* NavTitles with opacity controlled by showNavTitles */}
           <group position={[-2.3, 0.0, -10.5]} rotation={[4.71, 0, 1.57]}>
-            <NavAboutUs />
+            <NavAboutUs opacity={showNavTitles ? 1 : 0} />
           </group>
-          {/* Position your nav components as needed */}
-
-          <group position={[8.5, 0, -1.2]} rotation={[1.6, 0, 0]}>
-            <NavMerchandise />
+          <group position={[8.5, 0, -1.2]} rotation={[1.57, 0, 0]}>
+            <NavMerchandise opacity={showNavTitles ? 1 : 0} />
           </group>
           <group position={[-7.5, 0, -7.5]} rotation={[1.57, 3.14, 0]}>
-            <NavEvents />
+            <NavEvents opacity={showNavTitles ? 1 : 0} />
           </group>
-
           <group position={[-8.5, 0, 0]} rotation={[1.57, 0, 0]}>
-            <NavBIT />
+            <NavBIT opacity={showNavTitles ? 1 : 0} />
           </group>
-
           <group position={[5.5, 0, 7.2]} rotation={[1.6, 3.1, 3.1]}>
-            <NavGallery />
+            <NavGallery opacity={showNavTitles ? 1 : 0} />
           </group>
           <group position={[-6.5, 0, 8.5]} rotation={[4.71, 0, 1.57]}>
-            <NavMembers />
+            <NavMembers opacity={showNavTitles ? 1 : 0} />
           </group>
           <group position={[0.5, 0, 9.5]} rotation={[4.71, 0, 1.57]}>
-            <NavAlumni />
+            <NavAlumni opacity={showNavTitles ? 1 : 0} />
           </group>
-
           <group position={[5.5, 0, -8]} rotation={[4.7, 0, 0]}>
-            <NavInduction />
+            <NavInduction opacity={showNavTitles ? 1 : 0} />
           </group>
         </Suspense>
+        {/* </MouseRotatingGroup> */}
       </Canvas>
     </>
   );

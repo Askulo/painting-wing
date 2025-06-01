@@ -532,7 +532,7 @@ const PaintingWing = () => {
             }`}
           >
             <h2 className="text-4xl md:text-6xl mb-16 text-center">
-              Club Prof.Incharge
+              Club Prof. Incharge
             </h2>
 
             <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden">
@@ -540,13 +540,13 @@ const PaintingWing = () => {
                 {/* Image Section */}
                 <div className="md:w-1/3 bg-gradient-to-br from-[#fe320a] to-[#fe5c0b] p-8 flex items-center justify-center">
                   <div className="w-48 h-48 bg-white rounded-full flex items-center justify-center shadow-lg">
-                    {/* <Image
+                    <Image
                       src="https://www.bitsindri.ac.in/old/faculty-profile/images/faculty/nayak.png"
                       alt="Dr. Rajen Kumar Nayak"
                       width={500} // Set your desired width
                       height={700} // Set your desired height
                       className="w-full h-full object-fill  rounded-lg"
-                    /> */}
+                    />
 
                     {/* <div className="text-6xl text-[#fe320a] font-bold">RKN</div> */}
                   </div>

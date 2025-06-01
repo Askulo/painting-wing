@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import CustomCursor from "@/Components/CustomCursor"; // adjust the path if different
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Painting Wing",
   description: "The painting where you find an artist within you",
+  icons: {
+    icon: "/logo.png", // Place favicon.ico in the public directory
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -22,6 +26,8 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* Add custom cursor once, globally */}
+        <CustomCursor />
         {children}
       </body>
     </html>

@@ -103,11 +103,11 @@ export default function Navbar() {
                 <Image src="/pw_logo.png" alt="logo" width={100} height={100} />
               </div>
 
-              <div className="py-1 md:hidden" style={{ fontFamily: 'handle' }}>
-                <div href="/" className="text-lg md:text-2xl font-black tracking-widest">
+              <div className="py-1 md:hidden" >
+                <div href="/"     style={{ fontFamily: 'handle' }} className="text-lg md:text-2xl  font-bold tracking-widest">
                   PAINTING WING
                 </div>
-                <h4 className="text-[12px] md:text-sm font-bold tracking-wider">
+                <h4   style={{ fontFamily: 'handle' }} className="text-[12px] md:text-sm font-bold tracking-wider">
                   Let Satisfaction Prevail
                 </h4>
               </div>
@@ -115,14 +115,14 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className={`hidden md:flex items-center space-x-8 border border-gray-500 rounded-lg p-3 px-7
+          <div className={`hidden md:flex items-center space-x-8 border-2 border-gray-500 rounded-lg p-3 px-7
             ${
           isScrolled
             ? " backdrop-blur-xl shadow-lg"
             : "backdrop-blur-md"
         }
       `}>
-            <nav className="flex items-center space-x-6 text-3/2xl  text-black font-sans">
+            <nav className="flex items-center space-x-6 text-3/2xl  text-black ">
               {navLinks.map((link, index) => (
                 <motion.div
                   key={link.name}
@@ -153,7 +153,7 @@ export default function Navbar() {
 
           <Button
             onClick={handleBack}
-            className="bg-orange-600 hidden md:block hover:bg-orange-700 text-white"
+            className="bg-orange-600 hidden md:block hover:bg-orange-700 text-white tracking-widest"
           >
             Back
           </Button>
