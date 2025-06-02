@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import ThreeScene from "@/Components/ThreeScene";
 import LoadingScreen from "@/Components/LoadingScreen";
 import { useAssetLoading } from "@/hooks/useAssetLoading";
-import ArtStudioModelViewer from "@/components/LandingPage";
+import ArtStudioModelViewer from "@/Components/LandingPage";
 import Header from "@/Components/Header";
 // import AlumniDirectory from "@/components/AlumniDirectory";
 
