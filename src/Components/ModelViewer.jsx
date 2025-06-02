@@ -25,7 +25,7 @@ const ModelViewer = () => {
         }}
       />
       <Link href="/induction">
-        <h4 className="text-center z-50 text-2xl opacity-20 hover:opacity-100 cursor-pointer transition-opacity duration-300 absolute bottom-10 left-1/2 transform -translate-x-1/2">
+        <h4 className="text-center z-50 text-2xl  opacity-20 hover:opacity-100 cursor-pointer transition-opacity duration-300 absolute bottom-10 left-1/2 transform -translate-x-1/2">
           Choose your best role, and apply for Induction.
         </h4>
       </Link>

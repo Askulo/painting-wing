@@ -137,166 +137,178 @@ export default function InductionForm() {
             animate="visible"
           >
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-              {/* Personal Details */}
-              <motion.div variants={itemVariants}>
-                <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">
-                  Personal Details
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                  >
-                    <label
-                      htmlFor="name"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Full Name
-                    </label>
-                    <input
-                      id="name"
-                      type="text"
-                      className="mt-1 block w-full rounded-md border-gray-300 py-2 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
-                      {...register("name", { required: "Name is required" })}
-                    />
-                    {errors.name && (
-                      <motion.p
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="text-sm text-[#d25c25] mt-1"
-                      >
-                        {errors.name.message}
-                      </motion.p>
-                    )}
-                  </motion.div>
+              {/* /* Personal Details */ }
+                      <motion.div variants={itemVariants}>
+                      <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">
+                        Personal Details
+                      </h2>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                        >
+                        <label
+                          htmlFor="name"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          Full Name
+                        </label>
+                        <input
+                          id="name"
+                          type="text"
+                          className="mt-1 block w-full rounded-md border-gray-300 py-2 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
+                          {...register("name", { required: "Name is required" })}
+                        />
+                        {errors.name && (
+                          <motion.p
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="text-sm text-[#d25c25] mt-1"
+                          >
+                          {errors.name.message}
+                          </motion.p>
+                        )}
+                        </motion.div>
 
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                  >
-                    <label
-                      htmlFor="whatsappNumber"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      WhatsApp Number
-                    </label>
-                    <input
-                      id="whatsappNumber"
-                      type="text"
-                      className="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
-                      {...register("whatsappNumber", {
-                        required: "WhatsApp number is required",
-                        pattern: {
-                          value: /^\d{10,12}$/,
-                          message: "Enter a valid phone number",
-                        },
-                      })}
-                    />
-                    {errors.whatsappNumber && (
-                      <motion.p
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="text-sm text-[#d25c25] mt-1"
-                      >
-                        {errors.whatsappNumber.message}
-                      </motion.p>
-                    )}
-                  </motion.div>
+                        <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                        >
+                        <label
+                          htmlFor="whatsappNumber"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          WhatsApp Number
+                        </label>
+                        <input
+                          id="whatsappNumber"
+                          type="text"
+                          className="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
+                          {...register("whatsappNumber", {
+                          required: "WhatsApp number is required",
+                          pattern: {
+                            value: /^\d{10,12}$/,
+                            message: "Enter a valid phone number",
+                          },
+                          })}
+                        />
+                        {errors.whatsappNumber && (
+                          <motion.p
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="text-sm text-[#d25c25] mt-1"
+                          >
+                          {errors.whatsappNumber.message}
+                          </motion.p>
+                        )}
+                        </motion.div>
 
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                  >
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Email
-                    </label>
-                    <input
-                      id="email"
-                      type="email"
-                      className="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
-                      {...register("email", {
-                        required: "Email is required",
-                        pattern: {
-                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                          message: "Enter a valid email address",
-                        },
-                      })}
-                    />
-                    {errors.email && (
-                      <motion.p
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="text-sm text-[#d25c25] mt-1"
-                      >
-                        {errors.email.message}
-                      </motion.p>
-                    )}
-                  </motion.div>
+                        <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                        >
+                        <label
+                          htmlFor="email"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          Email
+                        </label>
+                        <input
+                          id="email"
+                          type="email"
+                          className="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
+                          {...register("email", {
+                          required: "Email is required",
+                          pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: "Enter a valid email address",
+                          },
+                          })}
+                        />
+                        {errors.email && (
+                          <motion.p
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="text-sm text-[#d25c25] mt-1"
+                          >
+                          {errors.email.message}
+                          </motion.p>
+                        )}
+                        </motion.div>
 
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                  >
-                    <label
-                      htmlFor="branch"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Branch
-                    </label>
-                    <input
-                      id="branch"
-                      type="text"
-                      className="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
-                      {...register("branch", {
-                        required: "Branch is required",
-                      })}
-                    />
-                    {errors.branch && (
-                      <motion.p
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="text-sm text-[#d25c25] mt-1"
-                      >
-                        {errors.branch.message}
-                      </motion.p>
-                    )}
-                  </motion.div>
+                        <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                        >
+                        <label
+                          htmlFor="branch"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          Branch
+                        </label>
+                        <select
+                          id="branch"
+                          className="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
+                          {...register("branch", {
+                          required: "Branch is required",
+                          })}
+                        >
+                          <option value="">Select your branch</option>
+                          <option value="CSE">CSE</option>
+                          <option value="CSE (Cyber Security)">CSE (Cyber Security)</option>
+                          <option value="IT">IT</option>
+                          <option value="ECE">ECE</option>
+                          <option value="Mechanical">Mechanical</option>
+                          <option value="Electrical">Electrical</option>
+                          <option value="Civil">Civil</option>
+                          <option value="Chemical">Chemical</option>
+                          <option value="Metallurgy">Metallurgy</option>
+                          <option value="Production and Industrial">Production and Industrial</option>
+                          <option value="Mining">Mining</option>
+                        </select>
+                        {errors.branch && (
+                          <motion.p
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="text-sm text-[#d25c25] mt-1"
+                          >
+                          {errors.branch.message}
+                          </motion.p>
+                        )}
+                        </motion.div>
 
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                  >
-                    <label
-                      htmlFor="rollNumber"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Roll Number
-                    </label>
-                    <input
-                      id="rollNumber"
-                      type="text"
-                      className="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
-                      {...register("rollNumber", {
-                        required: "Roll number is required",
-                      })}
-                    />
-                    {errors.rollNumber && (
-                      <motion.p
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="text-sm text-[#d25c25] mt-1"
-                      >
-                        {errors.rollNumber.message}
-                      </motion.p>
-                    )}
-                  </motion.div>
-                </div>
-              </motion.div>
+                        <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                        >
+                        <label
+                          htmlFor="rollNumber"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          Roll Number
+                        </label>
+                        <input
+                          id="rollNumber"
+                          type="text"
+                          className="mt-1 block w-full rounded-md py-2 border-gray-300 shadow-sm focus:border-[#d25c25] focus:ring focus:ring-[#d25c25] focus:ring-opacity-50 transition-all duration-200"
+                          {...register("rollNumber", {
+                          required: "Roll number is required",
+                          })}
+                        />
+                        {errors.rollNumber && (
+                          <motion.p
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="text-sm text-[#d25c25] mt-1"
+                          >
+                          {errors.rollNumber.message}
+                          </motion.p>
+                        )}
+                        </motion.div>
+                      </div>
+                      </motion.div>
 
-              {/* Artist Information */}
+                      {/* Artist Information */}
               <motion.div variants={itemVariants}>
                 <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">
                   Artist Information

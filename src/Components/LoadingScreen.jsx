@@ -76,7 +76,7 @@ export default function ScreenLoading({ progress = 0 }) {
               repeat: Infinity,
               ease: "easeInOut",
             }}
-            className="h-0.5 bg-gradient-to-r from-transparent via-[#d25c25] to-transparent mx-auto max-w-[200px]"
+            className="h-0.5 bg-gradient-to-r  mx-auto max-w-[200px]"
           ></motion.div>
         </motion.div>
       </div>

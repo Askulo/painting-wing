@@ -137,12 +137,12 @@ export function NavAboutUs({
           router.push("/about-us");
         }}
       >
-        {/* <planeGeometry args={[rectangleWidth, rectangleHeight]} /> */}
-        {/* <meshBasicMaterial
+        <planeGeometry args={[rectangleWidth, rectangleHeight]} />
+        <meshBasicMaterial
           color={lineColor}
           transparent
-          opacity={isHovered ? 0.7 : 0}
-        /> */}
+          opacity={isHovered ? 0 : 0}
+        />
       </mesh>
 
       {/* Corners */}
@@ -222,12 +222,12 @@ export function NavEvents({
           router.push("/events");
         }}
       >
-        {/* <planeGeometry args={[rectangleWidth, rectangleHeight]} /> */}
-        {/* <meshBasicMaterial
+        <planeGeometry args={[rectangleWidth, rectangleHeight]} />
+        <meshBasicMaterial
           color={lineColor}
           transparent
-          opacity={isHovered ? 0.7 : 0}
-        /> */}
+          opacity={isHovered ? 0 : 0}
+        />
       </mesh>
 
       {/* Corners */}
@@ -307,12 +307,12 @@ export function NavMembers({
           router.push("/members");
         }}
       >
-        {/* <planeGeometry args={[rectangleWidth, rectangleHeight]} /> */}
-        {/* <meshBasicMaterial
+        <planeGeometry args={[rectangleWidth, rectangleHeight]} />
+        <meshBasicMaterial
           color={lineColor}
           transparent
-          opacity={isHovered ? 0.7 : 0}
-        /> */}
+          opacity={isHovered ? 0 : 0}
+        />
       </mesh>
 
       {/* Corners */}
@@ -392,12 +392,12 @@ export function NavAlumni({
           router.push("/alumni");
         }}
       >
-        {/* <planeGeometry args={[rectangleWidth, rectangleHeight]} /> */}
-        {/* <meshBasicMaterial
+        <planeGeometry args={[rectangleWidth, rectangleHeight]} />
+        <meshBasicMaterial
           color={lineColor}
           transparent
-          opacity={isHovered ? 0.7 : 0}
-        /> */}
+          opacity={isHovered ? 0 : 0}
+        />
       </mesh>
 
       {/* Corners */}
@@ -477,12 +477,12 @@ export function NavMerchandise({
           router.push("/merchandise");
         }}
       >
-        {/* <planeGeometry args={[rectangleWidth, rectangleHeight]} /> */}
-        {/* <meshBasicMaterial
+        <planeGeometry args={[rectangleWidth, rectangleHeight]} />
+        <meshBasicMaterial
           color={lineColor}
           transparent
-          opacity={isHovered ? 0.7 : 0}
-        /> */}
+          opacity={isHovered ? 0 : 0}
+        />
       </mesh>
 
       {/* Corners */}
@@ -562,12 +562,12 @@ export function NavBIT({
           router.push("/bit-sindri");
         }}
       >
-        {/* <planeGeometry args={[rectangleWidth, rectangleHeight]} /> */}
-        {/* <meshBasicMaterial
+        <planeGeometry args={[rectangleWidth, rectangleHeight]} />
+        <meshBasicMaterial
           color={lineColor}
           transparent
-          opacity={isHovered ? 0.7 : 0}
-        /> */}
+          opacity={isHovered ? 0 : 0}
+        />
       </mesh>
 
       {/* Corners */}
@@ -647,12 +647,12 @@ export function NavGallery({
           router.push("/gallery");
         }}
       >
-        {/* <planeGeometry args={[rectangleWidth, rectangleHeight]} /> */}
-        {/* <meshBasicMaterial
+        <planeGeometry args={[rectangleWidth, rectangleHeight]} />
+        <meshBasicMaterial
           color={lineColor}
           transparent
-          opacity={isHovered ? 0.7 : 0}
-        /> */}
+          opacity={isHovered ? 0 : 0}
+        />
       </mesh>
 
       {/* Corners */}
@@ -732,12 +732,12 @@ export function NavInduction({
           router.push("/modelviewer");
         }}
       >
-        {/* <planeGeometry args={[rectangleWidth, rectangleHeight]} /> */}
-        {/* <meshBasicMaterial
+        <planeGeometry args={[rectangleWidth, rectangleHeight]} />
+        <meshBasicMaterial
           color={lineColor}
           transparent
-          opacity={isHovered ? 0.7 : 0}
-        /> */}
+          opacity={isHovered ? 0 : 0}
+        />
       </mesh>
       {/* Corners */}
       {corners.map((corner, index) => (
