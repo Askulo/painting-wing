@@ -18,7 +18,8 @@
   src: url("/fonts/Roashe.woff2") format("woff2");
   font-family: "handle";
   src: url("/fonts/handle-change-demo.regular.woff2") format("woff2");
-  
+  font-family: "helvetica";
+  src: url("/fonts/helvetica.woff2") format("woff2");
 }
 
 @font-face {
