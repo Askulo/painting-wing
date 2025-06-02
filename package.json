@@ -22,7 +22,6 @@
     "framer-motion": "^12.15.0",
     "gsap": "^3.13.0",
     "kursor": "^0.1.6",
-    "leva": "^0.10.0",
     "locomotive-scroll": "^4.1.4",
     "lucide-react": "^0.511.0",
     "mongodb": "^6.16.0",
