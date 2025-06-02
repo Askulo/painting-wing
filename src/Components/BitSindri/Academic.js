@@ -2,8 +2,8 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card";
 import { BookOpen, Code, Cpu, Database, FlaskRoundIcon as Flask, Lightbulb, Radio, Zap } from "lucide-react";
 
 export default function AcademicsSection() {

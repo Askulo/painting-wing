@@ -5,7 +5,7 @@ import { useModelViewerElement } from "@/hooks/useModelViewerElement";
 import Navbar from "./BitSindri/Navbar";
 import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import AboutUs from "./AboutUs";
 
 // Dynamically import model-viewer elements

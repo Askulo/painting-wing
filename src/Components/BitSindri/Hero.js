@@ -3,7 +3,7 @@
 import React from "react";
 import { useRef, Suspense, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import { ChevronDown } from "lucide-react";
 import { useRouter } from "next/navigation";
 

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 // import LoadingScreen from "@/app/Components/LoadingScreen";
-import LoadingScreen from "@/components/LoadingScreen";
+import LoadingScreen from "@/Components/LoadingScreen";
 import Navbar from "@/Components/BitSindri/Navbar";
 import { useModelViewer } from "@/hooks/useModelViewer";
 
