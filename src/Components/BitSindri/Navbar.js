@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { Menu, X, Moon, Sun } from "lucide-react";
+import { RxCross2, RxHamburgerMenu } from "react-icons/rx";
+import { IoMenu } from "react-icons/io5";
 import { Button } from "@/Components/ui/button";
 import { useTheme } from "next-themes";
 import Image from "next/image";
@@ -90,9 +91,9 @@ export default function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
-        className="fixed top-0 left-0 right-0 z-50  transition-all duration-300 bg-transparent"
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 md:bg-transparent bg-white/60 md:backdrop-blur-none backdrop-blur-xl  md:shadow-none shadow-lg"
       >
-        <div className="container  mx-auto px-2 py-4 flex items-center justify-between">
+        <div className="container  mx-auto px-2 md:py-4 py-2 flex items-center justify-between">
           <Link href="#home" className="flex items-center space-x-2">
             <motion.div
               initial={{ scale: 0 }}
@@ -104,10 +105,10 @@ export default function Navbar() {
               </div>
 
               <div className="py-1 md:hidden" >
-                <div href="/"     style={{ fontFamily: 'handle' }} className="text-lg md:text-2xl  font-bold tracking-widest">
+                <div href="/"     style={{ fontFamily: 'helvetica' }} className="text-lg md:text-2xl  font-bold tracking-widest">
                   PAINTING WING
                 </div>
-                <h4   style={{ fontFamily: 'handle' }} className="text-[12px] md:text-sm font-bold tracking-wider">
+                <h4   style={{ fontFamily: 'helvetica' }} className="text-[12px] md:text-sm font-bold tracking-wider leading-2">
                   Let Satisfaction Prevail
                 </h4>
               </div>
@@ -134,7 +135,7 @@ export default function Navbar() {
                     href={link.href}
                     className={`link-6  p-2 rounded-sm hover:bg-slate-300 hover:text-gray-900 ${
                       isScrolled
-                        ? "text-gray-700 dark:text-gray-200"
+                        ? "text-gray-500"
                         : "text-gray-500 dark:text-gray-500"
                     }`}
                     onClick={e => {
@@ -183,9 +184,11 @@ export default function Navbar() {
               
             >
               {isMenuOpen ? (
-                <X className="h-30 w-30" />
+                <RxCross2 />
               ) : (
-                <Menu className="h-30 w-30" />
+                // <TbMenu />
+                <IoMenu />
+                // <RxHamburgerMenu />
               )}
             </Button>
           </div>  
@@ -200,9 +203,9 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed top-16 left-0 right-0 z-40 bg-white   shadow-lg md:hidden"
+            className="fixed top-16 left-0 right-0 z-40 bg-white shadow-lg md:hidden"
           >
-            <nav className="container mx-auto px-4 py-6   flex flex-col space-y-4">
+            <nav className="container mx-auto px-4 py-6 flex flex-col space-y-4">
               {navLinks.map((link, index) => (
                 <motion.div
                   key={link.name}
@@ -212,7 +215,7 @@ export default function Navbar() {
                 >
                   <Link
                     href={link.href}
-                    className="block py-2 text-gray-700  hover:text-orange-600 dark:hover:text-orange-400 font-medium transition-colors"
+                    className="block py-2 text-gray-700 cursor-none hover:text-orange-600 dark:hover:text-orange-400 font-medium transition-colors"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {link.name}

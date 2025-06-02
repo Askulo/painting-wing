@@ -9,10 +9,10 @@ const Header = () => {
     <div className="flex fixed items-center px-4 py-2 md:px-10 justify-between w-full z-10">
       {/* Left Side */}
       <div className="py-1">
-        <Link href="/"    style={{ fontFamily: 'handle' }}className="text-xl md:text-2xl font-black tracking-widest">
+        <Link href="/"    style={{ fontFamily: 'helvetica' }}className="text-xl md:text-2xl font-black tracking-widest">
           PAINTING WING
         </Link>
-        <h4     style={{ fontFamily: 'handle' }} className="text-xs md:text-sm font-bold tracking-wider">
+        <h4     style={{ fontFamily: 'helvetica' }} className="text-xs md:text-sm font-bold tracking-wider">
           Let Satisfaction Prevail
         </h4>
       </div>

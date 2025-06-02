@@ -169,7 +169,7 @@ export default function AcademicsSection() {
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.3 }}
-                  className="grid grid-cols-1 md:grid-cols-2 gap-8"
+                  className="grid grid-cols-1 md:grid-cols-2 pt-20 md:pt-0 gap-8"
                 >
                   <motion.div variants={itemVariants}>
                     <Card className="h-full transition-all duration-300 hover:shadow-lg">
