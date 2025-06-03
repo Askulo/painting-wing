@@ -182,7 +182,7 @@ const PaintingWing = () => {
       <div ref={mainRef} className="relative z-10">
         {/* Page 1 */}
         <div
-          className="min-h-screen w-full bg-[#efeae3] relative px-2 md:px-8 py-16 reveal-section"
+          className="min-h-screen w-full bg-[#efeae3] relative px-2 md:px-8 md:py-16 py-28 reveal-section"
           data-section="hero"
         >
           {/* Center Content */}
@@ -201,7 +201,7 @@ const PaintingWing = () => {
               </h3>
             </div>
             <div>
-              <h1 className="font-roashe mt-6 font-bold text-5xl md:text-7xl lg:text-8xl text-right leading-[10vw] md:leading-[7vw]">
+              <h1   className="font-roashe mt-6 font-bold text-5xl md:text-7xl lg:text-8xl text-right leading-[10vw] md:leading-[7vw]">
                 LET <br />
                 SATISFACTION <br />
                 PREVAIL
@@ -230,7 +230,7 @@ const PaintingWing = () => {
               muted
               playsInline
               src="./novax7 .mp4"
-              className="relative rounded-lg md:rounded-3xl mt-4 md:mt-16 w-[92%] md:w-full ml-[4%] md:ml-0 h-[30vh] md:h-[90vh] object-cover"
+              className="relative rounded-lg md:rounded-3xl mt-4 md:mt-16 w-[92%] md:w-full ml-[4%] md:ml-0 h-[40vh] md:h-[90vh] object-cover"
             ></video>
           </div>
         </div>

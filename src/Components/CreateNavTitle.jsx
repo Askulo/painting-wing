@@ -469,7 +469,7 @@ export function NavMerchandise({
     <group>
       {/* Hover detection area */}
       <mesh
-        position={[0, 0, 0.01]}
+        position={[0, -5, 0.03]}
         onPointerEnter={() => setIsHovered(true)}
         onPointerLeave={() => setIsHovered(false)}
         onClick={() => {
@@ -477,11 +477,11 @@ export function NavMerchandise({
           router.push("/merchandise");
         }}
       >
-        <planeGeometry args={[rectangleWidth, rectangleHeight]} />
+        <planeGeometry args={[rectangleWidth * 20, rectangleHeight * 20]} />
         <meshBasicMaterial
           color={lineColor}
           transparent
-          opacity={isHovered ? 0 : 0}
+          opacity={isHovered ? 0.7 : 0}
         />
       </mesh>
 

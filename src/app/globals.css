@@ -32,6 +32,11 @@
   src: url("/fonts/Gyst-Medium.woff") format("woff");
 
 }
+@font-face {
+  font-family: "Century Gothic";
+  src: url("/fonts/Century Gothic.woff") format("woff");
+
+}
 
 
 .kursor {
@@ -54,7 +59,7 @@
 
 body,
 html {
-  font-family: var(--font-geist-sans), sans-serif;
+  font-family:  var(--font-geist-sans), sans-serif;
   padding: 0;
   box-sizing: border-box;
   z-index: 5;
@@ -251,3 +256,27 @@ canvas {
 }
 
 
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.model-viewer-container {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+.model-viewer-container.loaded {
+  opacity: 1;
+}

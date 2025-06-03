@@ -56,7 +56,8 @@ const ArtStudioModelViewer = () => {
         {/* Heading and Description */}
         <div className="text-center mb-2 max-w-3xl">
           <h1 className="text-4xl font-bold text-gray-800 mb-2"   >
-            Step into the 3d Realm of art and creativity
+            Step into the <span  style={{ fontFamily: 'Gyst' }}
+  className="mix-blend-multiply">3d</span> realm of <span  style={{ fontFamily: 'Gyst' }}>art</span> and <span style={{ fontFamily: 'Gyst' }}>creativity</span>
           </h1>
           <p className="text-lg text-gray-600">
             Discover a world where colors leap off the canvas and creativity

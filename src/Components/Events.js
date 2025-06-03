@@ -870,7 +870,7 @@ export default function Home() {
 
             <div>
               <motion.div
-                className="text-4xl md:text-6xl font-medium text-[#f47458] mb-2"
+                className="text-4xl md:text-6xl font-bold text-[#f47458] mb-2"
                 initial={{ y: 20 }}
                 whileInView={{ y: 0 }}
                 viewport={{ once: true }}
@@ -883,7 +883,7 @@ export default function Home() {
 
             <div>
               <motion.div
-                className="text-4xl md:text-6xl font-medium text-[#f47458] mb-2"
+                className="text-4xl md:text-6xl font-bold text-[#f47458] mb-2"
                 initial={{ y: 20 }}
                 whileInView={{ y: 0 }}
                 viewport={{ once: true }}
@@ -896,7 +896,7 @@ export default function Home() {
 
             <div>
               <motion.div
-                className="text-4xl md:text-6xl font-medium text-[#f47458] mb-2"
+                className="text-4xl md:text-6xl font-bold text-[#f47458] mb-2"
                 initial={{ y: 20 }}
                 whileInView={{ y: 0 }}
                 viewport={{ once: true }}
@@ -904,7 +904,7 @@ export default function Home() {
               >
                 50+
               </motion.div>
-              <p className="text-neutral-700">Active Members</p>
+              <p className="text-neutral-700 font">Active Members</p>
             </div>
           </motion.div>
         </div>

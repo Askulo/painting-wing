@@ -69,23 +69,23 @@ const Cube = ({ onAnimationComplete, skipAnimation, animationCompleted }) => {
 
   useEffect(() => {
     if (!cubeRef.current || animationStarted.current) return;
-    
+
     if (skipAnimation) {
       // Position cube at final position immediately
       cubeRef.current.position.set(0, 0, 0);
       cubeRef.current.scale.set(0.01, 0.01, 0.01); // Make it nearly invisible
-      console.log('Cube positioned at final state - animation skipped');
+      console.log("Cube positioned at final state - animation skipped");
       return;
     }
-    
+
     animationStarted.current = true;
     startCubeAnimation(cubeRef, camera, onAnimationComplete);
-    
-    console.log('Cube animation started');
+
+    console.log("Cube animation started");
   }, [camera, cubeRef, onAnimationComplete, skipAnimation]);
 
   // Hide cube if animation is completed and we're in skip mode
-  const cubeOpacity = (skipAnimation && animationCompleted) ? 0 : opacity;
+  const cubeOpacity = skipAnimation && animationCompleted ? 0 : opacity;
 
   return (
     <mesh
@@ -125,14 +125,14 @@ const CenterModel = ({ show, skipAnimation }) => {
 
   useEffect(() => {
     if (scene && !materialsInitialized.current) {
-      console.log('Initializing model materials');
-      
+      console.log("Initializing model materials");
+
       scene.scale.set(1.3, 0.7, 1.3);
       scene.traverse((child) => {
         if (child.isMesh) {
           child.castShadow = true;
           child.receiveShadow = true;
-          
+
           if (child.material) {
             child.material.transparent = true;
             // If skipping animation, start with full opacity
@@ -140,12 +140,12 @@ const CenterModel = ({ show, skipAnimation }) => {
           }
         }
       });
-      
+
       // If skipping animation and should show, set initial opacity
       if (skipAnimation && show) {
         opacityRef.current = 1;
       }
-      
+
       materialsInitialized.current = true;
       setModelLoaded(true);
     }
@@ -166,14 +166,15 @@ const CenterModel = ({ show, skipAnimation }) => {
 
       // Opacity animation - faster if not skipping, instant if skipping
       const targetOpacity = show ? 1 : 0;
-      
+
       if (skipAnimation) {
         // Instant opacity change when skipping animation
         opacityRef.current = targetOpacity;
       } else {
         // Smooth opacity transition for normal flow
         const opacityLerpFactor = show ? 0.6 : 0.5;
-        opacityRef.current += (targetOpacity - opacityRef.current) * opacityLerpFactor;
+        opacityRef.current +=
+          (targetOpacity - opacityRef.current) * opacityLerpFactor;
       }
 
       // Update all materials' opacity
@@ -192,7 +193,8 @@ const CenterModel = ({ show, skipAnimation }) => {
 
   const handlePointerEnter = (event) => {
     // Only show tooltip if model is fully visible
-    if (opacityRef.current >= 0.95) { // Slightly lower threshold for better UX
+    if (opacityRef.current >= 0.95) {
+      // Slightly lower threshold for better UX
       window.dispatchEvent(
         new CustomEvent("showModelTooltip", {
           detail: { show: true, x: event.clientX, y: event.clientY },
@@ -239,6 +241,22 @@ const CenterModel = ({ show, skipAnimation }) => {
   );
 };
 
+const AnimatedGroup = ({ children }) => {
+  const groupRef = useRef();
+
+  useFrame(({ mouse }) => {
+    if (groupRef.current) {
+      // Smooth rotation based on mouse position
+      groupRef.current.rotation.y +=
+        (mouse.x * 0.1 - groupRef.current.rotation.y) * 0.015;
+      groupRef.current.rotation.x +=
+        (mouse.y * 0.1 - groupRef.current.rotation.x) * 0.015;
+    }
+  });
+
+  return <group ref={groupRef}>{children}</group>;
+};
+
 const Scene = () => {
   const [showNavTitles, setShowNavTitles] = useState(false);
   const [showInstruction, setShowInstruction] = useState(false);
@@ -249,28 +267,35 @@ const Scene = () => {
 
   // Check if animation has been completed before (in session storage)
   useEffect(() => {
-    const hasCompletedAnimation = sessionStorage.getItem('cubeAnimationCompleted') === 'true';
-    const hasVisitedScene = sessionStorage.getItem('hasVisitedScene') === 'true';
-    
-    console.log('Session check - Animation completed:', hasCompletedAnimation, 'Scene visited:', hasVisitedScene);
-    
+    const hasCompletedAnimation =
+      sessionStorage.getItem("cubeAnimationCompleted") === "true";
+    const hasVisitedScene =
+      sessionStorage.getItem("hasVisitedScene") === "true";
+
+    console.log(
+      "Session check - Animation completed:",
+      hasCompletedAnimation,
+      "Scene visited:",
+      hasVisitedScene
+    );
+
     if (hasCompletedAnimation && hasVisitedScene) {
       setSkipAnimation(true);
       setAnimationCompleted(true);
       setShowNavTitles(true);
-      console.log('Skipping cube animation - returning from another route');
+      console.log("Skipping cube animation - returning from another route");
     }
   }, []);
 
   // Handle cube animation completion
   const handleAnimationComplete = () => {
-    console.log('Cube animation completed, showing nav titles');
+    console.log("Cube animation completed, showing nav titles");
     setAnimationCompleted(true);
     setShowNavTitles(true);
-    
+
     // Store in session storage that animation has been completed
-    sessionStorage.setItem('cubeAnimationCompleted', 'true');
-    sessionStorage.setItem('hasVisitedScene', 'true');
+    sessionStorage.setItem("cubeAnimationCompleted", "true");
+    sessionStorage.setItem("hasVisitedScene", "true");
   };
 
   // Ensure scene is ready
@@ -284,15 +309,15 @@ const Scene = () => {
 
   // Mark that user has visited this scene
   useEffect(() => {
-    sessionStorage.setItem('hasVisitedScene', 'true');
-    
+    sessionStorage.setItem("hasVisitedScene", "true");
+
     // Clean up session storage when user closes tab/browser
     const handleBeforeUnload = () => {
       // Keep the session data - only clear on explicit navigation away
     };
-    
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
 
   useEffect(() => {
@@ -318,20 +343,22 @@ const Scene = () => {
 
   // Debug effect to track state changes
   useEffect(() => {
-    console.log('showNavTitles changed:', showNavTitles);
+    console.log("showNavTitles changed:", showNavTitles);
   }, [showNavTitles]);
 
   if (!sceneReady) {
     return (
-      <div style={{ 
-        height: "100vh", 
-        width: "100vw", 
-        background: "#ffffff",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontFamily: "sans-serif"
-      }}>
+      <div
+        style={{
+          height: "100vh",
+          width: "100vw",
+          background: "#ffffff",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontFamily: "sans-serif",
+        }}
+      >
         Loading Scene...
       </div>
     );
@@ -342,89 +369,73 @@ const Scene = () => {
       <Canvas
         orthographic
         camera={{
-          zoom: 45,
+          zoom: 50,
           near: 0.1,
           far: 100000,
         }}
         shadows
         style={{ height: "100vh", width: "100vw", background: "#ffffff" }}
       >
-        <CameraController cameraX={8.3} cameraY={7.9} cameraZ={7.4} />
-        
+        <CameraController cameraX={8.3} cameraY={8.5} cameraZ={7.4} />
         {/* Lights */}
-        <ambientLight intensity={3} color={0xffffff} />
-
+        <ambientLight intensity={3} color={0xffffff} />{" "}
         <Suspense fallback={null}>
           <ambientLight intensity={0.8} />
-          
-          <pointLight
-            position={[2, 8, 0]}
-            intensity={2}
-            distance={100}
-            castShadow
-            color={0xffffff}
-          />
-          
-          <directionalLight
-            position={[10, 10, 5]}
-            intensity={2}
-            castShadow
-            shadow-mapSize-width={1024}
-            shadow-mapSize-height={1024}
-            shadow-camera-near={0.5}
-            shadow-camera-far={50}
-            shadow-camera-left={-10}
-            shadow-camera-right={10}
-            shadow-camera-top={10}
-            shadow-camera-bottom={-10}
-          />
-          
-          <GridComponent />
-          
-          {/* Model will only render when properly loaded */}
-          <CenterModel show={showNavTitles} skipAnimation={skipAnimation} castShadow receiveShadow />
-          
-          {/* Cube with consistent animation */}
-          <Cube 
-            onAnimationComplete={handleAnimationComplete} 
-            skipAnimation={skipAnimation}
-            animationCompleted={animationCompleted}
-          />
-          
-          <HollowCube />
-          
-          {/* NavTitles with opacity controlled by showNavTitles */}
-          <group position={[-2.3, 0.0, -10.5]} rotation={[4.71, 0, 1.57]}>
-            <NavAboutUs opacity={showNavTitles ? 1 : 0} />
-          </group>
-          
-          <group position={[8.5, 0, -1.2]} rotation={[1.57, 0, 0]}>
-            <NavMerchandise opacity={showNavTitles ? 1 : 0} />
-          </group>
-          
-          <group position={[-7.5, 0, -7.5]} rotation={[1.57, 3.14, 0]}>
-            <NavEvents opacity={showNavTitles ? 1 : 0} />
-          </group>
-          
-          <group position={[-8.5, 0, 0]} rotation={[1.57, 0, 0]}>
-            <NavBIT opacity={showNavTitles ? 1 : 0} />
-          </group>
-          
-          <group position={[5.5, 0, 7.2]} rotation={[1.6, 3.1, 3.1]}>
-            <NavGallery opacity={showNavTitles ? 1 : 0} />
-          </group>
-          
-          <group position={[-6.5, 0, 8.5]} rotation={[4.71, 0, 1.57]}>
-            <NavMembers opacity={showNavTitles ? 1 : 0} />
-          </group>
-          
-          <group position={[0.5, 0, 9.5]} rotation={[4.71, 0, 1.57]}>
-            <NavAlumni opacity={showNavTitles ? 1 : 0} />
-          </group>
-          
-          <group position={[5.5, 0, -8]} rotation={[4.7, 0, 0]}>
-            <NavInduction opacity={showNavTitles ? 1 : 0} />
-          </group>
+          {/* Main 3D Scene Group with mouse-based animation */}
+          <AnimatedGroup>
+            {/* Grid and Plus Sign Group */}
+            <group position={[0, -0.01, 0]}>
+              <GridComponent />
+            </group>
+
+            {/* Central Elements Group */}
+            <group position={[0, 0, 0]}>
+              <CenterModel
+                show={showNavTitles}
+                skipAnimation={skipAnimation}
+                castShadow
+                receiveShadow
+              />
+
+              {/* Cube with consistent animation */}
+              <Cube
+                onAnimationComplete={handleAnimationComplete}
+                skipAnimation={skipAnimation}
+                animationCompleted={animationCompleted}
+              />
+
+              <HollowCube />
+            </group>
+
+            {/* Navigation Elements Group */}
+            <group position={[0, 0, 0]}>
+              <group position={[-2.3, 0.0, -10.5]} rotation={[4.71, 0, 1.57]}>
+                <NavAboutUs opacity={showNavTitles ? 1 : 0} />
+              </group>
+              <group position={[8.5, 0, -1.2]} rotation={[1.57, 0, 0]}>
+                <NavMerchandise opacity={showNavTitles ? 1 : 0} />
+              </group>
+              <group position={[-7.5, 0, -7.5]} rotation={[1.57, 3.14, 0]}>
+                <NavEvents opacity={showNavTitles ? 1 : 0} />
+              </group>
+              <group position={[-8.5, 0, 0]} rotation={[1.57, 0, 0]}>
+                <NavBIT opacity={showNavTitles ? 1 : 0} />
+              </group>
+              <group position={[5.5, 0, 7.2]} rotation={[1.6, 3.1, 3.1]}>
+                <NavGallery opacity={showNavTitles ? 1 : 0} />
+              </group>
+              <group position={[-6.5, 0, 8.5]} rotation={[4.71, 0, 1.57]}>
+                <NavMembers opacity={showNavTitles ? 1 : 0} />
+              </group>
+              <group position={[0.5, 0, 9.5]} rotation={[4.71, 0, 1.57]}>
+                <NavAlumni opacity={showNavTitles ? 1 : 0} />
+              </group>
+              
+              <group position={[5.5, 0, -8]} rotation={[4.7, 0, 0]}>
+                <NavInduction opacity={showNavTitles ? 1 : 0} />
+              </group>{" "}
+            </group>
+          </AnimatedGroup>
         </Suspense>
       </Canvas>
 
@@ -458,13 +469,13 @@ const Scene = () => {
 
 // Optional: Add a function to reset the animation state (useful for development/testing)
 const resetAnimationState = () => {
-  sessionStorage.removeItem('cubeAnimationCompleted');
-  sessionStorage.removeItem('hasVisitedScene');
-  console.log('Animation state reset - refresh page to see animation again');
+  sessionStorage.removeItem("cubeAnimationCompleted");
+  sessionStorage.removeItem("hasVisitedScene");
+  console.log("Animation state reset - refresh page to see animation again");
 };
 
 // Expose reset function to window for debugging (optional)
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   window.resetSceneAnimation = resetAnimationState;
 }
 

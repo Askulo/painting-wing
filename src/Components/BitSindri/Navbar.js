@@ -90,9 +90,9 @@ export default function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
-        className="fixed top-0 left-0 right-0 z-50  transition-all duration-300 bg-transparent"
+        className="fixed top-0 left-0 right-0 z-50  transition-all duration-300 md:bg-transparent bg-white/60 md:backdrop-blur-none backdrop-blur-xl  md:shadow-none shadow-lg"
       >
-        <div className="container  mx-auto px-2 py-4 flex items-center justify-between">
+        <div className="container  mx-auto px-2 md:py-4 py-2 flex items-center justify-between">
           <Link href="#home" className="flex items-center space-x-2">
             <motion.div
               initial={{ scale: 0 }}
@@ -103,11 +103,11 @@ export default function Navbar() {
                 <Image src="/pw_logo.png" alt="logo" width={100} height={100} />
               </div>
 
-              <div className="py-1 md:hidden" >
-                <div href="/"     style={{ fontFamily: 'handle' }} className="text-lg md:text-2xl  font-bold tracking-widest">
+              <div className="py-1 md:hidden  leading-1" >
+                <div href="/"     className="text-lg md:text-2xl  font-medium tracking-widest">
                   PAINTING WING
                 </div>
-                <h4   style={{ fontFamily: 'handle' }} className="text-[12px] md:text-sm font-bold tracking-wider">
+                <h4   className="text-[12px] md:text-sm font-medium tracking-wider">
                   Let Satisfaction Prevail
                 </h4>
               </div>
@@ -134,7 +134,7 @@ export default function Navbar() {
                     href={link.href}
                     className={`link-6  p-2 rounded-sm hover:bg-slate-300 hover:text-gray-900 ${
                       isScrolled
-                        ? "text-gray-700 dark:text-gray-200"
+                        ? "text-gray-500"
                         : "text-gray-500 dark:text-gray-500"
                     }`}
                     onClick={e => {
@@ -212,7 +212,7 @@ export default function Navbar() {
                 >
                   <Link
                     href={link.href}
-                    className="block py-2 text-gray-700  hover:text-orange-600 dark:hover:text-orange-400 font-medium transition-colors"
+                    className="block py-2 text-gray-700  hover:text-orange-600 dark:hover:text-orange-400 font-medium transition-colors  cursor-none"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {link.name}
