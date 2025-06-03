@@ -469,7 +469,7 @@ export function NavMerchandise({
     <group>
       {/* Hover detection area */}
       <mesh
-        position={[0, -5, 0.03]}
+       position={[-1.6, -1.42, 1.5]}  rotation={[3.14, 0, 0]}
         onPointerEnter={() => setIsHovered(true)}
         onPointerLeave={() => setIsHovered(false)}
         onClick={() => {
@@ -477,11 +477,11 @@ export function NavMerchandise({
           router.push("/merchandise");
         }}
       >
-        <planeGeometry args={[rectangleWidth * 20, rectangleHeight * 20]} />
+        <planeGeometry args={[1.2, 4.5]} />
         <meshBasicMaterial
           color={lineColor}
           transparent
-          opacity={isHovered ? 0.7 : 0}
+          opacity={isHovered ? 0 : 0}
         />
       </mesh>
 
@@ -496,6 +496,12 @@ export function NavMerchandise({
           opacity={opacity}
         />
       ))}
+
+        {/* Background plane for text */}
+      {/* <mesh position={[-1.6, -1.42, 1.5]}  rotation={[3.14, 0, 0]}>
+        <planeGeometry args={[1.2, 4.5]} />
+        <meshBasicMaterial color="#d25c25" transparent opacity={0} />
+      </mesh> */}
 
       {/* Text */}
       <group
@@ -554,7 +560,8 @@ export function NavBIT({
     <group>
       {/* Hover detection area */}
       <mesh
-        position={[0, 0, 0.03]}
+       position={[-1.6, -1.42, 1.5]} 
+       rotation={[3.14, 0, 0]}
         onPointerEnter={() => setIsHovered(true)}
         onPointerLeave={() => setIsHovered(false)}
         onClick={() => {
@@ -562,7 +569,7 @@ export function NavBIT({
           router.push("/bit-sindri");
         }}
       >
-        <planeGeometry args={[rectangleWidth, rectangleHeight]} />
+        <planeGeometry args={[1.2, 4]} />
         <meshBasicMaterial
           color={lineColor}
           transparent
@@ -581,6 +588,8 @@ export function NavBIT({
           opacity={opacity}
         />
       ))}
+
+    
 
       {/* Text */}
       <group
