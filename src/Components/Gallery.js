@@ -1,9 +1,10 @@
 "use client";
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import * as THREE from "three";
 import Lenis from "@studio-freight/lenis";
 
-export default function CylindricalGallery() {
+export default function CylindricalGallery({ onLoaded }) {
+  const [loading, setLoading] = useState(true);
   const containerRef = useRef(null);
   const sceneRef = useRef(null);
   const rendererRef = useRef(null);
@@ -255,6 +256,8 @@ export default function CylindricalGallery() {
 
       // Initialize blocks
       await initializeBlocks(galleryGroup, radius, height);
+      setLoading(false);
+      if (onLoaded) onLoaded(); // Notify parent
 
       // Create scroll container with proper dimensions
       const scrollHeight = height * 100;
@@ -356,7 +359,7 @@ export default function CylindricalGallery() {
     };
 
     init();
-  }, [initializeBlocks]);
+  }, [initializeBlocks, onLoaded]);
 
   return (
     <div

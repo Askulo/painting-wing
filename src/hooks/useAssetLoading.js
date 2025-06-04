@@ -1,44 +1,56 @@
 import { useState, useEffect } from "react";
-import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+
+// List all image filenames in the Pwing folder
+const imageFilenames = Array.from({ length: 64 }, (_, i) => `${i + 1}.jpg`);
 
 export function useAssetLoading() {
   const [assetsLoaded, setAssetsLoaded] = useState(false);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    let modelCount = 0;
-    const totalModels = 2; // Update this number based on how many models you're loading
-    const modelUrls = ["/art_studio.glb"];
-    const gltfLoader = new GLTFLoader();
+    let loadedCount = 0;
+    const modelUrls = ["/art_studio.glb"]; // Add more models if needed
+    const totalAssets = imageFilenames.length + modelUrls.length;
 
-    // Track loading progress for each model
-    const onProgress = () => {
-      modelCount++;
-      setProgress((modelCount / totalModels) * 100);
-      if (modelCount === totalModels) {
+    // Helper to update progress
+    const updateProgress = () => {
+      loadedCount++;
+      setProgress((loadedCount / totalAssets) * 100);
+      if (loadedCount === totalAssets) {
         setAssetsLoaded(true);
       }
     };
 
-    // Load each model
+    // Load images
+    imageFilenames.forEach((filename) => {
+      const img = new window.Image();
+      img.onload = updateProgress;
+      img.onerror = updateProgress; // Still count errored images
+      img.src = `/Pwing/${filename}`;
+    });
+
+    // Load models
+    const gltfLoader = new GLTFLoader();
     modelUrls.forEach((url) => {
       gltfLoader.load(
         url,
-        () => onProgress(),
+        updateProgress,
         undefined,
-        (error) => console.error(`Error loading model ${url}:`, error)
+        (error) => {
+          console.error(`Error loading model ${url}:`, error);
+          updateProgress();
+        }
       );
     });
 
-    // Add a fallback in case loading takes too long
+    // Fallback in case loading takes too long
     const fallbackTimer = setTimeout(() => {
-      if (!assetsLoaded) {
-        setAssetsLoaded(true);
-      }
-    }, 5000); // 5 second fallback
+      if (!assetsLoaded) setAssetsLoaded(true);
+    }, 10000); // 10 seconds
 
     return () => clearTimeout(fallbackTimer);
+    // eslint-disable-next-line
   }, []);
 
   return { assetsLoaded, progress };
