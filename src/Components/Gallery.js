@@ -71,7 +71,7 @@ export default function CylindricalGallery() {
 
   // Random image selection
   const getRandomImage = useCallback(() => {
-    return Math.floor(Math.random() * 30) + 1;
+    return Math.floor(Math.random() * 50) + 1;
   }, []);
 
   // Load texture with promise
@@ -79,7 +79,7 @@ export default function CylindricalGallery() {
     const textureLoader = new THREE.TextureLoader();
 
     return new Promise((resolve) => {
-      const texture = textureLoader.load(`/img/${imageNumber}.jpg`, (loadedTexture) => {
+      const texture = textureLoader.load(`/Pwing/${imageNumber}.jpg`, (loadedTexture) => {
         loadedTexture.generateMipmaps = true;
         loadedTexture.minFilter = THREE.LinearMipmapLinearFilter;
         loadedTexture.magFilter = THREE.LinearFilter;
