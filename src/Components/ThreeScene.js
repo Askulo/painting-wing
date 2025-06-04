@@ -9,6 +9,7 @@ import {
   useGLTF,
 } from "@react-three/drei";
 import { Suspense, useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 import GridComponent from "./GridComponent";
 import { startCubeAnimation } from "./CubeAnimation";
@@ -25,6 +26,9 @@ import {
 } from "./CreateNavTitle";
 
 import MouseRotatingGroup from "./MouseRotatingGroup";
+
+// Session storage key for tracking navigation state
+const NAVIGATION_STATE_KEY = 'scene_navigation_state';
 
 const HollowCube = () => {
   const hollowCubeSize = 1.2;
@@ -60,8 +64,8 @@ const HollowCube = () => {
   );
 };
 
-const Cube = ({ onAnimationComplete }) => {
-  const [opacity] = useState(0.8); // Removed localStorage dependency
+const Cube = ({ onAnimationComplete, shouldAnimate }) => {
+  const [opacity] = useState(shouldAnimate ? 0.8 : 0); // Start invisible if not animating
   const cubeRef = useRef();
   const cubeSize = 1;
   const { camera } = useThree();
@@ -70,11 +74,31 @@ const Cube = ({ onAnimationComplete }) => {
   useEffect(() => {
     if (!cubeRef.current || animationStarted.current) return;
 
-    animationStarted.current = true;
-    startCubeAnimation(cubeRef, camera, onAnimationComplete);
+    if (shouldAnimate) {
+      // Normal animation flow
+      animationStarted.current = true;
+      startCubeAnimation(cubeRef, camera, onAnimationComplete);
+      console.log("Cube animation started");
+    } else {
+      // Skip animation - hide cube and trigger completion immediately
+      cubeRef.current.position.set(0, 1.3, 0);
+      cubeRef.current.scale.set(0.7, 0.7, 0.7);
+      cubeRef.current.visible = false; // Hide the cube completely
+      
+      // Trigger completion after a small delay to ensure scene is ready
+      setTimeout(() => {
+        onAnimationComplete();
+        console.log("Cube animation skipped - cube hidden, nav titles shown immediately");
+      }, 100);
+      
+      animationStarted.current = true;
+    }
+  }, [camera, cubeRef, onAnimationComplete, shouldAnimate]);
 
-    console.log("Cube animation started"); // Debug log
-  }, [camera, cubeRef, onAnimationComplete]);
+  // Don't render cube at all if we shouldn't animate
+  if (!shouldAnimate) {
+    return null;
+  }
 
   return (
     <mesh
@@ -90,31 +114,46 @@ const Cube = ({ onAnimationComplete }) => {
   );
 };
 
-const CameraController = ({ cameraX, cameraY, cameraZ }) => {
+const CameraController = ({ cameraX, cameraY, cameraZ, shouldAnimate }) => {
   const { camera } = useThree();
 
   useEffect(() => {
     // Initial camera position
     camera.position.set(cameraX, cameraY, cameraZ);
     camera.lookAt(0, 1.3, 0);
-  }, [camera, cameraX, cameraY, cameraZ]);
+    
+    // Ensure zoom is always 45 when returning from another route
+    if (!shouldAnimate) {
+      camera.zoom = 45;
+      camera.updateProjectionMatrix();
+      console.log("Camera zoom fixed at 45 for returning user");
+    }
+  }, [camera, cameraX, cameraY, cameraZ, shouldAnimate]);
+
+  // Continuously maintain zoom at 45 for returning users
+  useFrame(() => {
+    if (!shouldAnimate && camera.zoom !== 45) {
+      camera.zoom = 45;
+      camera.updateProjectionMatrix();
+    }
+  });
 
   return null;
 };
 
-const CenterModel = ({ show }) => {
+const CenterModel = ({ show, shouldAnimate }) => {
   const { scene } = useGLTF("/art_studio.glb");
   const [isScaled, setIsScaled] = useState(false);
   const [modelLoaded, setModelLoaded] = useState(false);
   const modelRef = useRef();
   const targetScale = useRef([1.3, 0.7, 1.3]);
   const currentScale = useRef([1.3, 0.7, 1.3]);
-  const opacityRef = useRef(0);
+  const opacityRef = useRef(shouldAnimate ? 0 : 1); // Start visible if not animating
   const materialsInitialized = useRef(false);
 
   useEffect(() => {
     if (scene && !materialsInitialized.current) {
-      console.log("Initializing model materials"); // Debug log
+      console.log("Initializing model materials");
 
       scene.scale.set(1.3, 0.7, 1.3);
       scene.traverse((child) => {
@@ -124,7 +163,8 @@ const CenterModel = ({ show }) => {
 
           if (child.material) {
             child.material.transparent = true;
-            child.material.opacity = 0;
+            // Set initial opacity based on whether we're animating
+            child.material.opacity = shouldAnimate ? 0 : 1;
           }
         }
       });
@@ -132,13 +172,13 @@ const CenterModel = ({ show }) => {
       materialsInitialized.current = true;
       setModelLoaded(true);
     }
-  }, [scene]);
+  }, [scene, shouldAnimate]);
 
   // Smooth animation using useFrame
   useFrame(() => {
     if (modelRef.current && modelLoaded) {
       // Scale animation
-      const lerpFactor = 0.08; // Slightly faster for better responsiveness
+      const lerpFactor = 0.08;
       currentScale.current[0] +=
         (targetScale.current[0] - currentScale.current[0]) * lerpFactor;
       currentScale.current[1] +=
@@ -147,11 +187,16 @@ const CenterModel = ({ show }) => {
         (targetScale.current[2] - currentScale.current[2]) * lerpFactor;
       modelRef.current.scale.set(...currentScale.current);
 
-      // Opacity animation - faster transition
-      const targetOpacity = show ? 1 : 0;
-      const opacityLerpFactor = show ? 0.08 : 0.05; // Faster fade in, slower fade out
-      opacityRef.current +=
-        (targetOpacity - opacityRef.current) * opacityLerpFactor;
+      // Opacity animation - but skip if we shouldn't animate
+      if (shouldAnimate) {
+        const targetOpacity = show ? 1 : 0;
+        const opacityLerpFactor = show ? 0.08 : 0.05;
+        opacityRef.current +=
+          (targetOpacity - opacityRef.current) * opacityLerpFactor;
+      } else {
+        // Ensure opacity is always 1 when not animating
+        opacityRef.current = 1;
+      }
 
       // Update all materials' opacity
       scene.traverse((child) => {
@@ -168,9 +213,7 @@ const CenterModel = ({ show }) => {
   };
 
   const handlePointerEnter = (event) => {
-    // Only show tooltip if model is fully visible
     if (opacityRef.current >= 0.95) {
-      // Slightly lower threshold for better UX
       window.dispatchEvent(
         new CustomEvent("showModelTooltip", {
           detail: { show: true, x: event.clientX, y: event.clientY },
@@ -200,7 +243,7 @@ const CenterModel = ({ show }) => {
   };
 
   if (!modelLoaded) {
-    return null; // Don't render until model is properly loaded
+    return null;
   }
 
   return (
@@ -222,10 +265,39 @@ const Scene = () => {
   const [showInstruction, setShowInstruction] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [sceneReady, setSceneReady] = useState(false);
+  const [shouldAnimate, setShouldAnimate] = useState(true);
+  const router = useRouter();
+
+  // Check if this is a return navigation or fresh load
+  useEffect(() => {
+    try {
+      // Check if we're returning from another route
+      const navigationState = sessionStorage.getItem(NAVIGATION_STATE_KEY);
+      const isReturning = navigationState === 'visited';
+      
+      console.log('Navigation state:', isReturning ? 'returning' : 'fresh load');
+      
+      if (isReturning) {
+        // Skip animation and show everything immediately
+        setShouldAnimate(false);
+        setShowNavTitles(true);
+        console.log('Skipping cube animation - returning from another route');
+      } else {
+        // Fresh load - set visited state and animate normally
+        sessionStorage.setItem(NAVIGATION_STATE_KEY, 'visited');
+        setShouldAnimate(true);
+        console.log('Fresh load - will animate cube');
+      }
+    } catch (error) {
+      // Fallback if sessionStorage is not available
+      console.log('SessionStorage not available, defaulting to animation');
+      setShouldAnimate(true);
+    }
+  }, []);
 
   // Handle cube animation completion
   const handleAnimationComplete = () => {
-    console.log("Cube animation completed, showing nav titles"); // Debug log
+    console.log("Animation completed, showing nav titles");
     setShowNavTitles(true);
   };
 
@@ -233,7 +305,7 @@ const Scene = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setSceneReady(true);
-    }, 100); // Small delay to ensure everything is mounted
+    }, 100);
 
     return () => clearTimeout(timer);
   }, []);
@@ -262,7 +334,8 @@ const Scene = () => {
   // Debug effect to track state changes
   useEffect(() => {
     console.log("showNavTitles changed:", showNavTitles);
-  }, [showNavTitles]);
+    console.log("shouldAnimate:", shouldAnimate);
+  }, [showNavTitles, shouldAnimate]);
 
   if (!sceneReady) {
     return (
@@ -294,7 +367,12 @@ const Scene = () => {
         shadows
         style={{ height: "100vh", width: "100vw", background: "#ffffff" }}
       >
-        <CameraController cameraX={8.3} cameraY={7.9} cameraZ={7.4} />
+        <CameraController 
+          cameraX={8.3} 
+          cameraY={7.9} 
+          cameraZ={7.4} 
+          shouldAnimate={shouldAnimate}
+        />
 
         {/* Lights */}
         <ambientLight intensity={3} color={0xffffff} />
@@ -319,18 +397,27 @@ const Scene = () => {
             shadow-camera-right={10}
             shadow-camera-top={10}
             shadow-camera-bottom={-10}
-          />{" "}
-          {/* Main rotating group that only activates after cube animation */}
+          />
+
+          {/* Main rotating group - enabled immediately if not animating */}
           <MouseRotatingGroup enabled={showNavTitles}>
             <group>
               {/* Grid */}
               <GridComponent />
 
-              {/* Model will only render when properly loaded */}
-              <CenterModel show={showNavTitles} castShadow receiveShadow />
+              {/* Model with conditional animation */}
+              <CenterModel 
+                show={showNavTitles} 
+                shouldAnimate={shouldAnimate}
+                castShadow 
+                receiveShadow 
+              />
 
-              {/* Cube with consistent animation */}
-              <Cube onAnimationComplete={handleAnimationComplete} />
+              {/* Cube with conditional animation */}
+              <Cube 
+                onAnimationComplete={handleAnimationComplete}
+                shouldAnimate={shouldAnimate}
+              />
 
               <HollowCube />
 

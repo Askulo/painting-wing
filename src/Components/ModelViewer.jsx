@@ -39,7 +39,7 @@ const ModelViewer = () => {
           <div className="relative z-10 flex justify-between items-center h-screen">
             <model-viewer
               src="TeamManager.glb"
-              ar
+              
               ar-modes="webxr scene-viewer quick-look"
               min-camera-orbit="auto auto 5%"
               max-camera-orbit="auto auto 90%"
@@ -78,7 +78,7 @@ const ModelViewer = () => {
             </model-viewer>
             <model-viewer
               src="Talking On A Cell Phone.glb"
-              ar
+              
               ar-modes="webxr scene-viewer quick-look"
               tone-mapping="neutral"
               poster="poster.webp"
@@ -123,7 +123,7 @@ const ModelViewer = () => {
                 height: "50vh",
               }}
               camera-target="0m 1.5m 3m"
-              ar
+              
               ar-modes="webxr scene-viewer quick-look"
               tone-mapping="neutral"
               poster="poster.webp"
@@ -152,7 +152,7 @@ const ModelViewer = () => {
             </model-viewer>
             <model-viewer
               src="ContentWriter.glb"
-              ar
+              
               ar-modes="webxr scene-viewer quick-look"
               tone-mapping="neutral"
               poster="poster.webp"
@@ -201,7 +201,7 @@ const ModelViewer = () => {
                 height: "100vh",
               }}
               camera-target="0m 1m 1m"
-              ar
+              
               ar-modes="webxr scene-viewer quick-look"
               tone-mapping="neutral"
               poster="poster.webp"

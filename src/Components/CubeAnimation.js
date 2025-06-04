@@ -30,7 +30,7 @@ export function startCubeAnimation(cubeRef, camera, onComplete) {
     .to(
       camera,
       {
-        zoom: initialZoom * 1.15,
+        zoom: initialZoom * 1.1,
         duration: 3,
         ease: "power1.inOut",
         onUpdate: () => camera.updateProjectionMatrix(),

@@ -133,39 +133,25 @@ export default function Home() {
 
       <Navbar />
 
-      {/* /* /* Hero Section */ } 
-        <motion.section
-          ref={heroRef}
-          style={{ opacity: heroOpacity, y: heroY }}
-          className="min-h-screen flex flex-col justify-center items-center pt-28 pb-16 px-4 bg-[#f2f0e6]"
+      {/* Hero Section */}
+      <motion.section
+        ref={heroRef}
+        style={{ opacity: heroOpacity, y: heroY }}
+        className="min-h-screen flex flex-col justify-center items-center pt-28 pb-16 px-4 bg-[#f2f0e6]"
+      >
+        <motion.h1
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-center max-w-5xl mb-4 md:leading-normal"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
         >
-          
-
-        {/* <motion.h1
-  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-center max-w-5xl mb-4   md:leading-normal"
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.8, delay: 0.2 }}
->
-  Fostering Creativity through{" "}
-  <span className="text-[#f47458] block md:inline">
-    Curated Artistic Experiences
-  </span>
-</motion.h1> */}
-
-<motion.h1
-  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-center max-w-5xl mb-4 md:leading-normal"
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.8, delay: 0.2 }}
->
-  <span className="whitespace-pre-wrap">
-    Fostering Creativity through{" "}
-    <span className="text-[#f47458]">
-      Curated&nbsp;Artistic&nbsp;Experiences
-    </span>
-  </span>
-</motion.h1>
+          <span className="whitespace-pre-wrap">
+            Fostering Creativity through{" "}
+            <span className="text-[#f47458]">
+              Curated&nbsp;Artistic&nbsp;Experiences
+            </span>
+          </span>
+        </motion.h1>
 
 
           <motion.p
