@@ -103,11 +103,14 @@ export default function Navbar() {
                 <Image src="/pw_logo.png" alt="logo" width={100} height={100} />
               </div>
 
-              <div className="py-1 md:hidden  leading-1" >
-                <div href="/"     className="text-lg md:text-2xl  font-medium tracking-widest">
+              <div className="py-1 md:hidden  leading-1">
+                <div
+                  href="/"
+                  className="text-lg md:text-2xl  font-medium tracking-widest"
+                >
                   PAINTING WING
                 </div>
-                <h4   className="text-[12px] md:text-sm font-medium tracking-wider">
+                <h4 className="text-[12px] md:text-sm font-medium tracking-wider">
                   Let Satisfaction Prevail
                 </h4>
               </div>
@@ -115,13 +118,11 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className={`hidden md:flex items-center space-x-8 border-2 border-gray-500 rounded-lg p-3 px-7
-            ${
-          isScrolled
-            ? " backdrop-blur-xl shadow-lg"
-            : "backdrop-blur-md"
-        }
-      `}>
+          <div
+            className={`hidden md:flex items-center space-x-8 border-2 border-gray-500 rounded-lg p-3 px-7
+            ${isScrolled ? " backdrop-blur-xl shadow-lg" : "backdrop-blur-md"}
+      `}
+          >
             <nav className="flex items-center space-x-6 text-3/2xl  text-black ">
               {navLinks.map((link, index) => (
                 <motion.div
@@ -137,7 +138,7 @@ export default function Navbar() {
                         ? "text-gray-500"
                         : "text-gray-500 dark:text-gray-500"
                     }`}
-                    onClick={e => {
+                    onClick={(e) => {
                       if (link.name === "Home") {
                         e.preventDefault();
                         window.location.href = "/";
@@ -175,12 +176,11 @@ export default function Navbar() {
               size="icon"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="Toggle menu"
-               className={`transition-all duration-200 hover:bg-white hover:text-black ${
-    isMenuOpen 
-      ? 'bg-white text-black' 
-      : 'bg-transparent hover:bg-white hover:text-black'
-  }`}
-              
+              className={`transition-all duration-200 hover:bg-white hover:text-black ${
+                isMenuOpen
+                  ? "bg-white text-black"
+                  : "bg-transparent hover:bg-white hover:text-black"
+              }`}
             >
               {isMenuOpen ? (
                 <X className="h-30 w-30" />
@@ -188,7 +188,7 @@ export default function Navbar() {
                 <Menu className="h-30 w-30" />
               )}
             </Button>
-          </div>  
+          </div>
         </div>
       </motion.header>
 

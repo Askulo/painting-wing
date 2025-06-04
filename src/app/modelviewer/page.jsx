@@ -52,10 +52,10 @@ export default function ModelViewers() {
   }, []);
 
   return (
-    <>
+    <div className="overflow-hidden">
       {/* {isLoading && <LoadingScreen />} */}
       <Navbar />
       <ModelViewer />
-    </>
+    </div>
   );
 }

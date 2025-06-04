@@ -69,11 +69,11 @@ const Cube = ({ onAnimationComplete }) => {
 
   useEffect(() => {
     if (!cubeRef.current || animationStarted.current) return;
-    
+
     animationStarted.current = true;
     startCubeAnimation(cubeRef, camera, onAnimationComplete);
-    
-    console.log('Cube animation started'); // Debug log
+
+    console.log("Cube animation started"); // Debug log
   }, [camera, cubeRef, onAnimationComplete]);
 
   return (
@@ -114,21 +114,21 @@ const CenterModel = ({ show }) => {
 
   useEffect(() => {
     if (scene && !materialsInitialized.current) {
-      console.log('Initializing model materials'); // Debug log
-      
+      console.log("Initializing model materials"); // Debug log
+
       scene.scale.set(1.3, 0.7, 1.3);
       scene.traverse((child) => {
         if (child.isMesh) {
           child.castShadow = true;
           child.receiveShadow = true;
-          
+
           if (child.material) {
             child.material.transparent = true;
             child.material.opacity = 0;
           }
         }
       });
-      
+
       materialsInitialized.current = true;
       setModelLoaded(true);
     }
@@ -150,7 +150,8 @@ const CenterModel = ({ show }) => {
       // Opacity animation - faster transition
       const targetOpacity = show ? 1 : 0;
       const opacityLerpFactor = show ? 0.08 : 0.05; // Faster fade in, slower fade out
-      opacityRef.current += (targetOpacity - opacityRef.current) * opacityLerpFactor;
+      opacityRef.current +=
+        (targetOpacity - opacityRef.current) * opacityLerpFactor;
 
       // Update all materials' opacity
       scene.traverse((child) => {
@@ -168,7 +169,8 @@ const CenterModel = ({ show }) => {
 
   const handlePointerEnter = (event) => {
     // Only show tooltip if model is fully visible
-    if (opacityRef.current >= 0.95) { // Slightly lower threshold for better UX
+    if (opacityRef.current >= 0.95) {
+      // Slightly lower threshold for better UX
       window.dispatchEvent(
         new CustomEvent("showModelTooltip", {
           detail: { show: true, x: event.clientX, y: event.clientY },
@@ -205,7 +207,7 @@ const CenterModel = ({ show }) => {
     <primitive
       ref={modelRef}
       object={scene}
-      position={[2, 2, 1.6]}
+      position={[2.5, 2, 1.6]}
       rotation={[0, 0, 0]}
       onDoubleClick={handleDoubleClick}
       onPointerEnter={handlePointerEnter}
@@ -223,7 +225,7 @@ const Scene = () => {
 
   // Handle cube animation completion
   const handleAnimationComplete = () => {
-    console.log('Cube animation completed, showing nav titles'); // Debug log
+    console.log("Cube animation completed, showing nav titles"); // Debug log
     setShowNavTitles(true);
   };
 
@@ -259,20 +261,22 @@ const Scene = () => {
 
   // Debug effect to track state changes
   useEffect(() => {
-    console.log('showNavTitles changed:', showNavTitles);
+    console.log("showNavTitles changed:", showNavTitles);
   }, [showNavTitles]);
 
   if (!sceneReady) {
     return (
-      <div style={{ 
-        height: "100vh", 
-        width: "100vw", 
-        background: "#ffffff",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontFamily: "sans-serif"
-      }}>
+      <div
+        style={{
+          height: "100vh",
+          width: "100vw",
+          background: "#ffffff",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontFamily: "sans-serif",
+        }}
+      >
         Loading Scene...
       </div>
     );
@@ -291,13 +295,11 @@ const Scene = () => {
         style={{ height: "100vh", width: "100vw", background: "#ffffff" }}
       >
         <CameraController cameraX={8.3} cameraY={7.9} cameraZ={7.4} />
-        
+
         {/* Lights */}
         <ambientLight intensity={3} color={0xffffff} />
-
         <Suspense fallback={null}>
           <ambientLight intensity={0.8} />
-          
           <pointLight
             position={[2, 8, 0]}
             intensity={2}
@@ -305,7 +307,6 @@ const Scene = () => {
             castShadow
             color={0xffffff}
           />
-          
           <directionalLight
             position={[10, 10, 5]}
             intensity={2}
@@ -318,50 +319,65 @@ const Scene = () => {
             shadow-camera-right={10}
             shadow-camera-top={10}
             shadow-camera-bottom={-10}
-          />
-          
-          <GridComponent />
-          
-          {/* Model will only render when properly loaded */}
-          <CenterModel show={showNavTitles} castShadow receiveShadow />
-          
-          {/* Cube with consistent animation */}
-          <Cube onAnimationComplete={handleAnimationComplete} />
-          
-          <HollowCube />
-          
-          {/* NavTitles with opacity controlled by showNavTitles */}
-          <group position={[-2.3, 0.0, -10.5]} rotation={[4.71, 0, 1.57]}>
-            <NavAboutUs opacity={showNavTitles ? 1 : 0} />
-          </group>
-          
-          <group position={[8.5, 0, -1.2]} rotation={[1.57, 0, 0]}>
-            <NavMerchandise opacity={showNavTitles ? 1 : 0} />
-          </group>
-          
-          <group position={[-7.5, 0, -7.5]} rotation={[1.57, 3.14, 0]}>
-            <NavEvents opacity={showNavTitles ? 1 : 0} />
-          </group>
-          
-          <group position={[-8.5, 0, 0]} rotation={[1.57, 0, 0]}>
-            <NavBIT opacity={showNavTitles ? 1 : 0} />
-          </group>
-          
-          <group position={[5.5, 0, 7.2]} rotation={[1.6, 3.1, 3.1]}>
-            <NavGallery opacity={showNavTitles ? 1 : 0} />
-          </group>
-          
-          <group position={[-6.5, 0, 8.5]} rotation={[4.71, 0, 1.57]}>
-            <NavMembers opacity={showNavTitles ? 1 : 0} />
-          </group>
-          
-          <group position={[0.5, 0, 9.5]} rotation={[4.71, 0, 1.57]}>
-            <NavAlumni opacity={showNavTitles ? 1 : 0} />
-          </group>
-          
-          <group position={[5.5, 0, -8]} rotation={[4.7, 0, 0]}>
-            <NavInduction opacity={showNavTitles ? 1 : 0} />
-          </group>
+          />{" "}
+          {/* Main rotating group that only activates after cube animation */}
+          <MouseRotatingGroup enabled={showNavTitles}>
+            <group>
+              {/* Grid */}
+              <GridComponent />
+
+              {/* Model will only render when properly loaded */}
+              <CenterModel show={showNavTitles} castShadow receiveShadow />
+
+              {/* Cube with consistent animation */}
+              <Cube onAnimationComplete={handleAnimationComplete} />
+
+              <HollowCube />
+
+              {/* Nav Titles Group */}
+              <group>
+                {/* About Us */}
+                <group position={[-2.3, 0.0, -10.5]} rotation={[4.71, 0, 1.57]}>
+                  <NavAboutUs opacity={showNavTitles ? 1 : 0} />
+                </group>
+
+                {/* Merchandise */}
+                <group position={[8.5, 0, -1.2]} rotation={[1.57, 0, 0]}>
+                  <NavMerchandise opacity={showNavTitles ? 1 : 0} />
+                </group>
+
+                {/* Events */}
+                <group position={[-7.5, 0, -7.5]} rotation={[1.57, 3.14, 0]}>
+                  <NavEvents opacity={showNavTitles ? 1 : 0} />
+                </group>
+
+                {/* BIT */}
+                <group position={[-8.5, 0, 0]} rotation={[1.57, 0, 0]}>
+                  <NavBIT opacity={showNavTitles ? 1 : 0} />
+                </group>
+
+                {/* Gallery */}
+                <group position={[5.5, 0, 7.2]} rotation={[1.6, 3.1, 3.1]}>
+                  <NavGallery opacity={showNavTitles ? 1 : 0} />
+                </group>
+
+                {/* Members */}
+                <group position={[-6.5, 0, 8.5]} rotation={[4.71, 0, 1.57]}>
+                  <NavMembers opacity={showNavTitles ? 1 : 0} />
+                </group>
+
+                {/* Alumni */}
+                <group position={[0.5, 0, 9.5]} rotation={[4.71, 0, 1.57]}>
+                  <NavAlumni opacity={showNavTitles ? 1 : 0} />
+                </group>
+
+                {/* Induction */}
+                <group position={[5.5, 0, -8]} rotation={[4.7, 0, 0]}>
+                  <NavInduction opacity={showNavTitles ? 1 : 0} />
+                </group>
+              </group>
+            </group>
+          </MouseRotatingGroup>
         </Suspense>
       </Canvas>
 

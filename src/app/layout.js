@@ -21,7 +21,7 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata = {
   title: "Painting Wing",
-  description: "The painting where you find an artist within you",
+  description: "The platform where you find an artist within you",
   icons: {
     icon: "/logo.png", // Place favicon.ico in the public directory
   },
