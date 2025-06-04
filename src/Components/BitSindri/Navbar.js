@@ -133,7 +133,7 @@ export default function Navbar() {
                 >
                   <Link
                     href={link.href}
-                    className={`link-6  p-2 rounded-sm hover:bg-slate-300 hover:text-gray-900 ${
+                    className={`link-6 p-2 rounded-sm hover:bg-slate-300 hover:text-gray-900 ${
                       isScrolled
                         ? "text-gray-500"
                         : "text-gray-500 dark:text-gray-500"
@@ -154,7 +154,7 @@ export default function Navbar() {
 
           <Button
             onClick={handleBack}
-            className="bg-[#d25c25]   hidden md:block hover:bg-orange-700 text-white tracking-widest"
+            className="bg-[#d25c25] hidden md:block hover:bg-orange-700 text-white tracking-widest"
           >
             Back
           </Button>
@@ -200,9 +200,9 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed top-16 left-0 right-0 z-40 bg-white   shadow-lg md:hidden"
+            className="fixed pt-12 left-0 right-0 z-40 bg-white shadow-lg md:hidden"
           >
-            <nav className="container mx-auto px-4 py-6   flex flex-col space-y-4">
+            <nav className="container mx-auto px-4 py-6 flex flex-col space-y-4">
               {navLinks.map((link, index) => (
                 <motion.div
                   key={link.name}
@@ -212,13 +212,20 @@ export default function Navbar() {
                 >
                   <Link
                     href={link.href}
-                    className="block py-2 text-gray-700  hover:text-orange-600 dark:hover:text-orange-400 font-medium transition-colors  cursor-none"
+                    className="block py-2 text-gray-700 hover:text-orange-600 dark:hover:text-orange-400 font-medium transition-colors cursor-none"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {link.name}
                   </Link>
+                  
                 </motion.div>
               ))}
+              <Link 
+                href={'/developer'}
+                className="text-orange-500 font-Roashe hover:text-orange-600 font-medium"
+              >
+                <span>Developers</span>
+              </Link>
             </nav>
           </motion.div>
         )}

@@ -10,10 +10,10 @@ const MouseRotatingGroup = ({ children, enabled = true }) => {
   useFrame(() => {
     if (!groupRef.current || !enabled) return;
     groupRef.current.rotation.y +=
-      (mouse.x * 0.1 - groupRef.current.rotation.y) * 0.015;
+      (mouse.x * 0.1 - groupRef.current.rotation.y) * 0.009;
 
     groupRef.current.rotation.x +=
-      (mouse.y * 0.1 - groupRef.current.rotation.x) * 0.015;
+      (mouse.y * 0.1 - groupRef.current.rotation.x) * 0.009;
   });
 
   return <group ref={groupRef}>{children}</group>;

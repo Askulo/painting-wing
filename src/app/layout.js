@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import CustomCursor from "@/Components/CustomCursor"; // adjust the path if different
+import { AudioProvider } from "@/context/AudioContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,14 +30,15 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} antialiased`}
-      >
-        {/* Add custom cursor once, globally */}
-        <CustomCursor />
-        {children}
-        
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable}`}
+    >
+      <body>
+        <AudioProvider>
+          <CustomCursor />
+          {children}
+        </AudioProvider>
       </body>
     </html>
   );

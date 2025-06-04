@@ -10,9 +10,11 @@ import {
 } from "@react-three/drei";
 import { Suspense, useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 import GridComponent from "./GridComponent";
 import { startCubeAnimation } from "./CubeAnimation";
+import { useAudio } from "@/context/AudioContext";
 
 import {
   NavAboutUs,
@@ -28,7 +30,8 @@ import {
 import MouseRotatingGroup from "./MouseRotatingGroup";
 
 // Session storage key for tracking navigation state
-const NAVIGATION_STATE_KEY = 'scene_navigation_state';
+const NAVIGATION_STATE_KEY = "scene_navigation_state";
+const MUSIC_STATE_KEY = "background_music_state";
 
 const HollowCube = () => {
   const hollowCubeSize = 1.2;
@@ -84,13 +87,15 @@ const Cube = ({ onAnimationComplete, shouldAnimate }) => {
       cubeRef.current.position.set(0, 1.3, 0);
       cubeRef.current.scale.set(0.7, 0.7, 0.7);
       cubeRef.current.visible = false; // Hide the cube completely
-      
+
       // Trigger completion after a small delay to ensure scene is ready
       setTimeout(() => {
         onAnimationComplete();
-        console.log("Cube animation skipped - cube hidden, nav titles shown immediately");
+        console.log(
+          "Cube animation skipped - cube hidden, nav titles shown immediately"
+        );
       }, 100);
-      
+
       animationStarted.current = true;
     }
   }, [camera, cubeRef, onAnimationComplete, shouldAnimate]);
@@ -121,7 +126,7 @@ const CameraController = ({ cameraX, cameraY, cameraZ, shouldAnimate }) => {
     // Initial camera position
     camera.position.set(cameraX, cameraY, cameraZ);
     camera.lookAt(0, 1.3, 0);
-    
+
     // Ensure zoom is always 45 when returning from another route
     if (!shouldAnimate) {
       camera.zoom = 45;
@@ -178,7 +183,7 @@ const CenterModel = ({ show, shouldAnimate }) => {
   useFrame(() => {
     if (modelRef.current && modelLoaded) {
       // Scale animation
-      const lerpFactor = 0.08;
+      const lerpFactor = 0.5;
       currentScale.current[0] +=
         (targetScale.current[0] - currentScale.current[0]) * lerpFactor;
       currentScale.current[1] +=
@@ -190,7 +195,7 @@ const CenterModel = ({ show, shouldAnimate }) => {
       // Opacity animation - but skip if we shouldn't animate
       if (shouldAnimate) {
         const targetOpacity = show ? 1 : 0;
-        const opacityLerpFactor = show ? 0.08 : 0.05;
+        const opacityLerpFactor = show ? 0.8 : 0.5;
         opacityRef.current +=
           (targetOpacity - opacityRef.current) * opacityLerpFactor;
       } else {
@@ -260,6 +265,99 @@ const CenterModel = ({ show, shouldAnimate }) => {
   );
 };
 
+// const MusicToggle = () => {
+//   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+//   const audioRef = useRef(null);
+
+//   useEffect(() => {
+//     // Initialize audio element
+//     audioRef.current = new Audio("/ambient-music-329699.mp3");
+//     audioRef.current.loop = true;
+
+//     // Load saved state
+//     const savedMusicState = sessionStorage.getItem(MUSIC_STATE_KEY);
+//     if (savedMusicState === "playing") {
+//       setIsMusicPlaying(true);
+//       audioRef.current
+//         .play()
+//         .catch((e) => console.log("Auto-play prevented:", e));
+//     }
+
+//     return () => {
+//       if (audioRef.current) {
+//         audioRef.current.pause();
+//         audioRef.current.src = "";
+//       }
+//     };
+//   }, []);
+
+//   const toggleMusic = () => {
+//     if (isMusicPlaying) {
+//       audioRef.current.pause();
+//       sessionStorage.setItem(MUSIC_STATE_KEY, "paused");
+//     } else {
+//       audioRef.current.play();
+//       sessionStorage.setItem(MUSIC_STATE_KEY, "playing");
+//     }
+//     setIsMusicPlaying(!isMusicPlaying);
+//   };
+
+//   return (
+//     <motion.div
+//       initial={{ opacity: 0 }}
+//       animate={{ opacity: 1 }}
+//       transition={{ delay: 1 }}
+//       className="fixed bottom-4 right-4 z-50 flex items-center space-x-2 bg-black/20 backdrop-blur-sm p-2 rounded-lg"
+//     >
+//       <label className="relative inline-flex items-center cursor-pointer">
+//         <input
+//           type="checkbox"
+//           className="sr-only peer"
+//           checked={isMusicPlaying}
+//           onChange={toggleMusic}
+//         />
+//         <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#d25c25]"></div>
+//         <span className="ms-3 text-sm font-medium text-white">
+//           Music {isMusicPlaying ? "On" : "Off"}
+//         </span>
+//       </label>
+//     </motion.div>
+//   );
+// };
+const MusicToggle = () => {
+  const { isPlaying, togglePlay } = useAudio();
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay: 1, duration: 0.3 }}
+      className="fixed bottom-2 right-2 sm:bottom-3 sm:right-3 md:bottom-4 md:right-4 z-50 flex items-center space-x-1 sm:space-x-2 bg-black/20 backdrop-blur-sm p-1.5 sm:p-2 rounded-md sm:rounded-lg shadow-lg"
+    >
+      <label className="relative inline-flex items-center cursor-pointer">
+        <input
+          type="checkbox"
+          className="sr-only peer"          checked={isPlaying}
+          onChange={togglePlay}
+        />
+        {/* Smaller toggle switch for mobile, normal for desktop */}
+        <div className="w-8 h-4 sm:w-9 sm:h-5 md:w-10 md:h-5 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] sm:after:top-[2px] after:start-[1px] sm:after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 sm:after:h-4 sm:after:w-4 md:after:h-4 md:after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-[#d25c25]"></div>
+        
+        {/* Responsive text sizing */}
+        <span className="ml-1.5 sm:ml-2 md:ml-3 text-xs sm:text-sm font-medium text-white/90 whitespace-nowrap">
+          {/* Show icon only on very small screens, text on larger screens */}
+          <span className="block sm:hidden">
+            {isPlaying ? "🎵" : "🔇"}
+          </span>
+          <span className="hidden sm:block">
+            Music {isPlaying ? "On" : "Off"}
+          </span>
+        </span>
+      </label>
+    </motion.div>
+  );
+};
+
 const Scene = () => {
   const [showNavTitles, setShowNavTitles] = useState(false);
   const [showInstruction, setShowInstruction] = useState(false);
@@ -273,24 +371,27 @@ const Scene = () => {
     try {
       // Check if we're returning from another route
       const navigationState = sessionStorage.getItem(NAVIGATION_STATE_KEY);
-      const isReturning = navigationState === 'visited';
-      
-      console.log('Navigation state:', isReturning ? 'returning' : 'fresh load');
-      
+      const isReturning = navigationState === "visited";
+
+      console.log(
+        "Navigation state:",
+        isReturning ? "returning" : "fresh load"
+      );
+
       if (isReturning) {
         // Skip animation and show everything immediately
         setShouldAnimate(false);
         setShowNavTitles(true);
-        console.log('Skipping cube animation - returning from another route');
+        console.log("Skipping cube animation - returning from another route");
       } else {
         // Fresh load - set visited state and animate normally
-        sessionStorage.setItem(NAVIGATION_STATE_KEY, 'visited');
+        sessionStorage.setItem(NAVIGATION_STATE_KEY, "visited");
         setShouldAnimate(true);
-        console.log('Fresh load - will animate cube');
+        console.log("Fresh load - will animate cube");
       }
     } catch (error) {
       // Fallback if sessionStorage is not available
-      console.log('SessionStorage not available, defaulting to animation');
+      console.log("SessionStorage not available, defaulting to animation");
       setShouldAnimate(true);
     }
   }, []);
@@ -362,15 +463,15 @@ const Scene = () => {
         camera={{
           zoom: 45,
           near: 0.1,
-          far: 100000,
+          far: 10000,
         }}
         shadows
         style={{ height: "100vh", width: "100vw", background: "#ffffff" }}
       >
-        <CameraController 
-          cameraX={8.3} 
-          cameraY={7.9} 
-          cameraZ={7.4} 
+        <CameraController
+          cameraX={8.3}
+          cameraY={7.9}
+          cameraZ={7.4}
           shouldAnimate={shouldAnimate}
         />
 
@@ -406,15 +507,15 @@ const Scene = () => {
               <GridComponent />
 
               {/* Model with conditional animation */}
-              <CenterModel 
-                show={showNavTitles} 
+              <CenterModel
+                show={showNavTitles}
                 shouldAnimate={shouldAnimate}
-                castShadow 
-                receiveShadow 
+                castShadow
+                receiveShadow
               />
 
               {/* Cube with conditional animation */}
-              <Cube 
+              <Cube
                 onAnimationComplete={handleAnimationComplete}
                 shouldAnimate={shouldAnimate}
               />
@@ -492,6 +593,9 @@ const Scene = () => {
           Double-tap to resize Art Room
         </div>
       )}
+
+      {/* Music Toggle Component */}
+      <MusicToggle />
     </>
   );
 };

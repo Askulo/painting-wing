@@ -47,7 +47,7 @@ export function useAssetLoading() {
     // Fallback in case loading takes too long
     const fallbackTimer = setTimeout(() => {
       if (!assetsLoaded) setAssetsLoaded(true);
-    }, 10000); // 10 seconds
+    }, 6000); // 10 seconds
 
     return () => clearTimeout(fallbackTimer);
     // eslint-disable-next-line

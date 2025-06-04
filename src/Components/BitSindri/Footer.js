@@ -278,6 +278,14 @@ export default function Footer() {
           viewport={{ once: true }}
           className="border-t border-gray-800 pt-6 text-center"
         >
+          <p className="text-orange-500 mb-1">
+              <span
+                className="text-orange-500  underline hover:text-orange-700 transition"
+                onClick={() => window.location.href = "/developer"}
+              >
+                Designed by
+              </span>
+            </p>
           <p className="text-gray-400 text-sm">
             &copy; {new Date().getFullYear()} Painting Wing, BIT Sindri. All
             rights reserved.
