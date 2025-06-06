@@ -1,379 +1,451 @@
 "use client";
-import { useEffect, useRef, useCallback, useState } from "react";
-import * as THREE from "three";
-import Lenis from "@studio-freight/lenis";
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 
-export default function CylindricalGallery({ onLoaded }) {
+export default function Gallery() {
+  const [images, setImages] = useState([]);
+  const [artExhibitionImages, setArtExhibitionImages] = useState([]);
+  const [insigniaImages, setInsigniaImages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const containerRef = useRef(null);
-  const sceneRef = useRef(null);
-  const rendererRef = useRef(null);
-  const cameraRef = useRef(null);
-  const lenisRef = useRef(null);
-  const animationFrameRef = useRef(null);
-  const galleryGroupRef = useRef(null);
-  const blocksRef = useRef([]);
-  const scrollRef = useRef(0);
-
-  // Helper function to create curved plane geometry
-  const createCurvedPlane = useCallback((width, height, radius, segments) => {
-    const geometry = new THREE.BufferGeometry();
-    const vertices = [];
-    const indices = [];
-    const uvs = [];
-
-    const segmentsX = segments * 4;
-    const segmentsY = Math.floor(height * 12);
-    const theta = width / radius;
-
-    // Generate vertices and UVs
-    for (let y = 0; y <= segmentsY; y++) {
-      const v = y / segmentsY;
-
-      for (let x = 0; x <= segmentsX; x++) {
-        const u = x / segmentsX;
-        const angle = theta * (u - 0.5);
-
-        // Position on curved plane
-        const posX = radius * Math.sin(angle);
-        const posY = height * (v - 0.5);
-        const posZ = radius * Math.cos(angle);
-
-        vertices.push(posX, posY, posZ);
-        uvs.push(u, v);
-      }
-    }
-
-    // Generate indices
-    for (let y = 0; y < segmentsY; y++) {
-      for (let x = 0; x < segmentsX; x++) {
-        const a = x + (segmentsX + 1) * y;
-        const b = x + (segmentsX + 1) * (y + 1);
-        const c = x + 1 + (segmentsX + 1) * (y + 1);
-        const d = x + 1 + (segmentsX + 1) * y;
-
-        indices.push(a, b, d);
-        indices.push(b, c, d);
-      }
-    }
-
-    geometry.setAttribute(
-      "position",
-      new THREE.Float32BufferAttribute(vertices, 3)
-    );
-
-    geometry.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
-
-    geometry.setIndex(indices);
-    geometry.computeVertexNormals();
-
-    return geometry;
-  }, []);
-
-  // Random image selection
-  const getRandomImage = useCallback(() => {
-    return Math.floor(Math.random() * 50) + 1;
-  }, []);
-
-  // Load texture with promise
-  const loadImageTexture = useCallback((imageNumber) => {
-    const textureLoader = new THREE.TextureLoader();
-
-    return new Promise((resolve) => {
-      const texture = textureLoader.load(`/Pwing/${imageNumber}.jpg`, (loadedTexture) => {
-        loadedTexture.generateMipmaps = true;
-        loadedTexture.minFilter = THREE.LinearMipmapLinearFilter;
-        loadedTexture.magFilter = THREE.LinearFilter;
-        if (rendererRef.current) {
-          loadedTexture.anisotropy =
-            rendererRef.current.capabilities.getMaxAnisotropy();
-        }
-        resolve(loadedTexture);
-      });
-    });
-  }, []);
-
-  // Create a single block
-  const createBlock = useCallback(
-    async (baseY, yOffset, sectionIndex, blockIndex, radius) => {
-      const blockGeometry = createCurvedPlane(5, 3, radius, 10);
-
-      const imageNumber = getRandomImage();
-      const texture = await loadImageTexture(imageNumber);
-
-      const blockMaterial = new THREE.MeshPhongMaterial({
-        map: texture,
-        side: THREE.DoubleSide,
-        toneMapped: false,
-      });
-
-      const block = new THREE.Mesh(blockGeometry, blockMaterial);
-      block.position.y = baseY + yOffset;
-
-      const blockContainer = new THREE.Group();
-      const blocksPerSection = 4;
-      const sectionAngle = (Math.PI * 2) / blocksPerSection;
-      const maxRandomAngle = sectionAngle * 0.3;
-
-      const baseAngle = sectionAngle * blockIndex;
-      const randomAngleOffset = (Math.random() * 2 - 1) * maxRandomAngle;
-      const finalAngle = baseAngle + randomAngleOffset;
-
-      blockContainer.rotation.y = finalAngle;
-      blockContainer.add(block);
-
-      return blockContainer;
-    },
-    [createCurvedPlane, getRandomImage, loadImageTexture]
-  );
-
-  // Initialize all blocks
-  const initializeBlocks = useCallback(
-    async (galleryGroup, radius, height) => {
-      const numVerticalSections = 12;
-      const blocksPerSection = 4;
-      const verticalSpacing = 3.25;
-      const blocks = [];
-      blocksRef.current = blocks;
-
-      const totalBlockHeight = numVerticalSections * verticalSpacing;
-      const heightBuffer = (height - totalBlockHeight) / 2;
-      const startY = -height / 2 + heightBuffer + verticalSpacing;
-
-      for (let section = 0; section < numVerticalSections; section++) {
-        const baseY = startY + section * verticalSpacing;
-
-        for (let i = 0; i < blocksPerSection; i++) {
-          const yOffset = Math.random() * 0.2 - 0.1;
-          const blockContainer = await createBlock(
-            baseY,
-            yOffset,
-            section,
-            i,
-            radius
-          );
-          blocks.push(blockContainer);
-          galleryGroup.add(blockContainer);
-        }
-      }
-    },
-    [createBlock]
-  );
+  const [error, setError] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
 
   useEffect(() => {
-    const init = async () => {
-      if (!containerRef.current) return;
-
-      // Create scene
-      const scene = new THREE.Scene();
-      sceneRef.current = scene;
-
-
-
-      // 🔽 ADD GRADIENT BACKGROUND SPHERE HERE
-      const gradientCanvas = document.createElement('canvas');
-      gradientCanvas.width = 256;
-      gradientCanvas.height = 256;
-      const ctx = gradientCanvas.getContext('2d');
-
-      const gradient = ctx.createLinearGradient(0, 0, 0, gradientCanvas.height);
-      gradient.addColorStop(0, "#ff6200");  // Top color
-      gradient.addColorStop(1, "#ffffff");  // Bottom color
-
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, gradientCanvas.width, gradientCanvas.height);
-
-      const gradientTexture = new THREE.CanvasTexture(gradientCanvas);
-
-      const backgroundSphereGeometry = new THREE.SphereGeometry(100, 32, 32);
-      const backgroundSphereMaterial = new THREE.MeshBasicMaterial({
-        map: gradientTexture,
-        side: THREE.BackSide,
-      });
-      const backgroundSphere = new THREE.Mesh(backgroundSphereGeometry, backgroundSphereMaterial);
-      scene.add(backgroundSphere);
-      // 🔼 GRADIENT BACKGROUND ADDED
-
-      // Create camera with adjusted FOV and position
-      const camera = new THREE.PerspectiveCamera(
-        75,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        1000
-      );
-      camera.position.z = 12;
-      camera.position.y = 0;
-      cameraRef.current = camera;
-
-      // Create renderer with proper size
-      const renderer = new THREE.WebGLRenderer({
-        antialias: true,
-        alpha: true,
-      });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setClearColor(0x000000, 0);
-      rendererRef.current = renderer;
-
-      containerRef.current.innerHTML = "";
-      containerRef.current.appendChild(renderer.domElement);
-
-      // Add stronger ambient light
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-      scene.add(ambientLight);
-
-      // Create gallery group
-      const galleryGroup = new THREE.Group();
-      scene.add(galleryGroup);
-      galleryGroupRef.current = galleryGroup;
-
-      // Detect mobile (or small screen)
-      const isMobile = window.innerWidth < 768;
-
-      // Set radius based on device
-      const radius = isMobile ? 4 : 7; // Decrease radius for mobile
-      const height = 60;
-      const segments = 30;
-
-      const cylinderGeometry = new THREE.CylinderGeometry(
-        radius,
-        radius,
-        height,
-        segments,
-        1,
-        true
-      );
-
-      const cylinderMaterial = new THREE.MeshPhongMaterial({
-        color: 0x000000,
-        transparent: true,
-        opacity: 0.1,
-        side: THREE.DoubleSide,
-      });
-
-      const cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
-      galleryGroup.add(cylinder);
-
-      // Initialize blocks
-      await initializeBlocks(galleryGroup, radius, height);
-      setLoading(false);
-      if (onLoaded) onLoaded(); // Notify parent
-
-      // Create scroll container with proper dimensions
-      const scrollHeight = height * 100;
-      const scrollElement = document.createElement("div");
-      scrollElement.style.height = `${scrollHeight}px`;
-      scrollElement.style.position = "absolute";
-      scrollElement.style.top = "0";
-      scrollElement.style.width = "100%";
-      scrollElement.style.zIndex = "1";
-      scrollElement.style.pointerEvents = "none";
-      document.body.appendChild(scrollElement);
-
-      // Initialize Lenis with adjusted settings
-      if (typeof window !== "undefined") {
-        lenisRef.current = new Lenis({
-          duration: 1.2,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          orientation: "vertical",
-          gestureOrientation: "vertical",
-          smoothWheel: true,
-          wheelMultiplier: 1,
-          smoothTouch: false,
-          touchMultiplier: 2,
-          infinite: false,
+    async function validateImages() {
+      try {
+        // Load wall painting images (1 to 64)
+        const wallPaintingPromises = Array.from({ length: 64 }, async (_, i) => {
+          const src = `/wall-painting/${i + 1}.jpg`;
+          try {
+            const res = await fetch(src, { method: 'HEAD' });
+            if (res.ok) return src;
+            return null;
+          } catch {
+            return null;
+          }
         });
+
+        // Load art exhibition images (1 to 50)
+        const artExhibitionPromises = Array.from({ length: 50 }, async (_, i) => {
+          const src = `/art-exhibition/${i + 1}.jpg`;
+          try {
+            const res = await fetch(src, { method: 'HEAD' });
+            if (res.ok) return src;
+            return null;
+          } catch {
+            return null;
+          }
+        });
+
+        // Load creations images (1 to 30)
+        const insigniaPromises = Array.from({ length: 30 }, async (_, i) => {
+          const src = `/creationsg/${i + 1}.jpg`;
+          try {
+            const res = await fetch(src, { method: 'HEAD' });
+            if (res.ok) return src;
+            return null;
+          } catch {
+            return null;
+          }
+        });
+
+        const [validWallPaintings, validArtExhibition, validInsignia] = await Promise.all([
+          Promise.all(wallPaintingPromises),
+          Promise.all(artExhibitionPromises),
+          Promise.all(insigniaPromises)
+        ]);
+
+        setImages(validWallPaintings.filter(Boolean));
+        setArtExhibitionImages(validArtExhibition.filter(Boolean));
+        setInsigniaImages(validInsignia.filter(Boolean));
+        
+        // Trigger stagger animation
+        setTimeout(() => setImagesLoaded(true), 100);
+      } catch (err) {
+        setError('Failed to load images');
+        console.error('Error loading images:', err);
+      } finally {
+        setLoading(false);
       }
+    }
+    validateImages();
+  }, []);
 
-      // Track scroll with improved rotation handling
-      let rotationSpeed = 0;
-      let cylinderRotation = 0;
-      const baseRotationSpeed = 0.0025;
-      const rotationFactor = 0.005;
-      const totalScroll =
-        document.documentElement.scrollHeight - window.innerHeight;
+  if (loading) {
+    return (
+      <div className="p-5 py-32 bg-gray-50 min-h-screen flex items-center justify-center animate-fade-in">
+        <div className="animate-spin rounded-full h-16 w-16 border-4 border-[#d25c25] border-t-transparent shadow-lg"></div>
+      </div>
+    );
+  }
 
-      lenisRef.current.on("scroll", ({ scroll, velocity }) => {
-        scrollRef.current = scroll;
-        rotationSpeed = velocity * 0.005;
-        cylinderRotation = scroll * rotationFactor;
-      });
-
-      const animate = (time) => {
-        if (!rendererRef.current || !sceneRef.current || !cameraRef.current)
-          return;
-
-        lenisRef.current.raf(time);
-
-        const scrollY = scrollRef.current;
-        const scrollFraction = Math.min(scrollY / totalScroll, 1);
-
-        const targetY = -scrollFraction * height * 0.85;
-        cameraRef.current.position.y = targetY;
-
-        galleryGroupRef.current.rotation.y = cylinderRotation;
-        galleryGroupRef.current.rotation.y += rotationSpeed * baseRotationSpeed;
-        rotationSpeed *= 0.95;
-
-        rendererRef.current.render(sceneRef.current, cameraRef.current);
-        animationFrameRef.current = requestAnimationFrame(animate);
-      };
-
-      animationFrameRef.current = requestAnimationFrame(animate);
-
-      const handleResize = () => {
-        if (!cameraRef.current || !rendererRef.current) return;
-
-        cameraRef.current.aspect = window.innerWidth / window.innerHeight;
-        cameraRef.current.updateProjectionMatrix();
-        rendererRef.current.setSize(window.innerWidth, window.innerHeight);
-
-        // Fix: Only call update if it exists and is a function
-        if (lenisRef.current && typeof lenisRef.current.update === "function") {
-          lenisRef.current.update();
-        }
-      };
-
-      window.addEventListener("resize", handleResize);
-
-      return () => {
-        window.removeEventListener("resize", handleResize);
-        if (animationFrameRef.current) {
-          cancelAnimationFrame(animationFrameRef.current);
-        }
-        if (scrollElement && scrollElement.parentNode) {
-          scrollElement.parentNode.removeChild(scrollElement);
-        }
-        if (lenisRef.current) {
-          lenisRef.current.destroy();
-        }
-        if (
-          rendererRef.current &&
-          rendererRef.current.domElement &&
-          containerRef.current
-        ) {
-          containerRef.current.removeChild(rendererRef.current.domElement);
-          rendererRef.current.dispose();
-        }
-      };
-    };
-
-    init();
-  }, [initializeBlocks, onLoaded]);
+  if (error) {
+    return (
+      <div className="p-5 py-32 bg-gray-50 min-h-screen flex items-center justify-center text-red-500 animate-fade-in">
+        <div className="bg-white p-6 rounded-lg shadow-lg animate-bounce-in">
+          <div className="text-center">
+            <div className="text-red-500 text-4xl mb-4">⚠</div>
+            <p className="text-lg font-medium">{error}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div
-      className="gallery-container"
-      ref={containerRef}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100vh",
-        zIndex: 2,
-        pointerEvents: "none",
-      }}
-    />
+    <>
+      <div className="p-5 py-32 bg-gray-50 min-h-screen">
+        <div className="max-w-7xl mx-auto">
+          {/* Header Section */}
+          <div className="text-center mb-16 animate-fade-in">
+            <h1 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6 bg-gradient-to-r from-[#d25c25] to-[#e67e22] bg-clip-text">
+              Wall Painting
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Discover our exquisite collection of wall paintings that transform spaces into artistic masterpieces. 
+              Each piece tells a unique story, bringing color, emotion, and character to your walls with carefully 
+              crafted designs that inspire and captivate.
+            </p>
+            <div className="mt-8 flex items-center justify-center space-x-2 text-gray-500">
+              <div className="w-12 h-px bg-gradient-to-r from-transparent via-[#d25c25] to-transparent"></div>
+              <span className="text-sm font-medium">Gallery Collection</span>
+              <div className="w-12 h-px bg-gradient-to-r from-transparent via-[#d25c25] to-transparent"></div>
+            </div>
+          </div>
+
+          {/* Gallery Grid */}
+          <div className="columns-1 sm:columns-2 md:columns-3 xl:columns-4 gap-5">
+          {images.map((src, index) => (
+            <div 
+              key={index} 
+              className={`break-inside-avoid mb-2.5 relative group cursor-pointer transform transition-all duration-500 hover:scale-105 hover:z-10 ${
+                imagesLoaded ? 'animate-fade-in-up opacity-100' : 'opacity-0 translate-y-4'
+              }`}
+              style={{ 
+                animationDelay: `${index * 50}ms`,
+                animationFillMode: 'forwards'
+              }}
+              onClick={() => setSelectedImage({ src, index, type: 'wall-painting' })}
+            >
+              <div className="relative aspect-auto overflow-hidden rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-300">
+                <Image
+                  src={src}
+                  alt={`Gallery image ${index + 1}`}
+                  width={500}
+                  height={500}
+                  className="w-full transition-transform duration-300 group-hover:scale-110"
+                  priority={index < 4}
+                  loading={index >= 4 ? "lazy" : undefined}
+                  onError={(e) => {
+                    console.error(`Failed to load image: Image ${index + 1} "${src}"`);
+                    e.target.style.display = 'none';
+                  }}
+                />
+                
+              
+
+                {/* Image number badge */}
+                <div className="absolute top-3 left-3 bg-black/70 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  #{index + 1}
+                </div>
+              </div>
+            </div>
+          ))}
+          </div>
+        </div>
+
+        {/* Art Exhibition Section */}
+        <div className="max-w-7xl mx-auto mt-24 pt-16 border-t border-gray-200">
+          <div className="text-center mb-16 animate-fade-in">
+             <h1 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6 bg-gradient-to-r from-[#d25c25] to-[#e67e22] bg-clip-text">
+              Art Exhibition
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Step into our curated art exhibition featuring contemporary masterpieces and timeless classics. 
+              This collection showcases diverse artistic expressions from talented artists around the world, 
+              each piece carefully selected to inspire, provoke thought, and celebrate the beauty of creative expression.
+            </p>
+            <div className="mt-8 flex items-center justify-center space-x-2 text-gray-500">
+              <div className="w-12 h-px bg-gradient-to-r from-transparent via-[#8b5a3c] to-transparent"></div>
+              <span className="text-sm font-medium">Exhibition Showcase</span>
+              <div className="w-12 h-px bg-gradient-to-r from-transparent via-[#8b5a3c] to-transparent"></div>
+            </div>
+          </div>
+
+          {/* Art Exhibition Gallery Grid */}
+          <div className="columns-1 sm:columns-2 md:columns-3 xl:columns-4 gap-5">
+            {artExhibitionImages.map((src, index) => (
+              <div 
+                key={`art-exhibition-${index}`} 
+                className={`break-inside-avoid mb-2.5 relative group cursor-pointer transform transition-all duration-500 hover:scale-105 hover:z-10 ${
+                  imagesLoaded ? 'animate-fade-in-up opacity-100' : 'opacity-0 translate-y-4'
+                }`}
+                style={{ 
+                  animationDelay: `${(images.length + index) * 50}ms`,
+                  animationFillMode: 'forwards'
+                }}
+                onClick={() => setSelectedImage({ src, index: images.length + index, type: 'art-exhibition', originalIndex: index })}
+              >
+                <div className="relative aspect-auto overflow-hidden rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-300">
+                  <Image
+                    src={src}
+                    alt={`Art exhibition piece ${index + 1}`}
+                    width={500}
+                    height={500}
+                    className="w-full transition-transform duration-300 group-hover:scale-110"
+                    loading="lazy"
+                    onError={(e) => {
+                      console.error(`Failed to load art exhibition image: ${index + 1} "${src}"`);
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                  
+               
+
+                  {/* Image number badge */}
+                  <div className="absolute top-3 left-3 bg-black/70 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    #E{index + 1}
+                  </div>
+                </div>
+              </div>
+            ))}
+            
+            {/* Show placeholder if no art exhibition images found */}
+            {artExhibitionImages.length === 0 && (
+              <div className="break-inside-avoid mb-2.5 relative bg-white rounded-2xl shadow-sm p-8 text-center">
+                <div className="w-16 h-16 bg-gradient-to-r from-[#8b5a3c] to-[#a0522d] rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <h4 className="font-semibold text-gray-700 mb-2">Add Exhibition Images</h4>
+                <p className="text-sm text-gray-500">Place your art exhibition images in the /public/art-exhibition/ folder</p>
+                <p className="text-xs text-gray-400 mt-2">Files should be named: 1.jpg, 2.jpg, 3.jpg, etc.</p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Creations - Intra School Painting Competition Section */}
+        <div className="max-w-7xl mx-auto mt-24 pt-16 border-t border-gray-200">
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6 bg-gradient-to-r from-[#d25c25] to-[#e67e22] bg-clip-text">
+              Creations - Intra School Painting Competition
+            </h2>
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Celebrate the artistic talents of our students through this vibrant showcase of creativity and imagination. 
+              Our intra-school painting competition brings together young artists who express their unique perspectives, 
+              emotions, and stories through brushstrokes, creating a wonderful display of emerging artistic excellence.
+            </p>
+            <div className="mt-8 flex items-center justify-center space-x-2 text-gray-500">
+              <div className="w-12 h-px bg-gradient-to-r from-transparent via-[#d25c25] to-transparent"></div>
+              <span className="text-sm font-medium">Student Creations</span>
+              <div className="w-12 h-px bg-gradient-to-r from-transparent via-[#d25c25] to-transparent"></div>
+            </div>
+          </div>
+
+          {/* Creations Gallery Grid */}
+          <div className="columns-1 sm:columns-2 md:columns-3 xl:columns-4 gap-5">
+            {insigniaImages.map((src, index) => (
+              <div 
+                key={`creations-${index}`} 
+                className={`break-inside-avoid mb-2.5 relative group cursor-pointer transform transition-all duration-500 hover:scale-105 hover:z-10 ${
+                  imagesLoaded ? 'animate-fade-in-up opacity-100' : 'opacity-0 translate-y-4'
+                }`}
+                style={{ 
+                  animationDelay: `${(images.length + artExhibitionImages.length + index) * 50}ms`,
+                  animationFillMode: 'forwards'
+                }}
+                onClick={() => setSelectedImage({ src, index: images.length + artExhibitionImages.length + index, type: 'creations', originalIndex: index })}
+              >
+                <div className="relative aspect-auto overflow-hidden rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-300">
+                  <Image
+                    src={src}
+                    alt={`Student creation ${index + 1}`}
+                    width={500}
+                    height={500}
+                    className="w-full transition-transform duration-300 group-hover:scale-110"
+                    loading="lazy"
+                    onError={(e) => {
+                      console.error(`Failed to load creation image: ${index + 1} "${src}"`);
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                  
+                
+
+                  {/* Image number badge */}
+                  <div className="absolute top-3 left-3 bg-black/70 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    #C{index + 1}
+                  </div>
+                </div>
+              </div>
+            ))}
+            
+            {/* Show placeholder if no creation images found */}
+            {insigniaImages.length === 0 && (
+              <div className="break-inside-avoid mb-2.5 relative bg-white rounded-2xl shadow-sm p-8 text-center">
+                <div className="w-16 h-16 bg-gradient-to-r from-[#d25c25] to-[#e67e22] rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <h4 className="font-semibold text-gray-700 mb-2">Add Student Creations</h4>
+                <p className="text-sm text-gray-500">Place student painting images in the /public/creationsg/ folder</p>
+                <p className="text-xs text-gray-400 mt-2">Files should be named: 1.jpg, 2.jpg, 3.jpg, etc.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Modal for selected image */}
+      {selectedImage && (
+        <div
+          className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 animate-fade-in"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div
+            className="relative max-w-4xl max-h-[90vh] bg-white rounded-2xl overflow-hidden shadow-2xl animate-modal-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button
+              className="absolute top-4 right-4 z-10 bg-black/70 hover:bg-black/90 text-white rounded-full p-2 transition-all duration-200 hover:scale-110 active:scale-95"
+              onClick={() => setSelectedImage(null)}
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            
+            <Image
+              src={selectedImage.src}
+              alt={`Gallery image ${selectedImage.index + 1}`}
+              width={800}
+              height={600}
+              className="w-full h-auto max-h-[90vh] object-contain"
+            />
+            
+            {/* Image info */}
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-6">
+              <div className="text-white">
+                <p className="font-bold text-lg mb-1">
+                  {selectedImage.type === 'creations' 
+                    ? `Student Creation #${selectedImage.originalIndex + 1}` 
+                    : selectedImage.type === 'art-exhibition'
+                    ? `Art Exhibition Piece #${selectedImage.originalIndex + 1}`
+                    : `Wall Painting #${selectedImage.index + 1}`
+                  }
+                </p>
+                <p className="text-white/80 text-sm">
+                  {selectedImage.type === 'creations' 
+                    ? `${selectedImage.originalIndex + 1} of ${insigniaImages.length} student creations`
+                    : selectedImage.type === 'art-exhibition'
+                    ? `${selectedImage.originalIndex + 1} of ${artExhibitionImages.length} exhibition pieces`
+                    : `${selectedImage.index + 1} of ${images.length} wall paintings`
+                  }
+                </p>
+              </div>
+            </div>
+
+            {/* Navigation arrows - simplified for now */}
+            {selectedImage.index > 0 && (
+              <button
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/70 hover:bg-black/90 text-white rounded-full p-3 transition-all duration-200 hover:scale-110"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  // Navigate to previous image (simplified logic)
+                  const totalImages = images.length + artExhibitionImages.length + insigniaImages.length;
+                  if (selectedImage.index > 0) {
+                    // This would need more complex logic to handle different sections
+                    console.log('Navigate to previous image');
+                  }
+                }}
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+            )}
+            
+            {selectedImage.index < (images.length + artExhibitionImages.length + insigniaImages.length - 1) && (
+              <button
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/70 hover:bg-black/90 text-white rounded-full p-3 transition-all duration-200 hover:scale-110"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  // Navigate to next image (simplified logic)
+                  console.log('Navigate to next image');
+                }}
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+                </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      <style jsx>{`
+        @keyframes fade-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        
+        @keyframes fade-in-up {
+          from { 
+            opacity: 0; 
+            transform: translateY(20px); 
+          }
+          to { 
+            opacity: 1; 
+            transform: translateY(0); 
+          }
+        }
+        
+        @keyframes bounce-in {
+          0% { 
+            opacity: 0; 
+            transform: scale(0.8); 
+          }
+          50% { 
+            transform: scale(1.05); 
+          }
+          100% { 
+            opacity: 1; 
+            transform: scale(1); 
+          }
+        }
+        
+        @keyframes modal-in {
+          from { 
+            opacity: 0; 
+            transform: scale(0.9) translateY(20px); 
+          }
+          to { 
+            opacity: 1; 
+            transform: scale(1) translateY(0); 
+          }
+        }
+        
+        .animate-fade-in {
+          animation: fade-in 0.5s ease-out;
+        }
+        
+        .animate-fade-in-up {
+          animation: fade-in-up 0.6s ease-out;
+        }
+        
+        .animate-bounce-in {
+          animation: bounce-in 0.6s ease-out;
+        }
+        
+        .animate-modal-in {
+          animation: modal-in 0.4s ease-out;
+        }
+      `}</style>
+    </>
   );
 }

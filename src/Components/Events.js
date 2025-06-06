@@ -238,11 +238,11 @@ export default function Home() {
       <section
         ref={processRef}
         id="Events"
-        className="min-h-screen py-24 px-4  bg-[#f2f0e6]"
+        className="min-h-screen pt-24 pb-4 px-4  bg-[#f2f0e6]"
       >
         <div className="max-w-6xl mx-auto">
           <motion.h2
-            className="text-3xl md:text-5xl font-medium mb-16"
+            className="text-[2rem] md:text-5xl text-center font-medium mb-10 lg:mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -251,7 +251,7 @@ export default function Home() {
             Our Offline Events
           </motion.h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -266,7 +266,7 @@ export default function Home() {
                 students from BIT Sindri and outside to showcase their artistic
                 talents across various forms.
               </p>
-              <ul className="list-disc list-inside text-neutral-700 mt-2 space-y-1">
+              <ul className="list-disc list-inside text-neutral-700 mt-2 ml-6 space-y-1">
                 <li> Exhibition of artworks from students and guest artists</li>
                 <li> Face Painting Competition</li>
                 <li> Wall Painting Competition</li>
@@ -291,7 +291,7 @@ export default function Home() {
                 beyond the college, offering free workshops and competitions to
                 promote artistic growth.
               </p>
-              <ul className="list-disc list-inside text-neutral-700 mt-2 space-y-1">
+              <ul className="list-disc list-inside text-neutral-700 mt-2 ml-6 space-y-1">
                 <li>
                   {" "}
                   Participation from local government and private schools
@@ -317,7 +317,7 @@ export default function Home() {
                 self-expression into a joyful celebration that helps newcomers
                 feel welcomed and empowered.
               </p>
-              <ul className="list-disc list-inside text-neutral-700 mt-2 space-y-1">
+              <ul className="list-disc list-inside text-neutral-700 mt-2 ml-6 space-y-1">
                 <li> Best Dress Competition</li>
                 <li> Card and Craft Making</li>
                 <li> 1-Minute Acting Challenge</li>
@@ -340,7 +340,7 @@ export default function Home() {
                 lets students collaborate and paint murals that stay as creative
                 landmarks at BIT Sindri.
               </p>
-              <ul className="list-disc list-inside text-neutral-700 mt-2 space-y-1">
+              <ul className="list-disc list-inside text-neutral-700 mt-2 ml-6 space-y-1">
                 <li> Theme-based wall painting (e.g., Science & Technology)</li>
                 <li> Large-scale collaboration across all batches</li>
                 <li> Murals created on MC Ground walls</li>
@@ -352,7 +352,7 @@ export default function Home() {
         </div>
         <div className="max-w-6xl  mt-20 mx-auto">
           <motion.h2
-            className="text-3xl md:text-5xl font-medium mb-16"
+            className="text-[2rem] md:text-5xl font-medium mb-10 lg:mb-16 text-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -376,12 +376,12 @@ export default function Home() {
                 from various departments while competing in a lighthearted,
                 creative atmosphere.
               </p>
-              <ul className="list-disc list-inside text-neutral-700 mt-2 space-y-1">
+              <ul className="list-disc list-inside text-neutral-700 mt-2 ml-6 space-y-1">
                 <li> Designed for freshers to bond and connect</li>
                 <li> Fun challenges and interactive tasks</li>
                 <li> Cross-department interaction made easy</li>
                 <li> Awards for the most influential participant</li>
-                <li> Friendly vibes and memory-making moments</li>
+              
               </ul>
             </motion.div>
 
@@ -399,18 +399,17 @@ export default function Home() {
                 flexible, virtual space to explore and submit your art across
                 multiple formats.
               </p>
-              <ul className="list-disc list-inside text-neutral-700 mt-2 space-y-1">
+              <ul className="list-disc list-inside text-neutral-700 mt-2 ml-6 space-y-1">
                 <li> Open to all schools and colleges nationwide</li>
                 <li> One-month submission period</li>
                 <li>
                   {" "}
                   Multiple categories:
                   <ul className="list-disc list-inside ml-4 space-y-1">
-                    <li>Sketching</li>
-                    <li>Painting</li>
-                    <li>Digital Art</li>
-                    <li>Doodling</li>
-                    <li>Graffiti</li>
+                    Painting & Sketching,
+                Digital Art,
+                    Doodling,
+                    Graffiti
                   </ul>
                 </li>
                
@@ -430,7 +429,7 @@ export default function Home() {
                 real companies. Insignia focuses on creative problem-solving,
                 branding knowledge, and digital design skills.
               </p>
-              <ul className="list-disc list-inside text-neutral-700 mt-2 space-y-1">
+              <ul className="list-disc list-inside text-neutral-700 mt-2 ml-6 space-y-1">
                 <li> Redesign logos from a provided list of companies</li>
                 <li> Emphasis on creativity, branding, and simplicity</li>
                 <li> Digital design submission format</li>
@@ -453,7 +452,7 @@ export default function Home() {
                 featured by submitting or tagging their artwork — making it a
                 consistent celebration of creativity.
               </p>
-              <ul className="list-disc list-inside text-neutral-700 mt-2 space-y-1">
+              <ul className="list-disc list-inside text-neutral-700 mt-2 ml-6 space-y-1">
                 <li> Conducted every Saturday</li>
                 <li> Open to BITians and external artists</li>
                 <li> Artists can tag or DM their artwork</li>
@@ -466,7 +465,7 @@ export default function Home() {
       </section>
 
       {/* Why Choose Us Section */}
-      <section ref={whyUsRef} className="min-h-screen py-24 px-4 bg-[#f2f0e6]">
+      <section ref={whyUsRef} className="min-h-screen pt-24 pb-14 px-4 bg-[#f2f0e6]">
         <div className="max-w-6xl mx-auto">
           <motion.h2
             className="text-3xl md:text-5xl font-medium mb-16"
@@ -574,7 +573,7 @@ export default function Home() {
       
 
       {/* Team Section */}
-      <section ref={teamRef} className="min-h-screen py-24 px-4 bg-[#f2f0e6]">
+      <section ref={teamRef} className="min-h-screen pt-24 pb-12 px-4 bg-[#f2f0e6]">
         <div className="max-w-6xl mx-auto">
           <motion.h2
             className="text-3xl md:text-5xl font-medium mb-16"
@@ -624,150 +623,52 @@ export default function Home() {
    name: "Certificate Distribution",
     role: "Recognizing student achievements with certificates"
     // role: "Promoting team values and education together"
-  }
-]
-.map((member, index) => (
-              <motion.div
-                key={index}
-                className="group"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                whileHover={{ y: -10 }}
-              >
-                <div className="rounded-2xl overflow-hidden mb-4 aspect-[4/5] relative">
-                  <Image
-                      src={`/creationGlimses/creations${index + 1}.jpg`}
-                    alt={member.name}
-                    width={400}
-                    height={400}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                    <div className="text-white">
-                      <p className="text-sm mb-1">{member.role}</p>
-                      <h3 className="text-xl font-medium">{member.name}</h3>
-                    </div>
-                  </div>
-                </div>
-                <h3 className="text-lg font-medium group-hover:text-[#f47458] transition-colors">
-                  {member.name}
-                </h3>
-                <p className="text-neutral-500">{member.role}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-       <section ref={caseStudiesRef}  className="min-h-screen py-24 px-4 bg-[#f2f0e6]">
-        <div className="max-w-6xl mx-auto">
-          <motion.h2
-            className="text-3xl md:text-5xl font-medium mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+    }
+  ]
+  .map((member, index) => (
+          <motion.div
+          key={index}
+          className="group"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: index * 0.1 }}
+          whileHover={{ y: -10 }}
           >
-            Insignia – Logo Design & Redesign Competition  
-          </motion.h2>
-
-          <div className="grid  grid-cols-1 md:grid-cols-2 gap-14">
-            
-
-            <motion.div
-              className="flex flex-col justify-center"
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <div className="space-y-8">
-                <div className="flex items-start">
-                  <div className="mt-1 mr-4 bg-[#f47458]/10 p-2 rounded-full">
-                    <Check className="h-5 w-5 text-[#f47458]" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-medium mb-2">
-                   The Arena of Logo Redesign
-                    </h4>
-                    <p className="text-neutral-700">
-                     Insignia is an online logo designing and redesigning competition, inviting participants to showcase their creativity and design thinking skills through innovative brand identities.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <div className="mt-1 mr-4 bg-[#f47458]/10 p-2 rounded-full">
-                    <Users className="h-5 w-5 text-[#f47458]" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-medium mb-2">June–July 2024 Edition</h4>
-                    <p className="text-neutral-700">
-                      The competition was held over two months, from June to August 2024, with over 50+ entries submitted from talented students across various branches.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <div className="mt-1 mr-4 bg-[#f47458]/10 p-2 rounded-full">
-                    <Award className="h-5 w-5 text-[#f47458]" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-medium mb-2">Interactive Presentation Round</h4>
-                    <p className="text-neutral-700">
-                      The top 10 shortlisted entries were invited for a live online presentation round, where they explained the vision and thought process behind their designs to our panel.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <div className="mt-1 mr-4 bg-[#f47458]/10 p-2 rounded-full">
-                    <Lightbulb className="h-5 w-5 text-[#f47458]" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-medium mb-2">
-                   Judged by Design Expert
-                    </h4>
-                    <p className="text-neutral-700">
-                     Entries were evaluated by Abhishek Mondal, an expert in graphic design. The top 3 participants were awarded certificates and earned accolades for their unique creative approach.
-
-
-      
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-            <motion.div
-              className="relative"
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
-              <div className="rounded-2xl  overflow-hidden h-[500px] relative">
-                <Image
-                  src="/insignia.jpg"
-                  alt="Our approach"
-                  width={700}
-                  height={500}
-                  className="w-full h-full object-fill"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
-                  <h3 className="text-white text-2xl font-medium">
-                   Insignia – Logo Design & Redesign Competition
-                  </h3>
-                </div>
-              </div>
-            </motion.div>
+          <div className="rounded-2xl overflow-hidden mb-4 aspect-[4/5] relative">
+            <Image
+              src={`/creationGlimses/creations${index + 1}.jpg`}
+            alt={member.name}
+            width={400}
+            height={400}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+            <div className="text-white">
+              <p className="text-sm mb-1">{member.role}</p>
+              <h3 className="text-xl font-medium">{member.name}</h3>
+            </div>
+            </div>
           </div>
+          <h3 className="text-lg font-medium group-hover:text-[#f47458] transition-colors">
+            {member.name}
+          </h3>
+          <p className="text-neutral-500">{member.role}</p>
+          </motion.div>
+        ))}
         </div>
-      </section>
 
-      {/* FAQ Section */}
-      <section ref={faqRef} className="min-h-screen py-18 px-4 bg-[#f2f0e6]">
+        <div className="text-center "> 
+        <button
+          className="mt-8 text-center px-4 py-2 bg-[#f47458] text-white rounded-md hover:bg-[#e06348] transition"
+          onClick={() => window.location.href = '/gallery'}
+        >
+          View more
+        </button>
+        </div>
+      </div>
+      </section>
+      <section ref={faqRef} className="min-h-screen pt-18 pb-12 px-4 bg-[#f2f0e6]">
         <div className="max-w-6xl mx-auto">
           <motion.h2
             className="text-3xl md:text-5xl font-medium mb-16"

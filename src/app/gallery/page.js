@@ -1,9 +1,10 @@
 'use client'
 
 import React, { useState } from 'react'
-import Gallery from '@/Components/Gallery'
+// import Gallery from '@/Components/Gallery'
 import Navbar from '@/Components/BitSindri/Navbar'
 import LoadingScreen from '@/Components/LoadingScreen' // Adjust path if needed
+import Gallery from '@/Components/Gallery'
 
 const Page = () => {
   const [loading, setLoading] = useState(true);
@@ -12,8 +13,9 @@ const Page = () => {
   return (
     <>
       <Navbar />
-      {loading && <LoadingScreen />}
+      {/* {loading && <LoadingScreen />} */}
       <Gallery onLoaded={() => setLoading(false)} />
+      {/* <Gallery /> */}
     </>
   )
 }

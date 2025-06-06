@@ -25,7 +25,7 @@ export default function Footer() {
   const socialLinks = [
     {
       icon: <Facebook className="h-5 w-5" />,
-      href: "#",
+      href: "https://www.facebook.com/PaintingWingBITSindri/",
       label: "Facebook",
       color: "hover:bg-orange-500",
     },

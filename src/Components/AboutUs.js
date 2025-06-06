@@ -283,7 +283,7 @@ const PaintingWing = () => {
 
           {/* Page 2 Bottom Content */}
           <div
-            className="min-h-[80vh] w-full p-6 md:p-10 lg:p-18 flex flex-col md:flex-row md:items-center justify-between relative z-10 reveal-section"
+            className="min-h-[80vh] w-full p-6 md:pt-10 md:pb-4 lg:p-18 flex flex-col md:flex-row md:items-center justify-between relative z-10 reveal-section"
             data-section="about"
           >
             <h1
@@ -423,7 +423,7 @@ const PaintingWing = () => {
         </div>
 
         {/* Page 4 */}
-        <div
+        {/* <div
           className="min-h-[50vh] w-full bg-[#efeae3] py-10 px-2 md:px-8 md:py-40 reveal-section"
           data-section="descriptions"
         >
@@ -435,7 +435,7 @@ const PaintingWing = () => {
             }`}
           >
             <div className="swiper-wrapper">
-              <div className="swiper-slide w-full md:w-[30%] border-l border-[#aeadad] px-2 md:px-8">
+              <div className="swiper-slide md:w-[30%] border-l border-[#aeadad] px-2 md:px-8">
                 <h1 className="text-2xl md:text-3xl font-bold">Samarpan:</h1>
                 <br />
                 <p className="text-sm md:text-base">
@@ -517,7 +517,7 @@ const PaintingWing = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Club Incharge Section */}
         <div
