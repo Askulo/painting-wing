@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { Github, Linkedin, Dribbble, ExternalLink } from "lucide-react"
+import Image from "next/image"
 
 // ==================== DATA ====================
 const designers = [
@@ -11,7 +12,7 @@ const designers = [
     id: 1,
     name: "Aashish Kumar Lohra",
     title: "Intermediate 3D Developer & Designer",
-    avatar: "/placeholder-avatar-1.jpg",
+    avatar: "/Bearers/7.png",
     experience: 1,
     location: "BIT Sindri, Dhanbad, Jharkhand",
     specializations: ["Three.js", "Next.js", "WebGL", "React Three Fiber"],
@@ -38,7 +39,7 @@ const designers = [
     id: 2,
     name: "Nilesh Kumar Mandal",
     title: "Intermediate 3D Developer & Designer",
-    avatar: "/placeholder-avatar-2.jpg",
+    avatar: "/Bearers/4.png",
     experience: 1,
     location: "BIT Sindri, Dhanbad, Jharkhand",
     specializations: ["Vanilla Three.js", "Interactive Design", "React Three Fiber", "AR/VR"],
@@ -56,10 +57,10 @@ const designers = [
     },
     social: {
       github: "Mandal027",
-      linkedin: "sarah-martinez-creative",
-      twitter: "sarahcreates",
+      linkedin: "nilesh1527/",
+      twitter: "mandal_nilesh27",
     },
-    portfolio: "https://sarahcreates.studio",
+    portfolio: "#",
   },
 ]
 
@@ -167,13 +168,15 @@ function SkillBar({ skill, level, delay }) {
 }
 
 // ==================== CARD COMPONENTS ====================
-function DesignerAvatar({ name }) {
+function DesignerAvatar({ avatar, name }) {
+  if (!avatar) return null; // Don't render if avatar is missing
+
   return (
     <div className="relative">
       <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-orange-400 to-orange-500 opacity-75 blur-sm" />
       <div className="relative h-24 w-24 sm:h-28 sm:w-28 md:h-32 md:w-32 overflow-hidden rounded-2xl border-3 border-white bg-gradient-to-br from-gray-100 to-gray-200 shadow-lg">
         <div className="absolute inset-0 flex items-center justify-center text-2xl sm:text-3xl md:text-4xl font-bold text-gray-600">
-          {name.charAt(0)}
+          <Image src={avatar} alt={`${name}'s avatar`} layout="fill" objectFit="cover" />
         </div>
       </div>
     </div>
@@ -299,7 +302,7 @@ function CardFront({ designer, index, handleFlip }) {
       onClick={handleFlip}
     >
       <div className="flex flex-col items-center space-y-6 h-full">
-        <DesignerAvatar name={designer.name} />
+        <DesignerAvatar avatar={designer.avatar} name={designer.name} />
         <DesignerInfo designer={designer} index={index} />
         <SpecializationTags specializations={designer.specializations} />
         <StatsGrid designer={designer} index={index} />

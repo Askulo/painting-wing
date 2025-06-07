@@ -327,7 +327,7 @@ const PaintingWing = () => {
 
         {/* Page 3 */}
         <div
-          className="min-h-screen w-full bg-[#efeae3] py-16 reveal-section"
+          className="min-h-screen w-full bg-[#efeae3] pb-16 reveal-section"
           data-section="events"
         >
           <p

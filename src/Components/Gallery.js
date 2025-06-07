@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Footer from './BitSindri/Footer';
 
 export default function Gallery() {
   const [images, setImages] = useState([]);
@@ -95,7 +96,7 @@ export default function Gallery() {
 
   return (
     <>
-      <div className="p-5 py-32 bg-gray-50 min-h-screen">
+      <div className="p-5 pt-32 pb-20 bg-gray-50 min-h-screen">
         <div className="max-w-7xl mx-auto">
           {/* Header Section */}
           <div className="text-center mb-16 animate-fade-in">
@@ -230,10 +231,10 @@ export default function Gallery() {
         {/* Creations - Intra School Painting Competition Section */}
         <div className="max-w-7xl mx-auto mt-24 pt-16 border-t border-gray-200">
           <div className="text-center mb-16 animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6 bg-gradient-to-r from-[#d25c25] to-[#e67e22] bg-clip-text">
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-800 mb-6 bg-gradient-to-r from-[#d25c25] to-[#e67e22] bg-clip-text">
               Creations - Intra School Painting Competition
             </h2>
-            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-md md:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Celebrate the artistic talents of our students through this vibrant showcase of creativity and imagination. 
               Our intra-school painting competition brings together young artists who express their unique perspectives, 
               emotions, and stories through brushstrokes, creating a wonderful display of emerging artistic excellence.
@@ -298,7 +299,9 @@ export default function Gallery() {
             )}
           </div>
         </div>
+
       </div>
+        <Footer />
 
       {/* Modal for selected image */}
       {selectedImage && (

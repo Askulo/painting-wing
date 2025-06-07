@@ -140,7 +140,7 @@ export default function Home() {
         className="min-h-screen flex flex-col justify-center items-center pt-28 pb-16 px-4 bg-[#f2f0e6]"
       >
         <motion.h1
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-center max-w-5xl mb-4 md:leading-normal"
+          className="text-[2rem] sm:text-5xl md:text-6xl lg:text-7xl font-medium text-center max-w-5xl mb-4 md:leading-normal"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -155,7 +155,7 @@ export default function Home() {
 
 
           <motion.p
-            className="text-lg text-center max-w-2xl mb-12 "
+            className="text-[1.12rem] text-center max-w-2xl mb-12 "
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
