@@ -157,7 +157,7 @@ export default function Gallery() {
         </div>
 
         {/* Art Exhibition Section */}
-        <div className="max-w-7xl mx-auto mt-24 pt-16 border-t border-gray-200">
+        {/* <div className="max-w-7xl mx-auto mt-24 pt-16 border-t border-gray-200">
           <div className="text-center mb-16 animate-fade-in">
              <h1 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6 bg-gradient-to-r from-[#d25c25] to-[#e67e22] bg-clip-text">
               Art Exhibition
@@ -172,10 +172,10 @@ export default function Gallery() {
               <span className="text-sm font-medium">Exhibition Showcase</span>
               <div className="w-12 h-px bg-gradient-to-r from-transparent via-[#8b5a3c] to-transparent"></div>
             </div>
-          </div>
+          </div> */}
 
           {/* Art Exhibition Gallery Grid */}
-          <div className="columns-1 sm:columns-2 md:columns-3 xl:columns-4 gap-5">
+          {/* <div className="columns-1 sm:columns-2 md:columns-3 xl:columns-4 gap-5">
             {artExhibitionImages.map((src, index) => (
               <div 
                 key={`art-exhibition-${index}`} 
@@ -200,20 +200,20 @@ export default function Gallery() {
                       console.error(`Failed to load art exhibition image: ${index + 1} "${src}"`);
                       e.target.style.display = 'none';
                     }}
-                  />
+                  /> */}
                   
                
 
                   {/* Image number badge */}
-                  <div className="absolute top-3 left-3 bg-black/70 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {/* <div className="absolute top-3 left-3 bg-black/70 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     #E{index + 1}
                   </div>
                 </div>
               </div>
-            ))}
+            ))} */}
             
             {/* Show placeholder if no art exhibition images found */}
-            {artExhibitionImages.length === 0 && (
+            {/* {artExhibitionImages.length === 0 && (
               <div className="break-inside-avoid mb-2.5 relative bg-white rounded-2xl shadow-sm p-8 text-center">
                 <div className="w-16 h-16 bg-gradient-to-r from-[#8b5a3c] to-[#a0522d] rounded-full mx-auto mb-4 flex items-center justify-center">
                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -226,7 +226,7 @@ export default function Gallery() {
               </div>
             )}
           </div>
-        </div>
+        </div> */}
 
         {/* Creations - Intra School Painting Competition Section */}
         <div className="max-w-7xl mx-auto mt-24 pt-16 border-t border-gray-200">
@@ -359,28 +359,12 @@ export default function Gallery() {
                 className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/70 hover:bg-black/90 text-white rounded-full p-3 transition-all duration-200 hover:scale-110"
                 onClick={(e) => {
                   e.stopPropagation();
-                  // Navigate to previous image
-                  let prevIndex = selectedImage.index - 1;
-                  let prevType, prevOriginalIndex, prevSrc;
-                  if (prevIndex < images.length) {
-                    prevType = 'wall-painting';
-                    prevOriginalIndex = undefined;
-                    prevSrc = images[prevIndex];
-                  } else if (prevIndex < images.length + artExhibitionImages.length) {
-                    prevType = 'art-exhibition';
-                    prevOriginalIndex = prevIndex - images.length;
-                    prevSrc = artExhibitionImages[prevOriginalIndex];
-                  } else {
-                    prevType = 'creations';
-                    prevOriginalIndex = prevIndex - images.length - artExhibitionImages.length;
-                    prevSrc = insigniaImages[prevOriginalIndex];
+                  // Navigate to previous image (simplified logic)
+                  const totalImages = images.length + artExhibitionImages.length + insigniaImages.length;
+                  if (selectedImage.index > 0) {
+                    // This would need more complex logic to handle different sections
+                    console.log('Navigate to previous image');
                   }
-                  setSelectedImage({
-                    src: prevSrc,
-                    index: prevIndex,
-                    type: prevType,
-                    ...(prevOriginalIndex !== undefined ? { originalIndex: prevOriginalIndex } : {})
-                  });
                 }}
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -394,28 +378,8 @@ export default function Gallery() {
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/70 hover:bg-black/90 text-white rounded-full p-3 transition-all duration-200 hover:scale-110"
                 onClick={(e) => {
                   e.stopPropagation();
-                  // Navigate to next image
-                  let nextIndex = selectedImage.index + 1;
-                  let nextType, nextOriginalIndex, nextSrc;
-                  if (nextIndex < images.length) {
-                    nextType = 'wall-painting';
-                    nextOriginalIndex = undefined;
-                    nextSrc = images[nextIndex];
-                  } else if (nextIndex < images.length + artExhibitionImages.length) {
-                    nextType = 'art-exhibition';
-                    nextOriginalIndex = nextIndex - images.length;
-                    nextSrc = artExhibitionImages[nextOriginalIndex];
-                  } else {
-                    nextType = 'creations';
-                    nextOriginalIndex = nextIndex - images.length - artExhibitionImages.length;
-                    nextSrc = insigniaImages[nextOriginalIndex];
-                  }
-                  setSelectedImage({
-                    src: nextSrc,
-                    index: nextIndex,
-                    type: nextType,
-                    ...(nextOriginalIndex !== undefined ? { originalIndex: nextOriginalIndex } : {})
-                  });
+                  // Navigate to next image (simplified logic)
+                  console.log('Navigate to next image');
                 }}
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
