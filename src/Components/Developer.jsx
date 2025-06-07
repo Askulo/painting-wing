@@ -12,7 +12,7 @@ const designers = [
     id: 1,
     name: "Aashish Kumar Lohra",
     title: "Intermediate 3D Developer & Designer",
-    avatar: "/Bearers/7.png",
+    avatar: "/Bearers/Aashish.png",
     experience: 1,
     location: "BIT Sindri, Dhanbad, Jharkhand",
     specializations: ["Three.js", "Next.js", "WebGL", "React Three Fiber"],
@@ -39,7 +39,7 @@ const designers = [
     id: 2,
     name: "Nilesh Kumar Mandal",
     title: "Intermediate 3D Developer & Designer",
-    avatar: "/Bearers/4.png",
+    avatar: "/Bearers/Nilesh.png",
     experience: 1,
     location: "BIT Sindri, Dhanbad, Jharkhand",
     specializations: ["Vanilla Three.js", "Interactive Design", "React Three Fiber", "AR/VR"],
@@ -60,7 +60,7 @@ const designers = [
       linkedin: "nilesh1527/",
       twitter: "mandal_nilesh27",
     },
-    portfolio: "#",
+    portfolio: "https://my-portfolio-rouge-kappa-89.vercel.app",
   },
 ]
 

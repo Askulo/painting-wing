@@ -14,7 +14,7 @@ const ModelViewer = () => {
           data-scroll
           data-scroll-speed="3"
         >
-          <h1 className="text-6xl font-medium md:text-8xl lg:text-[6.5rem] mt-20 md:mt-3 whitespace-normal break-words top-[15px] md:top-[100px] text-gray opacity-50 text-center tracking-wider leading-tight z-1 absolute w-full left-0">
+          <h1 className="text-6xl font-medium md:text-8xl lg:text-[7rem] mt-20 md:mt-3 whitespace-normal break-words top-[15px] md:top-[100px] text-gray opacity-50 text-center tracking-wider leading-tight z-1 absolute w-full left-0">
             INDUCTION PROGRAM
           </h1>
           {/* Base plane */}

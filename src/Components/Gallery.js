@@ -359,12 +359,28 @@ export default function Gallery() {
                 className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/70 hover:bg-black/90 text-white rounded-full p-3 transition-all duration-200 hover:scale-110"
                 onClick={(e) => {
                   e.stopPropagation();
-                  // Navigate to previous image (simplified logic)
-                  const totalImages = images.length + artExhibitionImages.length + insigniaImages.length;
-                  if (selectedImage.index > 0) {
-                    // This would need more complex logic to handle different sections
-                    console.log('Navigate to previous image');
+                  // Navigate to previous image
+                  let prevIndex = selectedImage.index - 1;
+                  let prevType, prevOriginalIndex, prevSrc;
+                  if (prevIndex < images.length) {
+                    prevType = 'wall-painting';
+                    prevOriginalIndex = undefined;
+                    prevSrc = images[prevIndex];
+                  } else if (prevIndex < images.length + artExhibitionImages.length) {
+                    prevType = 'art-exhibition';
+                    prevOriginalIndex = prevIndex - images.length;
+                    prevSrc = artExhibitionImages[prevOriginalIndex];
+                  } else {
+                    prevType = 'creations';
+                    prevOriginalIndex = prevIndex - images.length - artExhibitionImages.length;
+                    prevSrc = insigniaImages[prevOriginalIndex];
                   }
+                  setSelectedImage({
+                    src: prevSrc,
+                    index: prevIndex,
+                    type: prevType,
+                    ...(prevOriginalIndex !== undefined ? { originalIndex: prevOriginalIndex } : {})
+                  });
                 }}
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -378,8 +394,28 @@ export default function Gallery() {
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/70 hover:bg-black/90 text-white rounded-full p-3 transition-all duration-200 hover:scale-110"
                 onClick={(e) => {
                   e.stopPropagation();
-                  // Navigate to next image (simplified logic)
-                  console.log('Navigate to next image');
+                  // Navigate to next image
+                  let nextIndex = selectedImage.index + 1;
+                  let nextType, nextOriginalIndex, nextSrc;
+                  if (nextIndex < images.length) {
+                    nextType = 'wall-painting';
+                    nextOriginalIndex = undefined;
+                    nextSrc = images[nextIndex];
+                  } else if (nextIndex < images.length + artExhibitionImages.length) {
+                    nextType = 'art-exhibition';
+                    nextOriginalIndex = nextIndex - images.length;
+                    nextSrc = artExhibitionImages[nextOriginalIndex];
+                  } else {
+                    nextType = 'creations';
+                    nextOriginalIndex = nextIndex - images.length - artExhibitionImages.length;
+                    nextSrc = insigniaImages[nextOriginalIndex];
+                  }
+                  setSelectedImage({
+                    src: nextSrc,
+                    index: nextIndex,
+                    type: nextType,
+                    ...(nextOriginalIndex !== undefined ? { originalIndex: nextOriginalIndex } : {})
+                  });
                 }}
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
