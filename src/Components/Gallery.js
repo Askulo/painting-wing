@@ -157,7 +157,7 @@ export default function Gallery() {
         </div>
 
         {/* Art Exhibition Section */}
-        {/* <div className="max-w-7xl mx-auto mt-24 pt-16 border-t border-gray-200">
+        <div className="max-w-7xl mx-auto mt-24 pt-16 border-t border-gray-200">
           <div className="text-center mb-16 animate-fade-in">
              <h1 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6 bg-gradient-to-r from-[#d25c25] to-[#e67e22] bg-clip-text">
               Art Exhibition
@@ -172,10 +172,10 @@ export default function Gallery() {
               <span className="text-sm font-medium">Exhibition Showcase</span>
               <div className="w-12 h-px bg-gradient-to-r from-transparent via-[#8b5a3c] to-transparent"></div>
             </div>
-          </div> */}
+          </div>
 
           {/* Art Exhibition Gallery Grid */}
-          {/* <div className="columns-1 sm:columns-2 md:columns-3 xl:columns-4 gap-5">
+          <div className="columns-1 sm:columns-2 md:columns-3 xl:columns-4 gap-5">
             {artExhibitionImages.map((src, index) => (
               <div 
                 key={`art-exhibition-${index}`} 
@@ -200,20 +200,20 @@ export default function Gallery() {
                       console.error(`Failed to load art exhibition image: ${index + 1} "${src}"`);
                       e.target.style.display = 'none';
                     }}
-                  /> */}
+                  />
                   
                
 
                   {/* Image number badge */}
-                  {/* <div className="absolute top-3 left-3 bg-black/70 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute top-3 left-3 bg-black/70 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     #E{index + 1}
                   </div>
                 </div>
               </div>
-            ))} */}
+            ))}
             
             {/* Show placeholder if no art exhibition images found */}
-            {/* {artExhibitionImages.length === 0 && (
+            {artExhibitionImages.length === 0 && (
               <div className="break-inside-avoid mb-2.5 relative bg-white rounded-2xl shadow-sm p-8 text-center">
                 <div className="w-16 h-16 bg-gradient-to-r from-[#8b5a3c] to-[#a0522d] rounded-full mx-auto mb-4 flex items-center justify-center">
                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -226,7 +226,7 @@ export default function Gallery() {
               </div>
             )}
           </div>
-        </div> */}
+        </div>
 
         {/* Creations - Intra School Painting Competition Section */}
         <div className="max-w-7xl mx-auto mt-24 pt-16 border-t border-gray-200">
