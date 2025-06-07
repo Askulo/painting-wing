@@ -93,7 +93,7 @@ const NotFoundPage = () => {
         {/* Error Message */}
         <div className="mb-6 sm:mb-8">
           <h2 className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-2 tracking-wide px-2">
-            SORRY, WE COULDN'T FIND THIS PAGE
+            SORRY, WE COULDN&apos;T FIND THIS PAGE
           </h2>
           
           {/* Decorative line with "GO BACK" */}
@@ -123,7 +123,7 @@ const NotFoundPage = () => {
       {/* Bottom Info */}
       <div className="absolute bottom-4 sm:bottom-6 left-1/2 transform -translate-x-1/2 text-center px-4">
         <p className="text-white text-[10px] sm:text-xs opacity-50 tracking-wider">
-          THE PAGE YOU'RE LOOKING FOR DOESN'T EXIST
+          THE PAGE YOU&apos;RE LOOKING FOR DOESN&apos;T EXIST
         </p>
         <p className="text-white text-[9px] sm:text-xs opacity-30 tracking-wider mt-1">
           LOST OR A TYPO IN THE URL ADDRESS
@@ -134,7 +134,6 @@ const NotFoundPage = () => {
       {isMounted && (
         <div className="absolute inset-0 pointer-events-none">
           {[...Array(6)].map((_, i) => {
-            // Use deterministic values based on index to avoid hydration mismatch
             const positions = [
               { left: 15, top: 25 },
               { left: 75, top: 15 },
