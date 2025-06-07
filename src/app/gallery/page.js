@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 // import Gallery from '@/Components/Gallery'
 import Navbar from '@/Components/BitSindri/Navbar'
-import LoadingScreen from '@/Components/LoadingScreen' // Adjust path if needed
+// import LoadingScreen from '@/Components/LoadingScreen' // Adjust path if needed
 import Gallery from '@/Components/Gallery'
 
 const Page = () => {
