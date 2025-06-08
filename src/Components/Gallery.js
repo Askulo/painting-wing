@@ -29,7 +29,7 @@ export default function Gallery() {
 
         // Load art exhibition images (1 to 50)
         const artExhibitionPromises = Array.from({ length: 50 }, async (_, i) => {
-          const src = `/art-exhibition/${i + 1}.jpg`;
+          const src = `/Art-Exhibition/${i + 1}.jpg`;
           try {
             const res = await fetch(src, { method: 'HEAD' });
             if (res.ok) return src;
