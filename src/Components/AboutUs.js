@@ -306,7 +306,7 @@ const PaintingWing = () => {
               }`}
             >
               <Image
-                src="/img/23.jpg"
+                src="/about-us-art.jpg"
                 width={500}
                 height={500}
                 className="w-full rounded-2xl"

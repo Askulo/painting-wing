@@ -123,7 +123,7 @@ export default function Navbar() {
             ${isScrolled ? " backdrop-blur-xl shadow-lg" : "backdrop-blur-md"}
       `}
           >
-            <nav className="flex items-center space-x-6 text-3/2xl  text-black ">
+            <nav className="flex items-center lg:space-x-6 text-sm  text-black ">
               {navLinks.map((link, index) => (
                 <motion.div
                   key={link.name}

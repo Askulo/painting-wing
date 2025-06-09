@@ -140,7 +140,7 @@ export default function Home() {
         className="min-h-screen flex flex-col justify-center items-center pt-28 pb-16 px-4 bg-[#f2f0e6]"
       >
         <motion.h1
-          className="text-[2rem] sm:text-5xl md:text-6xl lg:text-7xl font-medium text-center max-w-5xl mb-4 md:leading-normal"
+          className="text-[28px] sm:text-5xl md:text-6xl lg:text-7xl font-medium text-center max-w-5xl mb-4 md:leading-normal"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -343,7 +343,7 @@ export default function Home() {
               <ul className="list-disc list-inside text-neutral-700 mt-2 ml-6 space-y-1">
                 <li> Theme-based wall painting (e.g., Science & Technology)</li>
                 <li> Large-scale collaboration across all batches</li>
-                <li> Murals created on MC Ground walls</li>
+                {/* <li> Murals created on MC Ground walls</li> */}
                 <li> Enhancing campus aesthetics</li>
                 <li> Great photo opportunities and memories</li>
               </ul>
@@ -668,7 +668,7 @@ export default function Home() {
         </div>
       </div>
       </section>
-      <section ref={faqRef} className="min-h-screen pt-18 pb-12 px-4 bg-[#f2f0e6]">
+      <section ref={faqRef} className="min-h-screen pt-14 md:pb-8 px-4 bg-[#f2f0e6]">
         <div className="max-w-6xl mx-auto">
           <motion.h2
             className="text-3xl md:text-5xl font-medium mb-16"
@@ -744,7 +744,7 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section ref={statsRef} className="py-24 px-4  bg-[#f2f0e6]">
+      <section ref={statsRef} className="py-14 md:pb-20  px-4  bg-[#f2f0e6]">
         <div className="max-w-6xl mx-auto">
           <motion.div
             className="grid grid-cols-2 md:grid-cols-3  justify-between gap-10 text-center"

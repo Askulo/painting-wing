@@ -33,7 +33,7 @@ const designers = [
       linkedin: "aashish-kumar-lohra-a09715256",
       twitter: "AashishLohra",
     },
-    portfolio: "https://alexchen3d.com",
+    portfolio: "https://portfolio-website-4r96.vercel.app/",
   },
   {
     id: 2,
@@ -42,12 +42,12 @@ const designers = [
     avatar: "/Bearers/Nilesh.png",
     experience: 1,
     location: "BIT Sindri, Dhanbad, Jharkhand",
-    specializations: ["Vanilla Three.js", "Interactive Design", "React Three Fiber", "AR/VR"],
+    specializations: ["Next.js", "React.js", "React Three Fiber", "Tailwind CSS"],
     skills: {
-      "Creative Coding": 92,
+      "React": 92,
       "Three.js": 87,
       "Premiere Pro": 94,
-      "Framer Motion": 60,
+      "Framer Motion": 80,
       JavaScript: 80,
     },
     stats: {
