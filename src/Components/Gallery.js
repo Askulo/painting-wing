@@ -29,7 +29,7 @@ export default function Gallery() {
 
         // Load art exhibition images (1 to 50)
         const artExhibitionPromises = Array.from({ length: 50 }, async (_, i) => {
-          const src = `/art-exhibition/${i + 1}.jpg`;
+          const src = `/Art-Exhibition/${i + 1}.jpg`;
           try {
             const res = await fetch(src, { method: 'HEAD' });
             if (res.ok) return src;
@@ -178,7 +178,7 @@ export default function Gallery() {
           <div className="columns-1 sm:columns-2 md:columns-3 xl:columns-4 gap-5">
             {artExhibitionImages.map((src, index) => (
               <div 
-                key={`art-exhibition-${index}`} 
+                key={`Art-Exhibition-${index}`} 
                 className={`break-inside-avoid mb-2.5 relative group cursor-pointer transform transition-all duration-500 hover:scale-105 hover:z-10 ${
                   imagesLoaded ? 'animate-fade-in-up opacity-100' : 'opacity-0 translate-y-4'
                 }`}
