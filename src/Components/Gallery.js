@@ -15,8 +15,8 @@ export default function Gallery() {
   useEffect(() => {
     async function validateImages() {
       try {
-        // Load wall painting images (1 to 64)
-        const wallPaintingPromises = Array.from({ length: 64 }, async (_, i) => {
+        // Load wall painting images (1 to 26)
+        const wallPaintingPromises = Array.from({ length: 26 }, async (_, i) => {
           const src = `/wall-painting/${i + 1}.jpg`;
           try {
             const res = await fetch(src, { method: 'HEAD' });
@@ -27,8 +27,8 @@ export default function Gallery() {
           }
         });
 
-        // Load art exhibition images (1 to 50)
-        const artExhibitionPromises = Array.from({ length: 50 }, async (_, i) => {
+        // Load art exhibition images (1 to 13)
+        const artExhibitionPromises = Array.from({ length: 13 }, async (_, i) => {
           const src = `/Art-Exhibition/${i + 1}.jpg`;
           try {
             const res = await fetch(src, { method: 'HEAD' });
@@ -39,8 +39,8 @@ export default function Gallery() {
           }
         });
 
-        // Load creations images (1 to 30)
-        const insigniaPromises = Array.from({ length: 30 }, async (_, i) => {
+        // Load creations images (1 to 18)
+        const insigniaPromises = Array.from({ length: 18 }, async (_, i) => {
           const src = `/creationsg/${i + 1}.jpg`;
           try {
             const res = await fetch(src, { method: 'HEAD' });
@@ -147,9 +147,9 @@ export default function Gallery() {
               
 
                 {/* Image number badge */}
-                <div className="absolute top-3 left-3 bg-black/70 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                {/* <div className="absolute top-3 left-3 bg-black/70 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   #{index + 1}
-                </div>
+                </div> */}
               </div>
             </div>
           ))}
@@ -205,9 +205,9 @@ export default function Gallery() {
                
 
                   {/* Image number badge */}
-                  <div className="absolute top-3 left-3 bg-black/70 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {/* <div className="absolute top-3 left-3 bg-black/70 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     #E{index + 1}
-                  </div>
+                  </div> */}
                 </div>
               </div>
             ))}
@@ -277,9 +277,9 @@ export default function Gallery() {
                 
 
                   {/* Image number badge */}
-                  <div className="absolute top-3 left-3 bg-black/70 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {/* <div className="absolute top-3 left-3 bg-black/70 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     #C{index + 1}
-                  </div>
+                  </div> */}
                 </div>
               </div>
             ))}
@@ -353,18 +353,34 @@ export default function Gallery() {
               </div>
             </div>
 
-            {/* Navigation arrows - simplified for now */}
+            {/* Navigation arrows */}
             {selectedImage.index > 0 && (
               <button
                 className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/70 hover:bg-black/90 text-white rounded-full p-3 transition-all duration-200 hover:scale-110"
                 onClick={(e) => {
                   e.stopPropagation();
-                  // Navigate to previous image (simplified logic)
-                  const totalImages = images.length + artExhibitionImages.length + insigniaImages.length;
-                  if (selectedImage.index > 0) {
-                    // This would need more complex logic to handle different sections
-                    console.log('Navigate to previous image');
+                  // Navigate to previous image
+                  let prevIndex = selectedImage.index - 1;
+                  let type, originalIndex, src;
+                  if (prevIndex < images.length) {
+                    type = 'wall-painting';
+                    originalIndex = undefined;
+                    src = images[prevIndex];
+                  } else if (prevIndex < images.length + artExhibitionImages.length) {
+                    type = 'art-exhibition';
+                    originalIndex = prevIndex - images.length;
+                    src = artExhibitionImages[originalIndex];
+                  } else {
+                    type = 'creations';
+                    originalIndex = prevIndex - images.length - artExhibitionImages.length;
+                    src = insigniaImages[originalIndex];
                   }
+                  setSelectedImage({
+                    src,
+                    index: prevIndex,
+                    type,
+                    ...(originalIndex !== undefined ? { originalIndex } : {})
+                  });
                 }}
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -378,8 +394,28 @@ export default function Gallery() {
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/70 hover:bg-black/90 text-white rounded-full p-3 transition-all duration-200 hover:scale-110"
                 onClick={(e) => {
                   e.stopPropagation();
-                  // Navigate to next image (simplified logic)
-                  console.log('Navigate to next image');
+                  // Navigate to next image
+                  let nextIndex = selectedImage.index + 1;
+                  let type, originalIndex, src;
+                  if (nextIndex < images.length) {
+                    type = 'wall-painting';
+                    originalIndex = undefined;
+                    src = images[nextIndex];
+                  } else if (nextIndex < images.length + artExhibitionImages.length) {
+                    type = 'art-exhibition';
+                    originalIndex = nextIndex - images.length;
+                    src = artExhibitionImages[originalIndex];
+                  } else {
+                    type = 'creations';
+                    originalIndex = nextIndex - images.length - artExhibitionImages.length;
+                    src = insigniaImages[originalIndex];
+                  }
+                  setSelectedImage({
+                    src,
+                    index: nextIndex,
+                    type,
+                    ...(originalIndex !== undefined ? { originalIndex } : {})
+                  });
                 }}
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

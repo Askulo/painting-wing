@@ -93,7 +93,7 @@ export default function Navbar() {
         className="fixed top-0 left-0 right-0 z-50  transition-all duration-300 md:bg-transparent bg-white/60 md:backdrop-blur-none backdrop-blur-xl  md:shadow-none shadow-lg"
       >
         <div className="container  mx-auto px-2 md:py-4 py-2 flex items-center justify-between">
-          <Link href="#home" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -123,7 +123,7 @@ export default function Navbar() {
             ${isScrolled ? " backdrop-blur-xl shadow-lg" : "backdrop-blur-md"}
       `}
           >
-            <nav className="flex items-center lg:space-x-6 text-sm  text-black ">
+            <nav className="flex items-center lg:space-x-6 text-[16px] text-black ">
               {navLinks.map((link, index) => (
                 <motion.div
                   key={link.name}
