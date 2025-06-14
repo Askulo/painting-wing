@@ -197,11 +197,11 @@ const PaintingWing = () => {
               <h3 className="text-[4vw] md:text-[1.8vw] leading-[6vw] md:leading-[2vw] mt-6 md:mt-0">
                 Painting Wing is one of BIT Sindris well-known clubs. The only
                 fine-arts club in the college and is the torchbearer for all
-                things related to art..
+                things related to art.
               </h3>
             </div>
             <div>
-              <h1   className="font-roashe mt-6 font-bold text-5xl md:text-7xl lg:text-8xl text-right leading-[10vw] md:leading-[7vw]">
+              <h1   className="font-roashe mt-6 font-bold text-5xl md:text-7xl lg:text-8xl text-right sm:leading-[10vw] md:leading-[7vw]">
                 LET <br />
                 SATISFACTION <br />
                 PREVAIL

@@ -31,8 +31,28 @@ const ModelViewer = () => {
           />
                 
                 <Link href="/induction">
-                <h4 className="text-center z-50 text-2xl opacity-100 hover:text-orange-800 cursor-pointer transition-opacity duration-300 absolute bottom-10 left-1/2 transform -translate-x-1/2 flex items-center gap-2">
+                <h4 className="text-center z-50 text-2xl opacity-0 md:opacity-100 hover:text-orange-800 cursor-pointer transition-opacity duration-300 absolute bottom-10 left-1/2 transform -translate-x-1/2 flex items-center gap-2">
                   Choose your best role, and apply for Induction.
+                  <span className="inline-block animate-bounce"></span>
+                  {/* Animated right arrow icon */}
+                  <span className="inline-block animate-move-right">
+                    <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </span>
+                  <style jsx>{`
+                    @keyframes moveRight {
+                      0% { transform: translateX(0); }
+                      50% { transform: translateX(12px); }
+                      100% { transform: translateX(0); }
+                    }
+                    .animate-move-right {
+                      animation: moveRight 1s infinite;
+                    }
+                  `}</style>
+                  </h4>
+                <h4 className="text-center z-50 text-2xl md:opacity-0 hover:text-orange-800 cursor-pointer transition-opacity duration-300 absolute bottom-10 left-1/2 transform -translate-x-1/2 flex items-center gap-2">
+                  Apply here
                   <span className="inline-block animate-bounce"></span>
                   {/* Animated right arrow icon */}
                   <span className="inline-block animate-move-right">
