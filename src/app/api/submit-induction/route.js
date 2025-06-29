@@ -1,9 +1,7 @@
 // src/app/api/submit-induction/route.js
 import { NextResponse } from "next/server";
 import { MongoClient } from "mongodb";
-import { writeFile } from "fs/promises";
-import path from "path";
-import { mkdir } from "fs/promises";
+import cloudinary from "@/lib/cloudinary";
 
 export async function POST(request) {
   try {
@@ -42,30 +40,27 @@ export async function POST(request) {
     // Process artwork file if exists
     const artworkFile = formData.get("artwork");
     let artworkPath = null;
+    let artworkCloudinaryUrl = null;
 
     if (artworkFile && artworkFile.size > 0) {
-      const uploadsDir = path.join(process.cwd(), "public/uploads");
-
-      // Create uploads directory if it doesn't exist
-      try {
-        await mkdir(uploadsDir, { recursive: true });
-      } catch (error) {
-        console.error("Failed to create uploads directory:", error);
-      }
-
-      // Generate unique filename
-      const fileExtension = artworkFile.name.split(".").pop();
-      const fileName = `${Date.now()}-${Math.random()
-        .toString(36)
-        .substring(2, 15)}.${fileExtension}`;
-      const filePath = path.join(uploadsDir, fileName);
-
-      // Write file to disk
-      const fileBuffer = Buffer.from(await artworkFile.arrayBuffer());
-      await writeFile(filePath, fileBuffer);
-
-      // Store relative path for database
-      artworkPath = `/uploads/${fileName}`;
+      // Upload to Cloudinary
+      const arrayBuffer = await artworkFile.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      const uploadResult = await new Promise((resolve, reject) => {
+        cloudinary.uploader
+          .upload_stream(
+            {
+              folder: "induction-artworks",
+              resource_type: "auto",
+            },
+            (error, result) => {
+              if (error) reject(error);
+              else resolve(result);
+            }
+          )
+          .end(buffer);
+      });
+      artworkCloudinaryUrl = uploadResult.secure_url;
     }
 
     console.log("Connecting to MongoDB...");
@@ -87,7 +82,7 @@ export async function POST(request) {
       weakness,
       whySelect,
       queries: queries || "",
-      artworkPath,
+      artworkPath: artworkCloudinaryUrl, // Store Cloudinary URL
       submittedAt: new Date(),
     };
 
