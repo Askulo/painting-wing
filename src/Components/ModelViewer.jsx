@@ -30,7 +30,7 @@ const ModelViewer = () => {
             }}
           />
                 
-                <Link href="https://forms.fillout.com/t/wk1uEhp8Yous" target="_blank" >
+                <Link href="/induction" target="_blank" >
                 <h4 className="text-center z-50 text-2xl opacity-0 md:opacity-100 hover:text-orange-800 cursor-pointer transition-opacity duration-300 absolute bottom-10 left-1/2 transform -translate-x-1/2 flex items-center gap-2">
                   Choose your best role, and apply for Induction.
                   <span className="inline-block animate-bounce"></span>
