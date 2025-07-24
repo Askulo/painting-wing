@@ -16,6 +16,7 @@
     "@react-three/drei": "^10.1.2",
     "@react-three/fiber": "^9.1.2",
     "@studio-freight/lenis": "^1.0.42",
+    "aos": "^2.3.4",
     "atropos": "^2.0.2",
     "class-variance-authority": "^0.7.1",
     "cloudinary": "^2.7.0",

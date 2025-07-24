@@ -462,6 +462,16 @@ export default function Home() {
             </motion.div>
           </div>
         </div>
+        
+        <div className="text-center mt-10 "> 
+        <button
+          className="mt-8 text-center px-5 py-3 bg-[#f47458] text-white rounded-lg hover:bg-[#e06348] transition"
+          onClick={() => window.location.href = '/events/shades'}
+        >
+          Our Ongoing Event
+        </button>
+        </div>
+        
       </section>
 
       {/* Why Choose Us Section */}
