@@ -157,7 +157,7 @@ export default function Navbar() {
             onClick={() => window.location.href = '/events/shades'}
             className="bg-[#d25c25] hidden md:block hover:bg-orange-700 text-white tracking-widest"
           >
-            Shades'25
+            Shades&apos;25
           </Button>
 
           {/* Mobile Menu Button */}

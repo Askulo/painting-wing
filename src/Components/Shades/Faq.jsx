@@ -22,8 +22,8 @@ function FrequentAskedQuestions() {
                         <h1 className='text-[9rem]  absolute top-[-5rem] left-20 text-[ #cbc39a] opacity-[0.08] text-[#B1702F]'>01</h1>
                         <h3 className='text-[1.1rem] font-medium mb-2 flex items-start'><span className='text-[#E06348]'>Q.</span>Who can participate in SHADES ?</h3>
                         <p className='pl-5'>
-                        SHADES is open to everyone. Whether you're a student, professional, or hobbyist — if you
-                        love art, you're welcome to participate!
+                        SHADES is open to everyone. Whether you&apos;re a student, professional, or hobbyist — if you
+                        love art, you&apos;re welcome to participate!
                         </p>
                         </div>
 

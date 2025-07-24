@@ -19,7 +19,7 @@ function Hero() {
         >
         <h1
           className='uppercase text-[10vw] md:text-[6vw] font-[800] tracking-wide text-[#E06348] overflow-hidden' >
-          shades'25
+          shades&apos;25
         </h1> 
         <h4 className='text-gray-500'>Live</h4>
         </div>

@@ -85,7 +85,7 @@ const ImageCards = () => {
           <span className='h-3 w-3 bg-[#ffa490] rounded-full absolute top-[3%] md:top-[7%]'></span><p className='pl-4 text-[1.3rem] md:text-[1.4rem] text-neutral-900'> Nature's Palette</p>
           <span className='h-3 w-3 bg-[#ffa490] rounded-full absolute top-[19%]  md:top-[33%]'></span><p className='text-[1.3rem] md:text-[1.4rem] text-neutral-900 pl-4'> Human Emotions
             Paws & Feathers Incredible India</p>
-          <span className='h-3 w-3 bg-[#ffa490] rounded-full absolute top-[48%]  md:top-[59%]'></span><p className='text-[1.3rem] md:text-[1.4rem] text-neutral-900 pl-4'> Kaleidoscope – Colors, patterns,diversity</p>
+          <span className='h-3 w-3 bg-[#ffa490] rounded-full absolute top-[48%]  md:top-[59%]'></span><p className='text-[1.3rem] md:text-[1.4rem] text-neutral-900 pl-4'> Kaleidoscope – Colors, patterns, diversity</p>
          <span className='h-3 w-3 bg-[#ffa490] rounded-full absolute top-[77%]  md:top-[85%]'></span><p className='text-[1.3rem] md:text-[1.4rem] text-neutral-900 pl-4'> Dreamscapes & Inner Worlds –Imagination, dreams.</p>
          
         </div>
