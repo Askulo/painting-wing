@@ -50,7 +50,7 @@ const HallOfFame = () => {
           <img
             src={card.image}
             alt={card.title}
-            className="w-full h-[50vh] md:h-[50vh] object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out"
+            className="w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out"
           />
 
           {/* TEXT over the image--> */}

@@ -8,7 +8,7 @@ import Header from "@/Components/Header";
 // import AlumniDirectory from "@/components/AlumniDirectory";
 
 export default function HomePage() {
-  const { assetsLoaded, progress } = useAssetLoading();
+  // const { assetsLoaded, progress } = useAssetLoading();
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function HomePage() {
 
   return (
     <>
-      {!assetsLoaded && <LoadingScreen progress={progress} />}
+      {/* {!assetsLoaded && <LoadingScreen progress={progress} />} */}
 
       {/* Smooth transition between mobile and desktop */}
       <div

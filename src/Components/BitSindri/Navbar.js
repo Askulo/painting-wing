@@ -25,26 +25,26 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleBack = () => {
-    try {
-      // Save current UI state
-      const stateToSave = {
-        scrollPosition: window.scrollY,
-        isMenuOpen,
-        isScrolled,
-        pathname: window.location.pathname,
-        timestamp: Date.now(),
-      };
-      sessionStorage.setItem(
-        "navbarPreviousState",
-        JSON.stringify(stateToSave)
-      );
-      router.back();
-    } catch (error) {
-      console.error("Error saving navbar state:", error);
-      router.back();
-    }
-  };
+  // const handleBack = () => {
+  //   try {
+  //     // Save current UI state
+  //     const stateToSave = {
+  //       scrollPosition: window.scrollY,
+  //       isMenuOpen,
+  //       isScrolled,
+  //       pathname: window.location.pathname,
+  //       timestamp: Date.now(),
+  //     };
+  //     sessionStorage.setItem(
+  //       "navbarPreviousState",
+  //       JSON.stringify(stateToSave)
+  //     );
+  //     router.back();
+  //   } catch (error) {
+  //     console.error("Error saving navbar state:", error);
+  //     router.back();
+  //   }
+  // };
 
   useEffect(() => {
     if (!isRestoringState) {
@@ -153,10 +153,11 @@ export default function Navbar() {
           </div>
 
           <Button
-            onClick={handleBack}
+            // onClick={handleBack}
+            onClick={() => window.location.href = '/events/shades'}
             className="bg-[#d25c25] hidden md:block hover:bg-orange-700 text-white tracking-widest"
           >
-            Back
+            Shades'25
           </Button>
 
           {/* Mobile Menu Button */}

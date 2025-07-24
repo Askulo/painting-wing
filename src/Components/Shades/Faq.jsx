@@ -22,16 +22,16 @@ function FrequentAskedQuestions() {
                         <h1 className='text-[9rem]  absolute top-[-5rem] left-20 text-[ #cbc39a] opacity-[0.08] text-[#B1702F]'>01</h1>
                         <h3 className='text-[1.1rem] font-medium mb-2 flex items-start'><span className='text-[#E06348]'>Q.</span>Who can participate in SHADES ?</h3>
                         <p className='pl-5'>
-                        SHADESis open to everyone. Whether you're a student, professional, or hobbyist — if you
-                        love art, you’re welcome to participate!
+                        SHADES is open to everyone. Whether you're a student, professional, or hobbyist — if you
+                        love art, you're welcome to participate!
                         </p>
                         </div>
 
                     <div className='border-b border-neutral-300 pb-5 relative'>
                         <h1 className='text-[9rem]  absolute top-[-5rem] left-15 text-[ #cbc39a] opacity-[0.08] text-[#B1702F]'>02</h1>
-                         <h3 className='text-[1.1rem] font-medium mb-2 flex items-start'><span className='text-[#E06348]'>Q.</span> . What types of artwork are allowed?</h3>
+                         <h3 className='text-[1.1rem] font-medium mb-2 flex items-start'><span className='text-[#E06348]'>Q.</span>What types of artwork are allowed?</h3>
                         <p className='pl-5 text-neutral-700'>
-                         Weaccept Sketching, Painting, Doodling, and Digital Art. Any theme or style is welcome,
+                         We accept Sketching, Painting, Doodling, and Digital Art. Any theme or style is welcome,
                          as long as it aligns with our guidelines.  
                         </p>
                         
@@ -39,7 +39,7 @@ function FrequentAskedQuestions() {
 
                     <div className='border-b border-neutral-300 pb-5 relative'>
                          <h1 className='text-[9rem]  absolute top-[-5rem] left-15 text-[ #cbc39a] opacity-[0.08] text-[#B1702F]'>03</h1>
-                         <h3 className='text-[1.1rem] font-medium mb-2 flex items-start'><span className='text-[#E06348]'>Q.</span>  How doI submit my artwork?</h3>
+                         <h3 className='text-[1.1rem] font-medium mb-2 flex items-start'><span className='text-[#E06348]'>Q.</span>  How do I submit my artwork?</h3>
                         <p className='pl-5 text-neutral-700'>
                        You can submit your entry through the official submission form available on this website.
  Make sure to upload a clear image of your artwork, and for digital entries, attach the AI or
@@ -87,7 +87,7 @@ function FrequentAskedQuestions() {
 
                         <div className='border-b border-neutral-300 pb-5 relative'>
                          <h1 className='text-[9rem]  absolute top-[-5rem] left-15 text-[ #cbc39a] opacity-[0.08] text-[#B1702F]'>08</h1>
-                         <h3 className='text-[1.1rem] font-medium mb-2 flex items-start'><span className='text-[#E06348]'>Q.</span> . How will my entry be judged?</h3>
+                         <h3 className='text-[1.1rem] font-medium mb-2 flex items-start'><span className='text-[#E06348]'>Q.</span> How will my entry be judged?</h3>
                         <p className='pl-5 text-neutral-700'>
                          Judging will be based on creativity and Instagram engagement (likes/comments). The top
  10 will go through an online presentation, and the final top 3 will be selected by a jury.

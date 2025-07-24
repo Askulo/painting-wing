@@ -17,7 +17,7 @@ export function startCubeAnimation(cubeRef, camera, onComplete) {
     x: 8.3,
     y: 7.9,
     z: 7.4,
-    duration: 1.5,
+    duration: 0.002,
     ease: "power1.inOut",
     onUpdate: () => camera.lookAt(0, 1.3, 0),
   });

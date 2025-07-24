@@ -1,6 +1,7 @@
 // components/Scene.js
 "use client";
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
+import { Html, useProgress } from "@react-three/drei";
 import {
   OrbitControls,
   Environment,
@@ -28,10 +29,56 @@ import {
 } from "./CreateNavTitle";
 
 import MouseRotatingGroup from "./MouseRotatingGroup";
+// import NavigateInfo from "./NavigateInfo";
 
 // Session storage key for tracking navigation state
 const NAVIGATION_STATE_KEY = "scene_navigation_state";
 const MUSIC_STATE_KEY = "background_music_state";
+
+// Create a new component for your loading screen
+export function Loader() {
+  const { progress } = useProgress();
+  return (
+    <Html center>
+      <div className="text-center">
+        <div>
+        {/* Loading text */}
+        <motion.h2
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="text-2xl font-bold text-gray-800 mb-2"
+        >
+          Painting Wing
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="text-lg font-medium text-gray-600 mb-4"
+        >
+          Loading 3D Experience...
+        </motion.p>
+        {/* Progress Bar */}
+        <div className="w-64 mx-auto mb-2">
+          <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.5 }}
+              className="h-2 bg-gradient-to-r from-[#d25c25] to-[#b0c4de] rounded-full"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <div className="mt-2 text-sm text-gray-700 font-semibold">
+            {progress.toFixed(0)}%
+          </div>
+        </div>
+        </div>
+      </div>
+    </Html>
+  );
+}
 
 const HollowCube = () => {
   const hollowCubeSize = 1.2;
@@ -94,7 +141,7 @@ const Cube = ({ onAnimationComplete, shouldAnimate }) => {
         console.log(
           "Cube animation skipped - cube hidden, nav titles shown immediately"
         );
-      }, 100);
+      }, 10);
 
       animationStarted.current = true;
     }
@@ -265,7 +312,7 @@ const CenterModel = ({ show, shouldAnimate }) => {
   );
 };
 
-// const MusicToggle = () => {
+
 //   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
 //   const audioRef = useRef(null);
 
@@ -332,7 +379,7 @@ const MusicToggle = () => {
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 1, duration: 0.3 }}
-      className="fixed bottom-2 right-2 sm:bottom-3 sm:right-3 md:bottom-4 md:right-4 z-50 flex items-center space-x-1 sm:space-x-2 bg-black/20 backdrop-blur-sm p-1.5 sm:p-2 rounded-md sm:rounded-lg shadow-lg"
+      className="fixed bottom-2 right-2 sm:bottom-3 sm:right-3 md:bottom-4 md:right-4 z-10 flex items-center space-x-1 sm:space-x-2 bg-black/20 backdrop-blur-sm p-1.5 sm:p-2 rounded-md sm:rounded-lg shadow-lg"
     >
       <label className="relative inline-flex items-center cursor-pointer">
         <input
@@ -438,23 +485,23 @@ const Scene = () => {
     console.log("shouldAnimate:", shouldAnimate);
   }, [showNavTitles, shouldAnimate]);
 
-  if (!sceneReady) {
-    return (
-      <div
-        style={{
-          height: "100vh",
-          width: "100vw",
-          background: "#ffffff",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontFamily: "sans-serif",
-        }}
-      >
-        Loading Scene...
-      </div>
-    );
-  }
+  // if (!sceneReady) {
+  //   return (
+  //     <div
+  //       style={{
+  //         height: "100vh",
+  //         width: "100vw",
+  //         background: "#ffffff",
+  //         display: "flex",
+  //         alignItems: "center",
+  //         justifyContent: "center",
+  //         fontFamily: "sans-serif",
+  //       }}
+  //     >
+  //       Loading Scene...
+  //     </div>
+  //   );
+  // }
 
   return (
     <>
@@ -477,7 +524,7 @@ const Scene = () => {
 
         {/* Lights */}
         <ambientLight intensity={3} color={0xffffff} />
-        <Suspense fallback={null}>
+        <Suspense fallback={<Loader />}>
           <ambientLight intensity={0.8} />
           <pointLight
             position={[2, 8, 0]}
@@ -595,6 +642,7 @@ const Scene = () => {
       )}
 
       {/* Music Toggle Component */}
+      {/* <NavigateInfo /> */}
       <MusicToggle />
     </>
   );
