@@ -63,14 +63,13 @@ export function Loader() {
           Loading 3D Experience...
         </motion.p>
         {/* Progress Bar */}
-        <div className="w-64 mx-auto mb-2">
+        <div className="w-55 mx-auto mb-2">
           <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
               className="h-2 bg-gradient-to-r from-[#d25c25] to-[#b0c4de] rounded-full"
-              style={{ width: `${progress}%` }}
             />
           </div>
           <div className="mt-2 text-sm text-gray-700 font-semibold">
