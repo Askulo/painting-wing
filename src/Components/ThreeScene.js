@@ -66,10 +66,10 @@ export function Loader() {
         <div className="w-55 mx-auto mb-2">
           <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
             <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
+              // initial={{ width: 0 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="h-2 bg-gradient-to-r from-[#d25c25] to-[#b0c4de] rounded-full"
+              className="h-2 bg-gradient-to-r from-[#d25c25] to-[#b0c4de] rounded-full transition-transform origin-left"
+              style={{ transform: `scaleX(${Math.min(progress / 100, 1)})` }}
             />
           </div>
           <div className="mt-2 text-sm text-gray-700 font-semibold">
