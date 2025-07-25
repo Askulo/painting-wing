@@ -1,9 +1,4 @@
 # Painting Wing Web Application
-
-![Landing Page Screenshot](public/screenshots/landing-page.png)
-![Gallery Screenshot](public/screenshots/merchandise.png)
-![Induction  Screenshot](public/screenshots/induction.png)
-
 ---
 
 ## 🎨 Overview
@@ -46,8 +41,7 @@ This is a modern, interactive web application for the Painting Wing of BIT Sindr
   ![Gallery](public/screenshots/merchandise.png)
 - **Induction Form**
   ![Induction Form](public/screenshots/induction.png)
-- **Demo Video**
-  [Watch Demo](public/videos/demo.mp4)
+
 
 ---
 
