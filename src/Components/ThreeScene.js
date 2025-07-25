@@ -16,6 +16,10 @@ import { motion } from "framer-motion";
 import GridComponent from "./GridComponent";
 import { startCubeAnimation } from "./CubeAnimation";
 import { useAudio } from "@/context/AudioContext";
+import * as THREE from "three";
+
+// Remove the DRACO loader setup as it's not needed with modern @react-three/drei
+// The library handles DRACO loading automatically when needed
 
 import {
   NavAboutUs,
@@ -29,7 +33,6 @@ import {
 } from "./CreateNavTitle";
 
 import MouseRotatingGroup from "./MouseRotatingGroup";
-// import NavigateInfo from "./NavigateInfo";
 
 // Session storage key for tracking navigation state
 const NAVIGATION_STATE_KEY = "scene_navigation_state";
@@ -194,7 +197,7 @@ const CameraController = ({ cameraX, cameraY, cameraZ, shouldAnimate }) => {
 };
 
 const CenterModel = ({ show, shouldAnimate }) => {
-  const { scene } = useGLTF("/art_studio.glb");
+  const { scene } = useGLTF("/art_studio_compressed.glb");
   const [isScaled, setIsScaled] = useState(false);
   const [modelLoaded, setModelLoaded] = useState(false);
   const modelRef = useRef();
@@ -312,65 +315,6 @@ const CenterModel = ({ show, shouldAnimate }) => {
   );
 };
 
-
-//   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
-//   const audioRef = useRef(null);
-
-//   useEffect(() => {
-//     // Initialize audio element
-//     audioRef.current = new Audio("/ambient-music-329699.mp3");
-//     audioRef.current.loop = true;
-
-//     // Load saved state
-//     const savedMusicState = sessionStorage.getItem(MUSIC_STATE_KEY);
-//     if (savedMusicState === "playing") {
-//       setIsMusicPlaying(true);
-//       audioRef.current
-//         .play()
-//         .catch((e) => console.log("Auto-play prevented:", e));
-//     }
-
-//     return () => {
-//       if (audioRef.current) {
-//         audioRef.current.pause();
-//         audioRef.current.src = "";
-//       }
-//     };
-//   }, []);
-
-//   const toggleMusic = () => {
-//     if (isMusicPlaying) {
-//       audioRef.current.pause();
-//       sessionStorage.setItem(MUSIC_STATE_KEY, "paused");
-//     } else {
-//       audioRef.current.play();
-//       sessionStorage.setItem(MUSIC_STATE_KEY, "playing");
-//     }
-//     setIsMusicPlaying(!isMusicPlaying);
-//   };
-
-//   return (
-//     <motion.div
-//       initial={{ opacity: 0 }}
-//       animate={{ opacity: 1 }}
-//       transition={{ delay: 1 }}
-//       className="fixed bottom-4 right-4 z-50 flex items-center space-x-2 bg-black/20 backdrop-blur-sm p-2 rounded-lg"
-//     >
-//       <label className="relative inline-flex items-center cursor-pointer">
-//         <input
-//           type="checkbox"
-//           className="sr-only peer"
-//           checked={isMusicPlaying}
-//           onChange={toggleMusic}
-//         />
-//         <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#d25c25]"></div>
-//         <span className="ms-3 text-sm font-medium text-white">
-//           Music {isMusicPlaying ? "On" : "Off"}
-//         </span>
-//       </label>
-//     </motion.div>
-//   );
-// };
 const MusicToggle = () => {
   const { isPlaying, togglePlay } = useAudio();
 
@@ -384,7 +328,8 @@ const MusicToggle = () => {
       <label className="relative inline-flex items-center cursor-pointer">
         <input
           type="checkbox"
-          className="sr-only peer"          checked={isPlaying}
+          className="sr-only peer"          
+          checked={isPlaying}
           onChange={togglePlay}
         />
         {/* Smaller toggle switch for mobile, normal for desktop */}
@@ -484,24 +429,6 @@ const Scene = () => {
     console.log("showNavTitles changed:", showNavTitles);
     console.log("shouldAnimate:", shouldAnimate);
   }, [showNavTitles, shouldAnimate]);
-
-  // if (!sceneReady) {
-  //   return (
-  //     <div
-  //       style={{
-  //         height: "100vh",
-  //         width: "100vw",
-  //         background: "#ffffff",
-  //         display: "flex",
-  //         alignItems: "center",
-  //         justifyContent: "center",
-  //         fontFamily: "sans-serif",
-  //       }}
-  //     >
-  //       Loading Scene...
-  //     </div>
-  //   );
-  // }
 
   return (
     <>
@@ -642,13 +569,13 @@ const Scene = () => {
       )}
 
       {/* Music Toggle Component */}
-      {/* <NavigateInfo /> */}
       <MusicToggle />
     </>
   );
 };
 
 // Preload the model to ensure consistent loading
-useGLTF.preload("/art_studio.glb");
+// Note: Make sure this path matches your actual model file
+useGLTF.preload("/art_studio_compressed.glb");
 
 export default Scene;
