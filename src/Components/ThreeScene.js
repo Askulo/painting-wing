@@ -41,10 +41,147 @@ const MUSIC_STATE_KEY = "background_music_state";
 // Create a new component for your loading screen
 export function Loader() {
   const { progress } = useProgress();
+
+  const cubeStyles = {
+    scene: {
+      position: 'relative',
+      zIndex: 2,
+      height: '220px',
+      width: '220px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      margin: '0 auto 2rem auto'
+    },
+    cubeWrapper: {
+      transformStyle: 'preserve-3d',
+      animation: 'bouncing 2s infinite'
+    },
+    cube: {
+      transformStyle: 'preserve-3d',
+      transform: 'rotateX(45deg) rotateZ(45deg)',
+      animation: 'rotation 2s infinite'
+    },
+    cubeFaces: {
+      transformStyle: 'preserve-3d',
+      height: '80px',
+      width: '80px',
+      position: 'relative',
+      transformOrigin: '0 0',
+      transform: 'translateX(0) translateY(0) translateZ(-40px)'
+    },
+    cubeFace: {
+      position: 'absolute',
+      inset: 0,
+      background: '#000000',
+      border: 'solid 1px #d25c25'
+    },
+    shadow: {
+      transform: 'translateZ(-80px)',
+      animation: 'bouncing-shadow 2s infinite'
+    },
+    top: {
+      transform: 'translateZ(80px)'
+    },
+    front: {
+      transformOrigin: '0 50%',
+      transform: 'rotateY(-90deg)'
+    },
+    back: {
+      transformOrigin: '0 50%',
+      transform: 'rotateY(-90deg) translateZ(-80px)'
+    },
+    right: {
+      transformOrigin: '50% 0',
+      transform: 'rotateX(-90deg) translateY(-80px)'
+    },
+    left: {
+      transformOrigin: '50% 0',
+      transform: 'rotateX(-90deg) translateY(-80px) translateZ(80px)'
+    }
+  };
+
   return (
-    <Html center>
+    <Html 
+      center 
+      style={{
+        width: '100vw',
+        height: '90vh',
+        background: '#ffffff',
+        display: 'flex',
+        alignItems: 'center',
+        zIndex: 1000,
+        justifyContent: 'center'
+      }}
+    >
+      <style>{`
+        @keyframes rotation {
+          0% {
+            transform: rotateX(45deg) rotateY(0) rotateZ(45deg);
+            animation-timing-function: cubic-bezier(0.17,0.84,0.44,1);
+          }
+          50% {
+            transform: rotateX(45deg) rotateY(0) rotateZ(225deg);
+            animation-timing-function: cubic-bezier(0.76,0.05,0.86,0.06);
+          }
+          100% {
+            transform: rotateX(45deg) rotateY(0) rotateZ(405deg);
+            animation-timing-function: cubic-bezier(0.17,0.84,0.44,1);
+          }
+        }
+        
+        @keyframes bouncing {
+          0% {
+            transform: translateY(-40px);
+            animation-timing-function: cubic-bezier(0.76, 0.05, 0.86, 0.06);
+          }
+          45% {
+            transform: translateY(40px);
+            animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+          }
+          100% {
+            transform: translateY(-40px);
+            animation-timing-function: cubic-bezier(0.76, 0.05, 0.86, 0.06);
+          }
+        }
+        
+        @keyframes bouncing-shadow {
+          0% {
+            transform: translateZ(-80px) scale(1.3);
+            animation-timing-function: cubic-bezier(0.76, 0.05, 0.86, 0.06);
+            opacity: 0.05;
+          }
+          45% {
+            transform: translateZ(0);
+            animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+            opacity: 0.3;
+          }
+          100% {
+            transform: translateZ(-80px) scale(1.3);
+            animation-timing-function: cubic-bezier(0.76, 0.05, 0.86, 0.06);
+            opacity: 0.05;
+          }
+        }
+      `}</style>
+      
       <div className="text-center">
-        <div>
+        {/* 3D Animated Cube */}
+        <div style={cubeStyles.scene}>
+          <div style={cubeStyles.cubeWrapper}>
+            <div style={cubeStyles.cube}>
+              <div style={cubeStyles.cubeFaces}>
+                <div style={{...cubeStyles.cubeFace, ...cubeStyles.shadow}}></div>
+                <div style={{...cubeStyles.cubeFace}}></div>
+                <div style={{...cubeStyles.cubeFace, ...cubeStyles.top}}></div>
+                <div style={{...cubeStyles.cubeFace, ...cubeStyles.left}}></div>
+                <div style={{...cubeStyles.cubeFace, ...cubeStyles.right}}></div>
+                <div style={{...cubeStyles.cubeFace, ...cubeStyles.back}}></div>
+                <div style={{...cubeStyles.cubeFace, ...cubeStyles.front}}></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Loading text */}
         <motion.h2
           initial={{ opacity: 0 }}
@@ -54,28 +191,29 @@ export function Loader() {
         >
           Painting Wing
         </motion.h2>
+        
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-lg font-medium text-gray-600 mb-4"
         >
-          Loading 3D Experience...
+          Loading 3D Experience
         </motion.p>
+
         {/* Progress Bar */}
-        <div className="w-55 mx-auto mb-2">
-          <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-            <motion.div
-              // initial={{ width: 0 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="h-2 bg-gradient-to-r from-[#d25c25] to-[#b0c4de] rounded-full transition-transform origin-left"
+       <div className="w-55 mx-auto mb-2">
+           <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+             <motion.div
+               // initial={{ width: 0 }}
+               transition={{ duration: 0.3, ease: "easeOut" }}
+              className="h-2 bg-gradient-to-r from-[#5f5c58] to-[#d25c25] rounded-full transition-transform origin-left"
               style={{ transform: `scaleX(${Math.min(progress / 100, 1)})` }}
             />
           </div>
           <div className="mt-2 text-sm text-gray-700 font-semibold">
             {progress.toFixed(0)}%
           </div>
-        </div>
         </div>
       </div>
     </Html>

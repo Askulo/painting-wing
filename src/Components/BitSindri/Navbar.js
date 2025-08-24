@@ -25,26 +25,26 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // const handleBack = () => {
-  //   try {
-  //     // Save current UI state
-  //     const stateToSave = {
-  //       scrollPosition: window.scrollY,
-  //       isMenuOpen,
-  //       isScrolled,
-  //       pathname: window.location.pathname,
-  //       timestamp: Date.now(),
-  //     };
-  //     sessionStorage.setItem(
-  //       "navbarPreviousState",
-  //       JSON.stringify(stateToSave)
-  //     );
-  //     router.back();
-  //   } catch (error) {
-  //     console.error("Error saving navbar state:", error);
-  //     router.back();
-  //   }
-  // };
+  const handleBack = () => {
+    try {
+      // Save current UI state
+      const stateToSave = {
+        scrollPosition: window.scrollY,
+        isMenuOpen,
+        isScrolled,
+        pathname: window.location.pathname,
+        timestamp: Date.now(),
+      };
+      sessionStorage.setItem(
+        "navbarPreviousState",
+        JSON.stringify(stateToSave)
+      );
+      router.back();
+    } catch (error) {
+      console.error("Error saving navbar state:", error);
+      router.back();
+    }
+  };
 
   useEffect(() => {
     if (!isRestoringState) {
@@ -86,15 +86,22 @@ export default function Navbar() {
 
   return (
     <>
-      <motion.header
+      <header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
+        // onClick={(e) => {
+        //   const href = '/'
+        //   if (href) {
+        //     e.preventDefault();
+        //     // window.location.href = "/";
+        //   }
+        // }}
         className="fixed top-0 left-0 right-0 z-50  transition-all duration-300 md:bg-transparent bg-white/60 md:backdrop-blur-none backdrop-blur-xl  md:shadow-none shadow-lg"
       >
         <div className="container  mx-auto px-2 md:py-4 py-2 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <motion.div
+            <div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.5 }}
@@ -114,7 +121,7 @@ export default function Navbar() {
                   Let Satisfaction Prevail
                 </h4>
               </div>
-            </motion.div>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -125,7 +132,7 @@ export default function Navbar() {
           >
             <nav className="flex items-center lg:space-x-6 text-[16px] text-black ">
               {navLinks.map((link, index) => (
-                <motion.div
+                <div
                   key={link.name}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -147,7 +154,7 @@ export default function Navbar() {
                   >
                     {link.name}
                   </Link>
-                </motion.div>
+                </div>
               ))}
             </nav>
           </div>
@@ -191,7 +198,7 @@ export default function Navbar() {
             </Button>
           </div>
         </div>
-      </motion.header>
+      </header>
 
       {/* Mobile Menu */}
       <AnimatePresence>
